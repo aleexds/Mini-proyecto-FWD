@@ -1,36 +1,45 @@
 const STORAGE_KEY = 'fwd-login-credentials';
 const USERS_KEY = 'fwd-registered-users';
 const ACTIVE_USER_KEY = 'fwd-active-user';
+const PRODUCTS_KEY = 'fwd-products';
+const SUPPLIERS_KEY = 'fwd-suppliers';
 
 const defaultCredentials = {
   username: 'FWD',
   password: '1234'
 };
 
+function getStorageItem(key, fallback = null) {
+  const stored = localStorage.getItem(key);
+  return stored ? JSON.parse(stored) : fallback;
+}
+
+function saveStorageItem(key, value) {
+  localStorage.setItem(key, JSON.stringify(value));
+}
+
 function getStoredCredentials() {
-  const stored = localStorage.getItem(STORAGE_KEY);
-  return stored ? JSON.parse(stored) : defaultCredentials;
+  return getStorageItem(STORAGE_KEY, defaultCredentials);
 }
 
 function saveStoredCredentials(credentials) {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(credentials));
+  saveStorageItem(STORAGE_KEY, credentials);
 }
 
 function getUsers() {
-  return JSON.parse(localStorage.getItem(USERS_KEY)) || [];
+  return getStorageItem(USERS_KEY, []);
 }
 
 function saveUsers(users) {
-  localStorage.setItem(USERS_KEY, JSON.stringify(users));
+  saveStorageItem(USERS_KEY, users);
 }
 
 function getActiveUser() {
-  const stored = localStorage.getItem(ACTIVE_USER_KEY);
-  return stored ? JSON.parse(stored) : null;
+  return getStorageItem(ACTIVE_USER_KEY, null);
 }
 
 function saveActiveUser(user) {
-  localStorage.setItem(ACTIVE_USER_KEY, JSON.stringify(user));
+  saveStorageItem(ACTIVE_USER_KEY, user);
 }
 
 function clearActiveUser() {
@@ -58,6 +67,7 @@ if (!localStorage.getItem(STORAGE_KEY)) {
 }
 
 const loginForm = document.getElementById('loginForm');
+const registrationForm = document.getElementById('registroForm');
 const usernameInput = document.getElementById('username');
 const passwordInput = document.getElementById('password');
 const errorMsg = document.getElementById('errorMsg');
@@ -85,13 +95,23 @@ function showLoginErrorAlert() {
   });
 }
 
-function showLoginSuccessAlert(userName) {
+function showLoginSuccessAlert() {
   Swal.fire({
     title: 'Credenciales correctas',
     text: 'Acceso concedido',
     icon: 'success'
   }).then(() => {
     window.location.href = 'Dashboard.html';
+  });
+}
+
+function showRegistrationSuccessAlert() {
+  Swal.fire({
+    title: 'Registro exitoso',
+    text: 'Tu cuenta fue creada correctamente.',
+    icon: 'success'
+  }).then(() => {
+    window.location.href = 'index.html';
   });
 }
 
@@ -137,11 +157,57 @@ if (loginForm) {
       };
 
       saveActiveUser(authUser);
-      showLoginSuccessAlert(getDisplayName(authUser));
+      showLoginSuccessAlert();
     } else {
       showErrorMessage();
       showLoginErrorAlert();
     }
+  });
+}
+
+if (registrationForm) {
+  registrationForm.addEventListener('submit', (event) => {
+    event.preventDefault();
+
+    const nombre = document.getElementById('nombre')?.value.trim() || '';
+    const apellido = document.getElementById('apellido')?.value.trim() || '';
+    const usuario = document.getElementById('usuario')?.value.trim() || '';
+    const password = document.getElementById('password')?.value.trim() || '';
+
+    if (!nombre || !apellido || !usuario || !password) {
+      Swal.fire({
+        title: 'Datos incompletos',
+        text: 'Completá todos los campos para registrar tu cuenta.',
+        icon: 'warning'
+      });
+      return;
+    }
+
+    const users = getUsers();
+    const alreadyExists = users.some(
+      (user) => user.username.toLowerCase() === usuario.toLowerCase()
+    );
+
+    if (alreadyExists) {
+      Swal.fire({
+        title: 'Ese usuario ya existe',
+        text: 'Elegí otro nombre de usuario o iniciá sesión.',
+        icon: 'warning'
+      });
+      return;
+    }
+
+    const newUser = {
+      username: usuario,
+      nombre,
+      apellido,
+      password
+    };
+
+    users.push(newUser);
+    saveUsers(users);
+    saveActiveUser(newUser);
+    showRegistrationSuccessAlert();
   });
 }
 
@@ -177,15 +243,223 @@ function setupDashboardUser() {
   }
 }
 
-function setupClientNavigation() {
-  document.querySelectorAll('a[href="Clientes.html"], a[href="clientes.html"], a[href="#clientes"]').forEach((link) => {
+function setupNavigation() {
+  document.querySelectorAll('a[href="#productos"], a[href="Productos.html"], a[href="#Proveedores"], a[href="#proveedores"], a[href="Proveedores.html"], a[href="#clientes"], a[href="Clientes.html"], a[href="clientes.html"]').forEach((link) => {
     link.addEventListener('click', (event) => {
-      if (link.getAttribute('href') === '#clientes') {
+      const href = link.getAttribute('href');
+
+      if (href === '#productos') {
+        event.preventDefault();
+        window.location.href = 'Productos.html';
+      } else if (href === '#Proveedores' || href === '#proveedores') {
+        event.preventDefault();
+        window.location.href = 'Proveedores.html';
+      } else if (href === '#clientes') {
         event.preventDefault();
         window.location.href = 'Clientes.html';
       }
     });
   });
+
+  const logoutLink = document.querySelector('a[href="index.html"]');
+  if (logoutLink && logoutLink.textContent.includes('Cerrar sesión')) {
+    logoutLink.addEventListener('click', (event) => {
+      event.preventDefault();
+      clearActiveUser();
+      window.location.href = 'index.html';
+    });
+  }
+}
+
+function getProducts() {
+  return getStorageItem(PRODUCTS_KEY, []);
+}
+
+function saveProducts(products) {
+  saveStorageItem(PRODUCTS_KEY, products);
+}
+
+function seedProducts() {
+  if (getProducts().length > 0) return;
+
+  const initialProducts = [
+    {
+      id: 'PRD-0001',
+      nombre: 'Motor de Propulsión XR-90',
+      categoria: 'Propulsión',
+      codigo: 'SN-2026-0012',
+      fabricante: 'Stellarix Propulsion',
+      cantidad: '24',
+      precio: '850000',
+      unidadMedida: 'u',
+      estado: 'Disponible',
+      fechaIngreso: '2026-02-10',
+      ubicacion: 'Almacén A',
+      observaciones: 'Alta demanda'
+    },
+    {
+      id: 'PRD-0002',
+      nombre: 'Panel Solar Satelital PS-1200',
+      categoria: 'Energía',
+      codigo: 'SN-2026-0145',
+      fabricante: 'Stellarix Energy',
+      cantidad: '140',
+      precio: '320000',
+      unidadMedida: 'u',
+      estado: 'Disponible',
+      fechaIngreso: '2026-02-18',
+      ubicacion: 'Almacén B',
+      observaciones: 'Stock estable'
+    }
+  ];
+
+  saveProducts(initialProducts);
+}
+
+function renderProducts() {
+  const tableBody = document.querySelector('.productos__tbody');
+  if (!tableBody) return;
+
+  const products = getProducts();
+  tableBody.innerHTML = '';
+
+  if (products.length === 0) {
+    tableBody.innerHTML = '<tr><td colspan="10" style="text-align:center;">No hay productos registrados.</td></tr>';
+    return;
+  }
+
+  products.forEach((product) => {
+    const row = document.createElement('tr');
+    row.className = 'productos__fila';
+    row.innerHTML = `
+      <td class="productos__celda">${product.id}</td>
+      <td class="productos__celda">${product.nombre}</td>
+      <td class="productos__celda">${product.categoria}</td>
+      <td class="productos__celda">${product.codigo}</td>
+      <td class="productos__celda">${product.fabricante}</td>
+      <td class="productos__celda">${product.cantidad}</td>
+      <td class="productos__celda">$ ${Number(product.precio).toLocaleString('es-AR')}</td>
+      <td class="productos__celda">${product.estado}</td>
+      <td class="productos__celda">${product.fechaIngreso}</td>
+      <td class="productos__celda">Registrar / Editar</td>
+    `;
+    tableBody.appendChild(row);
+  });
+}
+
+function getSuppliers() {
+  return getStorageItem(SUPPLIERS_KEY, []);
+}
+
+function saveSuppliers(suppliers) {
+  saveStorageItem(SUPPLIERS_KEY, suppliers);
+}
+
+function seedSuppliers() {
+  if (getSuppliers().length > 0) return;
+
+  const initialSuppliers = [
+    {
+      id: 'PRV-0001',
+      empresa: 'Helios Propulsión SA',
+      contacto: 'Ricardo Alonso',
+      correo: 'ralonso@heliosprop.com',
+      telefono: '+34 91 444-7788',
+      pais: 'España',
+      ciudad: 'Madrid',
+      direccion: 'Av. Espacial 123',
+      tipoSuministro: 'Propulsión',
+      estado: 'Activo',
+      fechaRegistro: '2026-01-15',
+      observaciones: 'Proveedor clave'
+    }
+  ];
+
+  saveSuppliers(initialSuppliers);
+}
+
+function renderSuppliers() {
+  const tableBody = document.querySelector('.proveedores__tbody');
+  if (!tableBody) return;
+
+  const suppliers = getSuppliers();
+  tableBody.innerHTML = '';
+
+  if (suppliers.length === 0) {
+    tableBody.innerHTML = '<tr><td colspan="10" style="text-align:center;">No hay proveedores registrados.</td></tr>';
+    return;
+  }
+
+  suppliers.forEach((supplier) => {
+    const row = document.createElement('tr');
+    row.className = 'proveedores__fila';
+    row.innerHTML = `
+      <td class="proveedores__celda">${supplier.id}</td>
+      <td class="proveedores__celda">${supplier.empresa}</td>
+      <td class="proveedores__celda">${supplier.contacto}</td>
+      <td class="proveedores__celda">${supplier.correo}</td>
+      <td class="proveedores__celda">${supplier.telefono}</td>
+      <td class="proveedores__celda">${supplier.pais}</td>
+      <td class="proveedores__celda">${supplier.tipoSuministro}</td>
+      <td class="proveedores__celda">${supplier.estado}</td>
+      <td class="proveedores__celda">${supplier.fechaRegistro}</td>
+      <td class="proveedores__celda">Registrar / Editar</td>
+    `;
+    tableBody.appendChild(row);
+  });
+}
+
+function setupProductsAndSuppliers() {
+  const productForm = document.getElementById('productoForm');
+  const supplierForm = document.getElementById('proveedorForm');
+
+  if (productForm) {
+    seedProducts();
+    renderProducts();
+
+    productForm.addEventListener('submit', (event) => {
+      event.preventDefault();
+
+      const formData = new FormData(productForm);
+      const product = Object.fromEntries(formData.entries());
+      const products = getProducts();
+
+      products.push(product);
+      saveProducts(products);
+      renderProducts();
+      productForm.reset();
+
+      Swal.fire({
+        title: 'Producto registrado',
+        text: 'El producto se guardó correctamente.',
+        icon: 'success'
+      });
+    });
+  }
+
+  if (supplierForm) {
+    seedSuppliers();
+    renderSuppliers();
+
+    supplierForm.addEventListener('submit', (event) => {
+      event.preventDefault();
+
+      const formData = new FormData(supplierForm);
+      const supplier = Object.fromEntries(formData.entries());
+      const suppliers = getSuppliers();
+
+      suppliers.push(supplier);
+      saveSuppliers(suppliers);
+      renderSuppliers();
+      supplierForm.reset();
+
+      Swal.fire({
+        title: 'Proveedor registrado',
+        text: 'El proveedor se guardó correctamente.',
+        icon: 'success'
+      });
+    });
+  }
 }
 
 function createSpaceBackground() {
@@ -321,7 +595,7 @@ const currentPage = window.location.pathname.split('/').pop() || 'index.html';
 
 if (currentPage === 'Dashboard.html') {
   setupDashboardUser();
-  setupClientNavigation();
+  setupNavigation();
 } else if (currentPage === 'Clientes.html') {
   const activeUser = getActiveUser();
   if (!activeUser) {
@@ -332,6 +606,22 @@ if (currentPage === 'Dashboard.html') {
     }).then(() => {
       window.location.href = 'index.html';
     });
+  } else {
+    setupNavigation();
+  }
+} else if (currentPage === 'Productos.html' || currentPage === 'Proveedores.html') {
+  const activeUser = getActiveUser();
+  if (!activeUser) {
+    Swal.fire({
+      title: 'Sesión no iniciada',
+      text: 'Debés iniciar sesión para ver esta vista.',
+      icon: 'warning'
+    }).then(() => {
+      window.location.href = 'index.html';
+    });
+  } else {
+    setupNavigation();
+    setupProductsAndSuppliers();
   }
 }
 
