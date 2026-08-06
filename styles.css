@@ -274,6 +274,19 @@ body {
   text-decoration: underline;
 }
 
+/* ---------- Toastify personalizado ---------- */
+
+.toastify {
+  color: #ffffff;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+}
+
+.toastify.toast-error,
+.toastify.toast-success {
+  min-width: 260px;
+}
+
 /* ---------- Responsive ---------- */
 
 @media (max-width: 780px) {
