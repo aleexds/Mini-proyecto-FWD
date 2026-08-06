@@ -11,6 +11,7 @@
 
     <!-- Panel visual izquierdo: espacio para la imagen del satélite.
          Asigná tu imagen agregando la clase o el estilo inline, por ejemplo:
+
          o cambiando la propiedad background-image de .login-visual en style.css -->
          <div class="login-visual" style="background-image:url('Space.jpg')">
       <div class="login-visual-content">
@@ -23,6 +24,20 @@
     <!-- Panel derecho: el formulario original, con el mismo id/nombres -->
     <div class="login-panel">
       <div class="login-panel-inner">
+        <div class="login-brand">
+          <div class="login-brand-logo">
+            <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="20" cy="20" r="17" stroke="currentColor" stroke-width="1.4" opacity="0.35"/>
+              <path d="M20 6a14 14 0 0 1 14 14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+              <circle cx="34" cy="20" r="2.2" fill="currentColor"/>
+              <path d="M14 27 L20 13 L26 27" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M16.3 21.5h7.4" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <p class="login-brand-name">Stellarix</p>
+          <p class="login-brand-tagline">Innovando el futuro de la tecnología aeroespacial</p>
+        </div>
+
         <h1>Iniciar Sesión</h1>
 
         <!-- El compañero que hace el JS debe escuchar el evento "submit" de este form -->
