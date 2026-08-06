@@ -13,6 +13,7 @@ const loginForm = document.getElementById('loginForm');
 const usernameInput = document.getElementById('username');
 const passwordInput = document.getElementById('password');
 const errorMsg = document.getElementById('errorMsg');
+const togglePasswordButton = document.getElementById('togglePassword');
 
 function showErrorMessage() {
   errorMsg.classList.remove('hidden');
@@ -22,6 +23,19 @@ function showErrorMessage() {
 function hideErrorMessage() {
   errorMsg.classList.add('hidden');
   errorMsg.textContent = '';
+}
+
+if (togglePasswordButton) {
+  togglePasswordButton.addEventListener('click', () => {
+    const isPasswordHidden = passwordInput.getAttribute('type') === 'password';
+    const nextType = isPasswordHidden ? 'text' : 'password';
+    const nextLabel = isPasswordHidden ? 'Ocultar contraseña' : 'Mostrar contraseña';
+
+    passwordInput.setAttribute('type', nextType);
+    togglePasswordButton.setAttribute('aria-label', nextLabel);
+    togglePasswordButton.setAttribute('title', nextLabel);
+    togglePasswordButton.classList.toggle('visible', isPasswordHidden);
+  });
 }
 
 loginForm.addEventListener('submit', (event) => {
