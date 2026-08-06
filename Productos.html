@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Módulo de administración de productos de Stellarix, empresa de tecnología e ingeniería aeroespacial.">
+  <title>Administración de Productos · Stellarix</title>
+  <link rel="stylesheet" href="Productos.css">
+</head>
+<body>
+  <div class="productos">
+
+    <header class="productos__header" role="banner">
+      <div class="productos__brand">
+        <span class="productos__brand-name">Stellarix</span>
+      </div>
+      <h1 class="productos__title">Administración de Productos</h1>
+
+      <nav class="productos__nav" aria-label="Navegación principal">
+        <ul class="productos__nav-list">
+          <li class="productos__nav-item"><a class="productos__nav-link" href="Dashboard.html">Dashboard</a></li>
+          <li class="productos__nav-item"><a class="productos__nav-link" href="Clientes.html">Clientes</a></li>
+          <li class="productos__nav-item"><a class="productos__nav-link productos__nav-link--active" href="Productos.html" aria-current="page">Productos</a></li>
+          <li class="productos__nav-item"><a class="productos__nav-link" href="#inventario">Inventario</a></li>
+          <li class="productos__nav-item"><a class="productos__nav-link" href="#empleados">Empleados</a></li>
+          <li class="productos__nav-item"><a class="productos__nav-link" href="#reportes">Reportes</a></li>
+          <li class="productos__nav-item"><a class="productos__nav-link" href="#configuracion">Configuración</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <main class="productos__main" id="contenido">
+
+      <section class="productos__registro" aria-labelledby="titulo-registro">
+        <h2 class="productos__section-title" id="titulo-registro">Registrar / Modificar Producto</h2>
+
+        <form class="productos__form" id="productoForm" novalidate>
+          <div class="productos__campo">
+            <label class="productos__label" for="productoId">ID del Producto</label>
+            <input class="productos__input" type="text" id="productoId" name="productoId" placeholder="PRD-0001">
+          </div>
+
+          <div class="productos__campo">
+            <label class="productos__label" for="nombre">Nombre del Producto</label>
+            <input class="productos__input" type="text" id="nombre" name="nombre" placeholder="Ingresá el nombre del producto">
+          </div>
+
+          <div class="productos__campo">
+            <label class="productos__label" for="categoria">Categoría</label>
+            <input class="productos__input" type="text" id="categoria" name="categoria" placeholder="Ingresá la categoría">
+          </div>
+
+          <div class="productos__campo">
+            <label class="productos__label" for="descripcion">Descripción</label>
+            <textarea class="productos__input" id="descripcion" name="descripcion" rows="3" placeholder="Descripción del producto"></textarea>
+          </div>
+
+          <div class="productos__campo">
+            <label class="productos__label" for="codigo">Código o Número de Serie</label>
+            <input class="productos__input" type="text" id="codigo" name="codigo" placeholder="SN-2026-XXXX">
+          </div>
+
+          <div class="productos__campo">
+            <label class="productos__label" for="fabricante">Fabricante</label>
+            <input class="productos__input" type="text" id="fabricante" name="fabricante" placeholder="Ingresá el fabricante">
+          </div>
+
+          <div class="productos__campo">
+            <label class="productos__label" for="cantidad">Cantidad Disponible</label>
+            <input class="productos__input" type="number" id="cantidad" name="cantidad" min="0" placeholder="0">
+          </div>
+
+          <div class="productos__campo">
+            <label class="productos__label" for="precio">Precio Unitario</label>
+            <input class="productos__input" type="number" id="precio" name="precio" min="0" step="0.01" placeholder="0.00">
+          </div>
+
+          <div class="productos__campo">
+            <label class="productos__label" for="unidadMedida">Unidad de Medida</label>
+            <input class="productos__input" type="text" id="unidadMedida" name="unidadMedida" placeholder="Unidad, kg, m, lt">
+          </div>
+
+          <div class="productos__campo">
+            <label class="productos__label" for="estado">Estado</label>
+            <select class="productos__input" id="estado" name="estado">
+              <option value="Disponible">Disponible</option>
+              <option value="En Producción">En Producción</option>
+              <option value="Agotado">Agotado</option>
+              <option value="Descontinuado">Descontinuado</option>
+            </select>
+          </div>
+
+          <div class="productos__campo">
+            <label class="productos__label" for="fechaIngreso">Fecha de Ingreso</label>
+            <input class="productos__input" type="date" id="fechaIngreso" name="fechaIngreso">
+          </div>
+
+          <div class="productos__campo">
+            <label class="productos__label" for="ubicacion">Ubicación en Almacén</label>
+            <input class="productos__input" type="text" id="ubicacion" name="ubicacion" placeholder="Ej.: Almacén A - Estante 3">
+          </div>
+
+          <div class="productos__campo productos__campo--observaciones">
+            <label class="productos__label" for="observaciones">Observaciones</label>
+            <textarea class="productos__input" id="observaciones" name="observaciones" rows="3" placeholder="Observaciones del producto"></textarea>
+          </div>
+
+          <div class="productos__acciones">
+            <button class="productos__boton productos__boton--registrar" type="submit">Registrar</button>
+            <button class="productos__boton" type="button">Consultar</button>
+            <button class="productos__boton" type="button">Modificar</button>
+            <button class="productos__boton productos__boton--eliminar" type="button">Eliminar</button>
+            <button class="productos__boton" type="reset">Limpiar</button>
+          </div>
+        </form>
+      </section>
+
+      <section class="productos__lista" aria-labelledby="titulo-lista">
+        <h2 class="productos__section-title" id="titulo-lista">Productos Registrados</h2>
+
+        <div class="productos__tabla-wrap">
+          <table class="productos__tabla">
+            <thead class="productos__thead">
+              <tr class="productos__fila">
+                <th class="productos__encabezado" scope="col">ID</th>
+                <th class="productos__encabezado" scope="col">Nombre</th>
+                <th class="productos__encabezado" scope="col">Categoría</th>
+                <th class="productos__encabezado" scope="col">Código</th>
+                <th class="productos__encabezado" scope="col">Fabricante</th>
+                <th class="productos__encabezado" scope="col">Cantidad</th>
+                <th class="productos__encabezado" scope="col">Precio Unitario</th>
+                <th class="productos__encabezado" scope="col">Estado</th>
+                <th class="productos__encabezado" scope="col">Fecha de Ingreso</th>
+                <th class="productos__encabezado" scope="col">Acciones</th>
+              </tr>
+            </thead>
+            <tbody class="productos__tbody">
+              <tr class="productos__fila">
+                <td class="productos__celda">PRD-0001</td>
+                <td class="productos__celda">Motor de Propulsión XR-90</td>
+                <td class="productos__celda">Propulsión</td>
+                <td class="productos__celda">SN-2026-0012</td>
+                <td class="productos__celda">Stellarix Propulsion</td>
+                <td class="productos__celda">24</td>
+                <td class="productos__celda">$ 850.000</td>
+                <td class="productos__celda">Disponible</td>
+                <td class="productos__celda">2026-02-10</td>
+                <td class="productos__celda">
+                  <button class="productos__accion" type="button">Modificar</button>
+                  <button class="productos__accion productos__accion--eliminar" type="button">Eliminar</button>
+                </td>
+              </tr>
+
+              <tr class="productos__fila">
+                <td class="productos__celda">PRD-0002</td>
+                <td class="productos__celda">Panel Solar Satelital PS-1200</td>
+                <td class="productos__celda">Energía</td>
+                <td class="productos__celda">SN-2026-0145</td>
+                <td class="productos__celda">Stellarix Energy</td>
+                <td class="productos__celda">140</td>
+                <td class="productos__celda">$ 320.000</td>
+                <td class="productos__celda">Disponible</td>
+                <td class="productos__celda">2026-02-18</td>
+                <td class="productos__celda">
+                  <button class="productos__accion" type="button">Modificar</button>
+                  <button class="productos__accion productos__accion--eliminar" type="button">Eliminar</button>
+                </td>
+              </tr>
+
+              <tr class="productos__fila">
+                <td class="productos__celda">PRD-0003</td>
+                <td class="productos__celda">Sensor de Navegación GNSS-5</td>
+                <td class="productos__celda">Navegación</td>
+                <td class="productos__celda">SN-2026-0207</td>
+                <td class="productos__celda">Stellarix Systems</td>
+                <td class="productos__celda">0</td>
+                <td class="productos__celda">$ 95.500</td>
+                <td class="productos__celda">En Producción</td>
+                <td class="productos__celda">2026-03-05</td>
+                <td class="productos__celda">
+                  <button class="productos__accion" type="button">Modificar</button>
+                  <button class="productos__accion productos__accion--eliminar" type="button">Eliminar</button>
+                </td>
+              </tr>
+
+              <tr class="productos__fila">
+                <td class="productos__celda">PRD-0004</td>
+                <td class="productos__celda">Módulo de Comunicación UHF-X</td>
+                <td class="productos__celda">Comunicaciones</td>
+                <td class="productos__celda">SN-2026-0310</td>
+                <td class="productos__celda">Stellarix Comms</td>
+                <td class="productos__celda">8</td>
+                <td class="productos__celda">$ 410.000</td>
+                <td class="productos__celda">Agotado</td>
+                <td class="productos__celda">2026-03-22</td>
+                <td class="productos__celda">
+                  <button class="productos__accion" type="button">Modificar</button>
+                  <button class="productos__accion productos__accion--eliminar" type="button">Eliminar</button>
+                </td>
+              </tr>
+
+              <tr class="productos__fila">
+                <td class="productos__celda">PRD-0005</td>
+                <td class="productos__celda">Batería Espacial de Litio BL-450</td>
+                <td class="productos__celda">Almacenamiento</td>
+                <td class="productos__celda">SN-2025-0988</td>
+                <td class="productos__celda">Stellarix Energy</td>
+                <td class="productos__celda">0</td>
+                <td class="productos__celda">$ 150.000</td>
+                <td class="productos__celda">Descontinuado</td>
+                <td class="productos__celda">2025-11-14</td>
+                <td class="productos__celda">
+                  <button class="productos__accion" type="button">Modificar</button>
+                  <button class="productos__accion productos__accion--eliminar" type="button">Eliminar</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+    </main>
+
+    <footer class="productos__footer" role="contentinfo">
+      <p class="productos__footer-text">Stellarix · Sistema de Gestión Aeroespacial © 2026</p>
+    </footer>
+
+  </div>
+
+  <script src="Productos.js"></script>
+</body>
+</html>
