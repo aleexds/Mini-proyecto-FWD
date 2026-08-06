@@ -4,29 +4,55 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Iniciar Sesión</title>
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-
   <div class="login-container">
-    <h1>Iniciar Sesión</h1>
 
-    <!-- El compañero que hace el JS debe escuchar el evento "submit" de este form -->
-    <form id="loginForm">
-      <div class="form-group">
-        <label for="username">Usuario</label>
-        <input type="text" id="username" name="username" placeholder="Ingresá tu usuario" required>
+    <!-- Panel visual izquierdo: espacio para la imagen del satélite.
+         Asigná tu imagen agregando la clase o el estilo inline, por ejemplo:
+         <div class="login-visual" style="background-image:url('tu-imagen.jpg')">
+         o cambiando la propiedad background-image de .login-visual en style.css -->
+         <div class="login-visual" style="background-image:url('Space.jpg')">
+      <div class="login-visual-content">
+        <h2 class="login-visual-title">Ascend to<br>New Heights</h2>
+        <p class="login-visual-text">Accedé al panel de control y gestioná tus operaciones con total claridad.</p>
       </div>
+      <span class="login-visual-badge">SYSTEM ONLINE</span>
+    </div>
 
-      <div class="form-group">
-        <label for="password">Contraseña</label>
-        <input type="password" id="password" name="password" placeholder="Ingresá tu contraseña" required>
-      </div>
+    <!-- Panel derecho: el formulario original, con el mismo id/nombres -->
+    <div class="login-panel">
+      <div class="login-panel-inner">
+        <h1>Iniciar Sesión</h1>
+
+        <!-- El compañero que hace el JS debe escuchar el evento "submit" de este form -->
+        <form id="loginForm">
+          <div class="form-group">
+            <label for="username">Usuario</label>
+            <div class="input-wrapper">
+              <svg class="input-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8Z" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M4 20c1.5-3.5 4.7-5.5 8-5.5s6.5 2 8 5.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              <input type="text" id="username" name="username" placeholder="Ingresá tu usuario" required>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="password">Contraseña</label>
+            <div class="input-wrapper">
+              <svg class="input-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect x="5" y="10.5" width="14" height="9.5" rx="2" stroke="currentColor" stroke-width="1.6"/>
+                <path d="M8 10.5V7.5a4 4 0 0 1 8 0v3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+              </svg>
+              <input type="password" id="password" name="password" placeholder="Ingresá tu contraseña" required>
+            </div>
+          </div>
 
      
       <p id="errorMsg" class="error-message hidden">Usuario o contraseña incorrectos</p>
 
-      <button type="submit" id="loginBtn">Ingresar</button>
-    </form>
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
