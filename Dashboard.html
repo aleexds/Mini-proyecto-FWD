@@ -28,8 +28,8 @@
 <br><br>
       <nav class="dashboard__nav" aria-label="Navegación principal">
         <p class="dashboard__nav-link dashboard__nav-link--active"><a href="#dashboard">Dashboard</a></p>
-        <p class="dashboard__nav-link"><a href="#misiones">Misiones</a></p>
-        <p class="dashboard__nav-link"><a href="#satelites">Satélites</a></p>
+        <p class="dashboard__nav-link"><a href="#productos">Productos</a></p>
+        <p class="dashboard__nav-link"><a href="#clientes">Clientes</a></p>
         <p class="dashboard__nav-link"><a href="#cohetes">Cohetes</a></p>
         <p class="dashboard__nav-link"><a href="#estaciones">Estaciones Espaciales</a></p>
         <p class="dashboard__nav-link"><a href="#tripulacion">Tripulación</a></p>
@@ -111,8 +111,41 @@
                 <p class="dashboard__metric-value">94%</p>
               </div>
             </div>
-            <div class="dashboard__panel-placeholder" role="img" aria-label="Espacio reservado para gráficos de analítica"></div>
-          </div>
+            <div class="analytics-chart">
+
+    <div class="analytics-bar" style="height:55%"></div>
+
+    <div class="analytics-bar" style="height:82%"></div>
+
+    <div class="analytics-bar" style="height:64%"></div>
+
+    <div class="analytics-bar" style="height:93%"></div>
+
+    <div class="analytics-bar" style="height:74%"></div>
+
+    <div class="analytics-bar" style="height:88%"></div>
+
+    <div class="analytics-bar" style="height:100%"></div>
+
+</div>
+
+<div class="analytics-footer">
+
+    <span>Lun</span>
+
+    <span>Mar</span>
+
+    <span>Mié</span>
+
+    <span>Jue</span>
+
+    <span>Vie</span>
+
+    <span>Sáb</span>
+
+    <span>Dom</span>
+
+</div>
 
           <div class="dashboard__panel">
             <h2 class="dashboard__panel-title">Suministro</h2>
@@ -130,14 +163,88 @@
                 <p class="dashboard__metric-value">142</p>
               </div>
             </div>
-            <div class="dashboard__panel-placeholder" role="img" aria-label="Espacio reservado para el estado del suministro"></div>
-          </div>
-        </section>
+            <div class="supply-list">
+
+    <div class="supply-item">
+
+        <span>Propulsor Criogénico</span>
+
+        <strong>92%</strong>
+
+    </div>
+
+    <div class="supply-item">
+
+        <span>Paneles Solares</span>
+
+        <strong>81%</strong>
+
+    </div>
+
+    <div class="supply-item">
+
+        <span>Sistemas de Navegación</span>
+
+        <strong>67%</strong>
+
+    </div>
+
+    <div class="supply-item">
+
+        <span>Oxígeno</span>
+
+        <strong>96%</strong>
+
+    </div>
+
+    <div class="supply-item">
+
+        <span>Repuestos Orbitales</span>
+
+        <strong>58%</strong>
+
+    </div>
+
+</div>
 
         <section class="dashboard__data" id="clientes" aria-label="Datos y tablas">
           <div class="dashboard__panel">
             <h2 class="dashboard__panel-title">Datos y gráficos</h2>
-            <div class="dashboard__panel-placeholder" role="img" aria-label="Espacio reservado para gráficos"></div>
+            <div class="stats-grid">
+
+    <div class="stat-box">
+
+        <h3>24</h3>
+
+        <span>Misiones activas</span>
+
+    </div>
+
+    <div class="stat-box">
+
+        <h3>128</h3>
+
+        <span>Satélites</span>
+
+    </div>
+
+    <div class="stat-box">
+
+        <h3>11</h3>
+
+        <span>Lanzamientos</span>
+
+    </div>
+
+    <div class="stat-box">
+
+        <h3>99.2%</h3>
+
+        <span>Éxito operacional</span>
+
+    </div>
+
+</div>
           </div>
 
           <div class="dashboard__panel">
@@ -145,8 +252,77 @@
               <h2 class="dashboard__panel-title">Tabla de clientes</h2>
               <p class="dashboard__panel-action"><a href="registro.html">+ Nuevo cliente</a></p>
             </div>
-            <div class="dashboard__panel-placeholder" role="img" aria-label="Espacio reservado para la tabla de clientes"></div>
-          </div>
+            <table class="dashboard-table">
+
+    <thead>
+
+        <tr>
+
+            <th>Cliente</th>
+
+            <th>Proyecto</th>
+
+            <th>Estado</th>
+
+        </tr>
+
+    </thead>
+
+    <tbody>
+
+        <tr>
+
+            <td>NASA</td>
+
+            <td>Artemis IV</td>
+
+            <td><span class="status success">Activo</span></td>
+
+        </tr>
+
+        <tr>
+
+            <td>ESA</td>
+
+            <td>Galileo</td>
+
+            <td><span class="status warning">En revisión</span></td>
+
+        </tr>
+
+        <tr>
+
+            <td>JAXA</td>
+
+            <td>H3 Launch</td>
+
+            <td><span class="status success">Activo</span></td>
+
+        </tr>
+
+        <tr>
+
+            <td>SpaceX</td>
+
+            <td>Starlink</td>
+
+            <td><span class="status success">Activo</span></td>
+
+        </tr>
+
+        <tr>
+
+            <td>Blue Origin</td>
+
+            <td>Orbital Test</td>
+
+            <td><span class="status danger">Pendiente</span></td>
+
+        </tr>
+
+    </tbody>
+
+</table>
         </section>
 
       </main>
