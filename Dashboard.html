@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Panel de control de FWD para gestionar clientes, operaciones y reportes.">
+  <title>Dashboard · FWD</title>
+</head>
+<body>
+  <div class="dashboard">
+
+    <aside class="dashboard__sidebar" role="complementary" aria-label="Menú de navegación">
+
+      <nav class="dashboard__nav" aria-label="Navegación principal">
+        <p class="dashboard__nav-link dashboard__nav-link--active"><a href="#dashboard">Dashboard</a></p>
+        <p class="dashboard__nav-link"><a href="#misiones">Misiones</a></p>
+        <p class="dashboard__nav-link"><a href="#satelites">Satélites</a></p>
+        <p class="dashboard__nav-link"><a href="#cohetes">Cohetes</a></p>
+        <p class="dashboard__nav-link"><a href="#estaciones">Estaciones Espaciales</a></p>
+        <p class="dashboard__nav-link"><a href="#tripulacion">Tripulación</a></p>
+        <p class="dashboard__nav-link"><a href="#control">Centro de Control</a></p>
+        <p class="dashboard__nav-link"><a href="#reportes">Reportes</a></p>
+        <p class="dashboard__nav-link"><a href="#configuracion">Configuración</a></p>
+        <p class="dashboard__nav-link"><a href="index.html">Cerrar sesión</a></p>
+      </nav>
+
+      <div class="dashboard__sidebar-footer">
+        <div class="dashboard__user">
+          <span class="dashboard__user-initials" aria-hidden="true">MP</span>
+          <div class="dashboard__user-info">
+            <p class="dashboard__user-name">María Pérez</p>
+            <p class="dashboard__user-role">Administradora</p>
+          </div>
+        </div>
+      </div>
+
+    </aside>
+
+    <div class="dashboard__main">
+
+      <header class="dashboard__header" role="banner">
+        <button class="dashboard__toggle" type="button" aria-label="Abrir menú" aria-expanded="false" aria-controls="menu-lateral">☰</button>
+
+        <div class="dashboard__search">
+          <input class="dashboard__search-input" type="search" placeholder="Buscar..." aria-label="Buscar en el panel">
+        </div>
+      </header>
+
+      <main class="dashboard__content" id="contenido">
+
+        <section class="dashboard__welcome" aria-labelledby="titulo-bienvenida">
+          <h1 class="dashboard__welcome-title" id="titulo-bienvenida">Bienvenida de nuevo, María</h1>
+          <p class="dashboard__welcome-text">Estos son los datos resumidos de tus operaciones.</p>
+        </section>
+
+        <section class="dashboard__cards" aria-label="Resumen de métricas">
+          <article class="dashboard__card">
+            <h3 class="dashboard__card-title">Clientes activos</h3>
+            <p class="dashboard__card-value">248</p>
+            <p class="dashboard__card-change dashboard__card-change--up">+12 esta semana</p>
+          </article>
+
+          <article class="dashboard__card">
+            <h3 class="dashboard__card-title">Operaciones</h3>
+            <p class="dashboard__card-value">1.024</p>
+            <p class="dashboard__card-change dashboard__card-change--up">+8% vs mes pasado</p>
+          </article>
+
+          <article class="dashboard__card">
+            <h3 class="dashboard__card-title">Ingresos</h3>
+            <p class="dashboard__card-value">$ 4.560.000</p>
+            <p class="dashboard__card-change dashboard__card-change--down">-3% vs mes pasado</p>
+          </article>
+
+          <article class="dashboard__card">
+            <h3 class="dashboard__card-title">Tickets abiertos</h3>
+            <p class="dashboard__card-value">37</p>
+            <p class="dashboard__card-change dashboard__card-change--up">+5 nuevos</p>
+          </article>
+        </section>
+
+        <section class="dashboard__analytics" aria-label="Analítica y suministro">
+          <div class="dashboard__panel">
+            <h2 class="dashboard__panel-title">Analítica</h2>
+            <div class="dashboard__metrics">
+              <div class="dashboard__metric">
+                <p class="dashboard__metric-label">Visitas al panel</p>
+                <p class="dashboard__metric-value">8.432</p>
+              </div>
+              <div class="dashboard__metric">
+                <p class="dashboard__metric-label">Tasa de conversión</p>
+                <p class="dashboard__metric-value">12,4%</p>
+              </div>
+              <div class="dashboard__metric">
+                <p class="dashboard__metric-label">Satisfacción</p>
+                <p class="dashboard__metric-value">94%</p>
+              </div>
+            </div>
+            <div class="dashboard__panel-placeholder" role="img" aria-label="Espacio reservado para gráficos de analítica"></div>
+          </div>
+
+          <div class="dashboard__panel">
+            <h2 class="dashboard__panel-title">Suministro</h2>
+            <div class="dashboard__metrics">
+              <div class="dashboard__metric">
+                <p class="dashboard__metric-label">Combustible</p>
+                <p class="dashboard__metric-value">76%</p>
+              </div>
+              <div class="dashboard__metric">
+                <p class="dashboard__metric-label">Energía</p>
+                <p class="dashboard__metric-value">58%</p>
+              </div>
+              <div class="dashboard__metric">
+                <p class="dashboard__metric-label">Stock de repuestos</p>
+                <p class="dashboard__metric-value">142</p>
+              </div>
+            </div>
+            <div class="dashboard__panel-placeholder" role="img" aria-label="Espacio reservado para el estado del suministro"></div>
+          </div>
+        </section>
+
+        <section class="dashboard__data" id="clientes" aria-label="Datos y tablas">
+          <div class="dashboard__panel">
+            <h2 class="dashboard__panel-title">Datos y gráficos</h2>
+            <div class="dashboard__panel-placeholder" role="img" aria-label="Espacio reservado para gráficos"></div>
+          </div>
+
+          <div class="dashboard__panel">
+            <div class="dashboard__panel-head">
+              <h2 class="dashboard__panel-title">Tabla de clientes</h2>
+              <p class="dashboard__panel-action"><a href="registro.html">+ Nuevo cliente</a></p>
+            </div>
+            <div class="dashboard__panel-placeholder" role="img" aria-label="Espacio reservado para la tabla de clientes"></div>
+          </div>
+        </section>
+
+      </main>
+
+      <footer class="dashboard__footer" role="contentinfo">
+        <p class="dashboard__footer-text">© 2026 FWD · Todos los derechos reservados.</p>
+      </footer>
+
+    </div>
+
+  </div>
+</body>
+</html>
