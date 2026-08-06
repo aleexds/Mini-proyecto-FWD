@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Módulo de administración de clientes del Sistema de Gestión Aeroespacial.">
+  <title>Administración de Clientes</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="clientes">
+
+    <header class="clientes__header" role="banner">
+      <h1 class="clientes__title">Administración de Clientes</h1>
+
+      <nav class="clientes__nav" aria-label="Navegación principal">
+        <ul class="clientes__nav-list">
+          <li class="clientes__nav-item"><a class="clientes__nav-link" href="Dashboard.html">Dashboard</a></li>
+          <li class="clientes__nav-item"><a class="clientes__nav-link clientes__nav-link--active" href="clientes.html" aria-current="page">Clientes</a></li>
+          <li class="clientes__nav-item"><a class="clientes__nav-link" href="#misiones">Misiones</a></li>
+          <li class="clientes__nav-item"><a class="clientes__nav-link" href="#inventario">Inventario</a></li>
+          <li class="clientes__nav-item"><a class="clientes__nav-link" href="#empleados">Empleados</a></li>
+          <li class="clientes__nav-item"><a class="clientes__nav-link" href="#reportes">Reportes</a></li>
+          <li class="clientes__nav-item"><a class="clientes__nav-link" href="#configuracion">Configuración</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <main class="clientes__main" id="contenido">
+
+      <section class="clientes__registro" aria-labelledby="titulo-registro">
+        <h2 class="clientes__section-title" id="titulo-registro">Registrar Cliente</h2>
+
+        <form class="clientes__form" id="clienteForm" novalidate>
+          <div class="clientes__campo">
+            <label class="clientes__label" for="clienteId">ID del Cliente</label>
+            <input class="clientes__input" type="text" id="clienteId" name="clienteId" placeholder="CLI-0001">
+          </div>
+
+          <div class="clientes__campo">
+            <label class="clientes__label" for="nombre">Nombre Completo</label>
+            <input class="clientes__input" type="text" id="nombre" name="nombre" placeholder="Ingresá el nombre completo">
+          </div>
+
+          <div class="clientes__campo">
+            <label class="clientes__label" for="empresa">Empresa u Organización</label>
+            <input class="clientes__input" type="text" id="empresa" name="empresa" placeholder="Ingresá la empresa u organización">
+          </div>
+
+          <div class="clientes__campo">
+            <label class="clientes__label" for="correo">Correo Electrónico</label>
+            <input class="clientes__input" type="email" id="correo" name="correo" placeholder="nombre@correo.com">
+          </div>
+
+          <div class="clientes__campo">
+            <label class="clientes__label" for="telefono">Teléfono</label>
+            <input class="clientes__input" type="tel" id="telefono" name="telefono" placeholder="+54 11 1234-5678">
+          </div>
+
+          <div class="clientes__campo">
+            <label class="clientes__label" for="pais">País</label>
+            <input class="clientes__input" type="text" id="pais" name="pais" placeholder="Ingresá el país">
+          </div>
+
+          <div class="clientes__campo">
+            <label class="clientes__label" for="ciudad">Ciudad</label>
+            <input class="clientes__input" type="text" id="ciudad" name="ciudad" placeholder="Ingresá la ciudad">
+          </div>
+
+          <div class="clientes__campo">
+            <label class="clientes__label" for="direccion">Dirección</label>
+            <input class="clientes__input" type="text" id="direccion" name="direccion" placeholder="Ingresá la dirección">
+          </div>
+
+          <div class="clientes__campo">
+            <label class="clientes__label" for="tipoCliente">Tipo de Cliente</label>
+            <select class="clientes__input" id="tipoCliente" name="tipoCliente">
+              <option value="">Seleccioná un tipo</option>
+              <option value="Gobierno">Gobierno</option>
+              <option value="Empresa Privada">Empresa Privada</option>
+              <option value="Agencia Espacial">Agencia Espacial</option>
+              <option value="Universidad">Universidad</option>
+            </select>
+          </div>
+
+          <div class="clientes__campo">
+            <label class="clientes__label" for="estado">Estado</label>
+            <select class="clientes__input" id="estado" name="estado">
+              <option value="Activo">Activo</option>
+              <option value="Inactivo">Inactivo</option>
+            </select>
+          </div>
+
+          <div class="clientes__campo">
+            <label class="clientes__label" for="fechaRegistro">Fecha de Registro</label>
+            <input class="clientes__input" type="date" id="fechaRegistro" name="fechaRegistro">
+          </div>
+
+          <div class="clientes__campo clientes__campo--observaciones">
+            <label class="clientes__label" for="observaciones">Observaciones</label>
+            <textarea class="clientes__input" id="observaciones" name="observaciones" rows="4" placeholder="Observaciones del cliente"></textarea>
+          </div>
+
+          <div class="clientes__acciones">
+            <button class="clientes__boton clientes__boton--registrar" type="submit">Registrar</button>
+            <button class="clientes__boton" type="button">Consultar</button>
+            <button class="clientes__boton" type="button">Editar</button>
+            <button class="clientes__boton clientes__boton--eliminar" type="button">Eliminar</button>
+            <button class="clientes__boton" type="reset">Limpiar</button>
+          </div>
+        </form>
+      </section>
+
+      <section class="clientes__lista" aria-labelledby="titulo-lista">
+        <h2 class="clientes__section-title" id="titulo-lista">Clientes Registrados</h2>
+
+        <div class="clientes__tabla-wrap">
+          <table class="clientes__tabla">
+            <thead class="clientes__thead">
+              <tr class="clientes__fila">
+                <th class="clientes__encabezado" scope="col">ID</th>
+                <th class="clientes__encabezado" scope="col">Nombre</th>
+                <th class="clientes__encabezado" scope="col">Empresa</th>
+                <th class="clientes__encabezado" scope="col">Correo</th>
+                <th class="clientes__encabezado" scope="col">Teléfono</th>
+                <th class="clientes__encabezado" scope="col">País</th>
+                <th class="clientes__encabezado" scope="col">Tipo de Cliente</th>
+                <th class="clientes__encabezado" scope="col">Estado</th>
+                <th class="clientes__encabezado" scope="col">Fecha de Registro</th>
+                <th class="clientes__encabezado" scope="col">Acciones</th>
+              </tr>
+            </thead>
+            <tbody class="clientes__tbody">
+              <tr class="clientes__fila">
+                <td class="clientes__celda">CLI-0001</td>
+                <td class="clientes__celda">Ana Torres</td>
+                <td class="clientes__celda">OrbitaTech</td>
+                <td class="clientes__celda">ana.torres@orbitech.com</td>
+                <td class="clientes__celda">+54 11 1234-5678</td>
+                <td class="clientes__celda">Argentina</td>
+                <td class="clientes__celda">Agencia Espacial</td>
+                <td class="clientes__celda">Activo</td>
+                <td class="clientes__celda">2026-03-12</td>
+                <td class="clientes__celda">
+                  <button class="clientes__accion" type="button">Editar</button>
+                  <button class="clientes__accion clientes__accion--eliminar" type="button">Eliminar</button>
+                </td>
+              </tr>
+
+              <tr class="clientes__fila">
+                <td class="clientes__celda">CLI-0002</td>
+                <td class="clientes__celda">Luis Fernández</td>
+                <td class="clientes__celda">Gobierno Nacional</td>
+                <td class="clientes__celda">l.fernandez@gob.gov</td>
+                <td class="clientes__celda">+34 91 555-2233</td>
+                <td class="clientes__celda">España</td>
+                <td class="clientes__celda">Gobierno</td>
+                <td class="clientes__celda">Activo</td>
+                <td class="clientes__celda">2026-04-02</td>
+                <td class="clientes__celda">
+                  <button class="clientes__accion" type="button">Editar</button>
+                  <button class="clientes__accion clientes__accion--eliminar" type="button">Eliminar</button>
+                </td>
+              </tr>
+
+              <tr class="clientes__fila">
+                <td class="clientes__celda">CLI-0003</td>
+                <td class="clientes__celda">Marta Gutiérrez</td>
+                <td class="clientes__celda">Universidad Estelar</td>
+                <td class="clientes__celda">mgutierrez@estelar.edu</td>
+                <td class="clientes__celda">+1 202 555-0199</td>
+                <td class="clientes__celda">Estados Unidos</td>
+                <td class="clientes__celda">Universidad</td>
+                <td class="clientes__celda">Inactivo</td>
+                <td class="clientes__celda">2026-05-20</td>
+                <td class="clientes__celda">
+                  <button class="clientes__accion" type="button">Editar</button>
+                  <button class="clientes__accion clientes__accion--eliminar" type="button">Eliminar</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+    </main>
+
+    <footer class="clientes__footer" role="contentinfo">
+      <p class="clientes__footer-text">Sistema de Gestión Aeroespacial © 2026</p>
+    </footer>
+
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
