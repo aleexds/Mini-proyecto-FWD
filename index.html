@@ -8,7 +8,12 @@
 </head>
 <body>
   <div class="login-container">
-    <div class="login-visual" style="background-image:url('Space.jpg')">
+
+    <!-- Panel visual izquierdo: espacio para la imagen del satélite.
+         Asigná tu imagen agregando la clase o el estilo inline, por ejemplo:
+
+         o cambiando la propiedad background-image de .login-visual en style.css -->
+         <div class="login-visual" style="background-image:url('Space.jpg')">
       <div class="login-visual-content">
         <h2 class="login-visual-title">Ascend to<br>New Heights</h2>
         <p class="login-visual-text">Accedé al panel de control y gestioná tus operaciones con total claridad.</p>
@@ -16,10 +21,26 @@
       <span class="login-visual-badge">SYSTEM ONLINE</span>
     </div>
 
+    <!-- Panel derecho: el formulario original, con el mismo id/nombres -->
     <div class="login-panel">
       <div class="login-panel-inner">
+        <div class="login-brand">
+          <div class="login-brand-logo">
+            <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="20" cy="20" r="17" stroke="currentColor" stroke-width="1.4" opacity="0.35"/>
+              <path d="M20 6a14 14 0 0 1 14 14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+              <circle cx="34" cy="20" r="2.2" fill="currentColor"/>
+              <path d="M14 27 L20 13 L26 27" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M16.3 21.5h7.4" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <p class="login-brand-name">Stellarix</p>
+          <p class="login-brand-tagline">Innovando el futuro de la tecnología aeroespacial</p>
+        </div>
+
         <h1>Iniciar Sesión</h1>
 
+        <!-- El compañero que hace el JS debe escuchar el evento "submit" de este form -->
         <form id="loginForm">
           <div class="form-group">
             <label for="username">Usuario</label>
@@ -28,7 +49,7 @@
                 <path d="M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8Z" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
                 <path d="M4 20c1.5-3.5 4.7-5.5 8-5.5s6.5 2 8 5.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
               </svg>
-              <input type="text" id="username" name="username" placeholder="Ingresá tu usuario" required>
+              <input type="text" id="username" name="username" placeholder="Ingresá tu usuario" autocomplete="username" required>
             </div>
           </div>
 
@@ -39,13 +60,7 @@
                 <rect x="5" y="10.5" width="14" height="9.5" rx="2" stroke="currentColor" stroke-width="1.6"/>
                 <path d="M8 10.5V7.5a4 4 0 0 1 8 0v3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
               </svg>
-              <input type="password" id="password" name="password" placeholder="Ingresá tu contraseña" required>
-              <button type="button" id="togglePassword" class="toggle-password" aria-label="Mostrar contraseña" title="Mostrar contraseña">
-                <svg class="eye-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
-                  <circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.6"/>
-                </svg>
-              </button>
+              <input type="password" id="password" name="password" placeholder="Ingresá tu contraseña" autocomplete="current-password" required>
             </div>
           </div>
 
@@ -54,12 +69,14 @@
           <button type="submit" id="loginBtn">Ingresar</button>
         </form>
 
-        <p class="login-footer"><a href="registro.html">¿No tenés cuenta? Registrate</a></p>
+        <p class="login-footer"><a href="registro.html">¿No tenés una cuenta? Registrate</a></p>
       </div>
     </div>
+
   </div>
 
-  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
   <script src="script.js"></script>
 </body>
 </html>

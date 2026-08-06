@@ -1,4 +1,6 @@
 const STORAGE_KEY = 'fwd-login-credentials';
+// Misma clave que usa registro.js para guardar las cuentas creadas desde el formulario de registro.
+const USERS_KEY = 'fwd-registered-users';
 
 const defaultCredentials = {
   username: 'FWD',
@@ -25,6 +27,49 @@ function hideErrorMessage() {
   errorMsg.textContent = '';
 }
 
+// Toast de error: fondo rojo oscuro, esquina superior derecha.
+function showErrorToast() {
+  Toastify({
+    text: '❌ Usuario o contraseña incorrectos',
+    duration: 3500,
+    gravity: 'top',
+    position: 'right',
+    close: true,
+    stopOnFocus: true,
+    className: 'toast-error',
+    style: {
+      background: 'linear-gradient(135deg, #d9463f 0%, #8f221c 100%)',
+      borderRadius: '14px',
+      boxShadow: '0 12px 24px -8px rgba(143, 34, 28, 0.5)',
+      fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+      fontSize: '14px',
+      padding: '14px 18px'
+    }
+  }).showToast();
+}
+
+// Toast de bienvenida: fondo navy con acento cian, con el nombre del usuario que ingresó.
+function showWelcomeToast(name) {
+  Toastify({
+    text: `🚀 ¡Bienvenido, ${name}!`,
+    duration: 3500,
+    gravity: 'top',
+    position: 'right',
+    close: true,
+    stopOnFocus: true,
+    className: 'toast-success',
+    style: {
+      background: 'linear-gradient(135deg, #16294a 0%, #0e1b30 100%)',
+      borderLeft: '4px solid #6fd6ff',
+      borderRadius: '14px',
+      boxShadow: '0 12px 24px -8px rgba(14, 27, 48, 0.55)',
+      fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+      fontSize: '14px',
+      padding: '14px 18px'
+    }
+  }).showToast();
+}
+
 if (togglePasswordButton) {
   togglePasswordButton.addEventListener('click', () => {
     const isPasswordHidden = passwordInput.getAttribute('type') === 'password';
@@ -43,24 +88,25 @@ loginForm.addEventListener('submit', (event) => {
 
   const enteredUsername = usernameInput.value.trim();
   const enteredPassword = passwordInput.value.trim();
-  const storedCredentials = JSON.parse(localStorage.getItem(STORAGE_KEY));
 
-  if (
+  const storedCredentials = JSON.parse(localStorage.getItem(STORAGE_KEY));
+  const registeredUsers = JSON.parse(localStorage.getItem(USERS_KEY)) || [];
+
+  const matchesDefault =
     enteredUsername === storedCredentials.username &&
-    enteredPassword === storedCredentials.password
-  ) {
+    enteredPassword === storedCredentials.password;
+
+  const matchedUser = registeredUsers.find(
+    (user) =>
+      user.username.toLowerCase() === enteredUsername.toLowerCase() &&
+      user.password === enteredPassword
+  );
+
+  if (matchesDefault || matchedUser) {
     hideErrorMessage();
-    Swal.fire({
-      title: 'Credenciales correctas',
-      text: 'Acceso concedido',
-      icon: 'success'
-    });
+    showWelcomeToast(enteredUsername);
   } else {
     showErrorMessage();
-    Swal.fire({
-      title: 'Error',
-      text: 'Credenciales incorrectas',
-      icon: 'error'
-    });
+    showErrorToast();
   }
 });
