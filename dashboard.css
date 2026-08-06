@@ -811,63 +811,153 @@ body{
         border-right:none;
 
         border-bottom:1px solid var(--border);
-
     }
-
+    
     .dashboard__header{
-
         flex-direction:column;
-
         gap:20px;
-
         align-items:stretch;
-
     }
-
     .dashboard__search{
-
         justify-content:stretch;
-
     }
-
     .dashboard__search-input{
-
         width:100%;
-
     }
-
     .dashboard__cards{
-
         grid-template-columns:1fr;
-
     }
-
     .dashboard__metrics{
-
         flex-direction:column;
-
     }
-
 }
 
 @media(max-width:480px){
-
     .dashboard__main{
-
         padding:20px;
-
     }
-
     .dashboard__welcome-title{
-
         font-size:28px;
-
     }
-
     .dashboard__panel{
-
         padding:20px;
-
     }
+}
 
+/*==========================
+      GRÁFICO ANALÍTICA
+==========================*/
+
+.analytics-chart{
+    height:220px;
+    display:flex;
+    align-items:flex-end;
+    justify-content:space-between;
+    gap:14px;
+}
+
+.analytics-bar{
+    flex:1;
+    background:linear-gradient(to top,#16376d,#5e9cff);
+    border-radius:12px 12px 4px 4px;
+}
+
+.analytics-footer{
+    display:flex;
+    justify-content:space-between;
+    margin-top:12px;
+    color:#8c96ab;
+    font-size:13px;
+}
+
+/*==========================
+      SUMINISTRO
+==========================*/
+
+.supply-list{
+    display:flex;
+    flex-direction:column;
+    gap:14px;
+}
+
+.supply-item{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:14px 18px;
+    background:#f8faff;
+    border-radius:14px;
+    border:1px solid #e7edf7;
+}
+
+.supply-item strong{
+    color:#16376d;
+}
+
+/*==========================
+        STATS
+==========================*/
+
+.stats-grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:16px;
+}
+
+.stat-box{
+    background:#f8faff;
+    padding:25px;
+    border-radius:18px;
+    text-align:center;
+}
+
+.stat-box h3{
+    color:#16376d;
+    font-size:30px;
+    margin-bottom:10px;
+}
+
+.stat-box span{
+    color:#8d98ad;
+}
+
+/*==========================
+        TABLA
+==========================*/
+
+.dashboard-table{
+    width:100%;
+    border-collapse:collapse;
+}
+
+.dashboard-table th{
+    text-align:left;
+    padding:14px;
+    border-bottom:2px solid #e8edf5;
+    color:#5d6881;
+}
+
+.dashboard-table td{
+    padding:16px 14px;
+    border-bottom:1px solid #eef2f8;
+}
+
+.status{
+    padding:6px 12px;
+    border-radius:30px;
+    color:white;
+    font-size:12px;
+    font-weight:600;
+}
+
+.success{
+    background:#22c55e;
+}
+
+.warning{
+    background:#f59e0b;
+}
+
+.danger{
+    background:#ef4444;
 }
