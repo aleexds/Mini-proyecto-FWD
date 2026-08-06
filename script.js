@@ -1,4 +1,6 @@
 const STORAGE_KEY = 'fwd-login-credentials';
+// Misma clave que usa registro.js para guardar las cuentas creadas desde el formulario de registro.
+const USERS_KEY = 'fwd-registered-users';
 
 const defaultCredentials = {
   username: 'FWD',
@@ -43,12 +45,21 @@ loginForm.addEventListener('submit', (event) => {
 
   const enteredUsername = usernameInput.value.trim();
   const enteredPassword = passwordInput.value.trim();
-  const storedCredentials = JSON.parse(localStorage.getItem(STORAGE_KEY));
 
-  if (
+  const storedCredentials = JSON.parse(localStorage.getItem(STORAGE_KEY));
+  const registeredUsers = JSON.parse(localStorage.getItem(USERS_KEY)) || [];
+
+  const matchesDefault =
     enteredUsername === storedCredentials.username &&
-    enteredPassword === storedCredentials.password
-  ) {
+    enteredPassword === storedCredentials.password;
+
+  const matchesRegisteredUser = registeredUsers.some(
+    (user) =>
+      user.username.toLowerCase() === enteredUsername.toLowerCase() &&
+      user.password === enteredPassword
+  );
+
+  if (matchesDefault || matchesRegisteredUser) {
     hideErrorMessage();
     Swal.fire({
       title: 'Credenciales correctas',

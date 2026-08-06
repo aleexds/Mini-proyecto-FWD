@@ -8,7 +8,11 @@
 </head>
 <body>
   <div class="login-container">
-    <div class="login-visual" style="background-image:url('Space.jpg')">
+
+    <!-- Panel visual izquierdo: espacio para la imagen del satélite.
+         Asigná tu imagen agregando la clase o el estilo inline, por ejemplo:
+         o cambiando la propiedad background-image de .login-visual en style.css -->
+         <div class="login-visual" style="background-image:url('Space.jpg')">
       <div class="login-visual-content">
         <h2 class="login-visual-title">Ascend to<br>New Heights</h2>
         <p class="login-visual-text">Accedé al panel de control y gestioná tus operaciones con total claridad.</p>
@@ -16,10 +20,12 @@
       <span class="login-visual-badge">SYSTEM ONLINE</span>
     </div>
 
+    <!-- Panel derecho: el formulario original, con el mismo id/nombres -->
     <div class="login-panel">
       <div class="login-panel-inner">
         <h1>Iniciar Sesión</h1>
 
+        <!-- El compañero que hace el JS debe escuchar el evento "submit" de este form -->
         <form id="loginForm">
           <div class="form-group">
             <label for="username">Usuario</label>
@@ -40,12 +46,6 @@
                 <path d="M8 10.5V7.5a4 4 0 0 1 8 0v3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
               </svg>
               <input type="password" id="password" name="password" placeholder="Ingresá tu contraseña" required>
-              <button type="button" id="togglePassword" class="toggle-password" aria-label="Mostrar contraseña" title="Mostrar contraseña">
-                <svg class="eye-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
-                  <circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.6"/>
-                </svg>
-              </button>
             </div>
           </div>
 
@@ -53,8 +53,11 @@
 
           <button type="submit" id="loginBtn">Ingresar</button>
         </form>
+
+        <p class="login-footer"><a href="registro.html">¿No tenés una cuenta? Registrate</a></p>
       </div>
     </div>
+
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
