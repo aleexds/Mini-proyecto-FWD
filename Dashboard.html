@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Panel de control de FWD para gestionar clientes, operaciones y reportes.">
+  <title>Dashboard · FWD</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <a class="dashboard__skip-link" href="#contenido">Saltar al contenido principal</a>
+
+  <div class="dashboard">
+
+    <aside class="dashboard__sidebar" role="complementary" aria-label="Menú de navegación">
+
+      <a class="dashboard__brand" href="#dashboard">
+        <span class="dashboard__logo" aria-hidden="true">F</span>
+        <span class="dashboard__title">FWD</span>
+      </a>
+
+      <nav class="dashboard__nav" aria-label="Navegación principal">
+        <ul class="dashboard__nav-list">
+          <li class="dashboard__nav-item">
+            <a class="dashboard__nav-link dashboard__nav-link--active" href="#dashboard" aria-current="page">
+              <svg class="dashboard__nav-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <path d="M3 10.5 12 3l9 7.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M5 9.5V20a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V9.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              <span class="dashboard__nav-text">Inicio</span>
+            </a>
+          </li>
+          <li class="dashboard__nav-item">
+            <a class="dashboard__nav-link" href="#clientes">
+              <svg class="dashboard__nav-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <path d="M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8Z" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M4 20c1.5-3.5 4.7-5.5 8-5.5s6.5 2 8 5.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              <span class="dashboard__nav-text">Clientes</span>
+            </a>
+          </li>
+          <li class="dashboard__nav-item">
+            <a class="dashboard__nav-link" href="#operaciones">
+              <svg class="dashboard__nav-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <path d="M7 17 17 7" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M10 7h7v7" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              <span class="dashboard__nav-text">Operaciones</span>
+            </a>
+          </li>
+          <li class="dashboard__nav-item">
+            <a class="dashboard__nav-link" href="#reportes">
+              <svg class="dashboard__nav-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <path d="M4 20V4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+                <path d="M4 20h16" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+                <path d="M8 16v-5M12 16V7M16 16v-8M20 16V5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+              </svg>
+              <span class="dashboard__nav-text">Reportes</span>
+            </a>
+          </li>
+          <li class="dashboard__nav-item">
+            <a class="dashboard__nav-link" href="#configuracion">
+              <svg class="dashboard__nav-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.6"/>
+                <path d="M19 12a7 7 0 0 0-.1-1.2l2-1.6-2-3.4-2.4 1a7 7 0 0 0-2-1.2L14 3h-4l-.5 2.6a7 7 0 0 0-2 1.2l-2.4-1-2 3.4 2 1.6a7 7 0 0 0 0 2.4l-2 1.6 2 3.4 2.4-1a7 7 0 0 0 2 1.2L10 21h4l.5-2.6a7 7 0 0 0 2-1.2l2.4 1 2-3.4-2-1.6c.1-.4.1-.8.1-1.2Z" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              <span class="dashboard__nav-text">Configuración</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+
+      <div class="dashboard__sidebar-footer">
+        <div class="dashboard__user">
+          <img class="dashboard__user-avatar" src="Space.jpg" alt="Foto de perfil de María Pérez">
+          <div class="dashboard__user-info">
+            <span class="dashboard__user-name">María Pérez</span>
+            <span class="dashboard__user-role">Administradora</span>
+          </div>
+        </div>
+
+        <a class="dashboard__logout" href="index.html">
+          <svg class="dashboard__logout-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="m16 17 5-5-5-5M21 12H9" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <span class="dashboard__logout-text">Cerrar sesión</span>
+        </a>
+      </div>
+
+    </aside>
+
+    <div class="dashboard__main">
+
+      <header class="dashboard__header" role="banner">
+        <button class="dashboard__toggle" type="button" aria-label="Abrir menú" aria-expanded="false" aria-controls="menu-lateral">☰</button>
+
+        <div class="dashboard__search">
+          <svg class="dashboard__search-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="1.6"/>
+            <path d="m20 20-3.5-3.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+          </svg>
+          <input class="dashboard__search-input" type="search" placeholder="Buscar..." aria-label="Buscar en el panel">
+        </div>
+      </header>
+
+      <main class="dashboard__content" id="contenido">
+
+        <section class="dashboard__welcome" aria-labelledby="titulo-bienvenida">
+          <h1 class="dashboard__welcome-title" id="titulo-bienvenida">Bienvenida de nuevo, María</h1>
+          <p class="dashboard__welcome-text">Estos son los datos resumidos de tus operaciones.</p>
+        </section>
+
+        <section class="dashboard__cards" aria-label="Resumen de métricas">
+          <article class="dashboard__card">
+            <h3 class="dashboard__card-title">Clientes activos</h3>
+            <p class="dashboard__card-value">248</p>
+            <span class="dashboard__card-change dashboard__card-change--up">+12 esta semana</span>
+          </article>
+
+          <article class="dashboard__card">
+            <h3 class="dashboard__card-title">Operaciones</h3>
+            <p class="dashboard__card-value">1.024</p>
+            <span class="dashboard__card-change dashboard__card-change--up">+8% vs mes pasado</span>
+          </article>
+
+          <article class="dashboard__card">
+            <h3 class="dashboard__card-title">Ingresos</h3>
+            <p class="dashboard__card-value">$ 4.560.000</p>
+            <span class="dashboard__card-change dashboard__card-change--down">-3% vs mes pasado</span>
+          </article>
+
+          <article class="dashboard__card">
+            <h3 class="dashboard__card-title">Tickets abiertos</h3>
+            <p class="dashboard__card-value">37</p>
+            <span class="dashboard__card-change dashboard__card-change--up">+5 nuevos</span>
+          </article>
+        </section>
+
+        <section class="dashboard__data" id="clientes" aria-label="Datos y tablas">
+          <div class="dashboard__panel">
+            <h2 class="dashboard__panel-title">Datos y gráficos</h2>
+            <div class="dashboard__panel-placeholder" role="img" aria-label="Espacio reservado para gráficos"></div>
+          </div>
+
+          <div class="dashboard__panel">
+            <div class="dashboard__panel-head">
+              <h2 class="dashboard__panel-title">Tabla de clientes</h2>
+              <a class="dashboard__panel-action" href="registro.html">+ Nuevo cliente</a>
+            </div>
+            <div class="dashboard__panel-placeholder" role="img" aria-label="Espacio reservado para la tabla de clientes"></div>
+          </div>
+        </section>
+
+      </main>
+
+      <footer class="dashboard__footer" role="contentinfo">
+        <p class="dashboard__footer-text">© 2026 FWD · Todos los derechos reservados.</p>
+      </footer>
+
+    </div>
+
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
