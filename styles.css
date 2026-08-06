@@ -51,10 +51,6 @@ body {
   justify-content: flex-end;
   padding: 40px;
   color: #ffffff;
-
-  /* Espacio reservado para tu imagen del satélite.
-     Reemplazá el gradiente de abajo por tu propia imagen, por ejemplo:
-     background-image: linear-gradient(180deg, rgba(14,27,48,.35), rgba(10,18,33,.85)), url('tu-imagen.jpg'); */
   background-image: linear-gradient(180deg, rgba(14, 27, 48, 0.35) 0%, rgba(10, 18, 33, 0.9) 100%);
   background-size: cover;
   background-position: center;
@@ -142,7 +138,7 @@ body {
 
 .input-wrapper input {
   width: 100%;
-  padding: 14px 16px 14px 46px;
+  padding: 14px 46px 14px 46px;
   border: 1px solid var(--border-light);
   border-radius: var(--radius-md);
   background: var(--bg-white);
@@ -159,6 +155,38 @@ body {
 .input-wrapper input:focus {
   border-color: var(--navy-mid);
   box-shadow: 0 0 0 3px rgba(22, 41, 74, 0.12);
+}
+
+.toggle-password {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  border: none;
+  background: transparent;
+  color: var(--text-muted);
+  cursor: pointer;
+  padding: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.toggle-password:hover {
+  color: var(--navy-mid);
+}
+
+.toggle-password:focus {
+  outline: none;
+}
+
+.toggle-password.visible {
+  color: var(--navy-mid);
+}
+
+.toggle-password .eye-icon {
+  width: 18px;
+  height: 18px;
 }
 
 .error-message {
