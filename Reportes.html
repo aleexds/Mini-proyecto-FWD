@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Módulo de administración de reportes del Sistema de Gestión Empresarial Stellarix.">
+  <title>Administración de Reportes · Stellarix</title>
+  <link rel="stylesheet" href="reportes.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js@1.12.0/src/toastify.min.css">
+</head>
+<body>
+  <div class="reportes">
+
+    <header class="reportes__header" role="banner">
+      <div class="reportes__brand">
+        <h1 class="reportes__brand-name">Stellarix</h1>
+        <h2 class="reportes__title">Administración de Reportes</h2>
+      </div>
+
+      <div class="reportes__header-tools">
+        <form class="reportes__search" role="search" aria-label="Búsqueda">
+          <input class="reportes__search-input" type="search" placeholder="Buscar..." aria-label="Buscar en el sistema">
+        </form>
+        <button class="reportes__theme-toggle" type="button" aria-label="Cambiar tema" title="Cambiar tema"></button>
+      </div>
+
+      <nav class="reportes__nav" aria-label="Navegación principal">
+        <ul class="reportes__nav-list">
+          <li class="reportes__nav-item"><a class="reportes__nav-link" href="Dashboard.html">Dashboard</a></li>
+          <li class="reportes__nav-item"><a class="reportes__nav-link" href="Clientes.html">Clientes</a></li>
+          <li class="reportes__nav-item"><a class="reportes__nav-link" href="Misiones.html">Misiones</a></li>
+          <li class="reportes__nav-item"><a class="reportes__nav-link" href="#inventario">Inventario</a></li>
+          <li class="reportes__nav-item"><a class="reportes__nav-link" href="#empleados">Empleados</a></li>
+          <li class="reportes__nav-item"><a class="reportes__nav-link reportes__nav-link--active" href="Reportes.html" aria-current="page">Reportes</a></li>
+          <li class="reportes__nav-item"><a class="reportes__nav-link" href="#configuracion">Configuración</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <main class="reportes__main" id="contenido">
+
+      <section class="reportes__generador" aria-labelledby="titulo-generador">
+        <h2 class="reportes__section-title" id="titulo-generador">Generar Reporte</h2>
+
+        <form class="reportes__form" id="reporteForm" novalidate>
+          <fieldset class="reportes__fieldset">
+            <legend class="reportes__legend">Parámetros del Reporte</legend>
+
+            <div class="reportes__campo">
+              <label class="reportes__label" for="tipoReporte">Tipo de Reporte</label>
+              <select class="reportes__input" id="tipoReporte" name="tipoReporte">
+                <option value="">Seleccioná un tipo</option>
+                <option value="Clientes">Clientes</option>
+                <option value="Misiones">Misiones</option>
+                <option value="Inventario">Inventario</option>
+                <option value="Empleados">Empleados</option>
+                <option value="Reporte General">Reporte General</option>
+              </select>
+            </div>
+
+            <div class="reportes__campo">
+              <label class="reportes__label" for="area">Área</label>
+              <input class="reportes__input" type="text" id="area" name="area" placeholder="Ingresá el área responsable">
+            </div>
+
+            <div class="reportes__campo">
+              <label class="reportes__label" for="fechaInicial">Fecha Inicial</label>
+              <input class="reportes__input" type="date" id="fechaInicial" name="fechaInicial">
+            </div>
+
+            <div class="reportes__campo">
+              <label class="reportes__label" for="fechaFinal">Fecha Final</label>
+              <input class="reportes__input" type="date" id="fechaFinal" name="fechaFinal">
+            </div>
+
+            <div class="reportes__campo">
+              <label class="reportes__label" for="estado">Estado</label>
+              <select class="reportes__input" id="estado" name="estado">
+                <option value="">Seleccioná un estado</option>
+                <option value="Generado">Generado</option>
+                <option value="En Proceso">En Proceso</option>
+                <option value="Pendiente">Pendiente</option>
+                <option value="Programado">Programado</option>
+              </select>
+            </div>
+
+            <div class="reportes__campo">
+              <label class="reportes__label" for="responsable">Responsable</label>
+              <input class="reportes__input" type="text" id="responsable" name="responsable" placeholder="Ingresá el responsable del reporte">
+            </div>
+          </fieldset>
+
+          <div class="reportes__acciones">
+            <button class="reportes__boton reportes__boton--generar" type="submit">Generar Reporte</button>
+            <button class="reportes__boton" type="button">Consultar</button>
+            <button class="reportes__boton" type="button">Exportar PDF</button>
+            <button class="reportes__boton" type="button">Exportar Excel</button>
+            <button class="reportes__boton" type="reset">Limpiar</button>
+          </div>
+        </form>
+      </section>
+
+      <section class="reportes__resumen" aria-labelledby="titulo-resumen">
+        <h2 class="reportes__section-title" id="titulo-resumen">Resumen General</h2>
+
+        <div class="reportes__cards">
+          <article class="reportes__card">
+            <h3 class="reportes__card-title">Total de Clientes</h3>
+            <p class="reportes__card-value">248</p>
+          </article>
+
+          <article class="reportes__card">
+            <h3 class="reportes__card-title">Misiones Activas</h3>
+            <p class="reportes__card-value">24</p>
+          </article>
+
+          <article class="reportes__card">
+            <h3 class="reportes__card-title">Productos en Inventario</h3>
+            <p class="reportes__card-value">1.436</p>
+          </article>
+
+          <article class="reportes__card">
+            <h3 class="reportes__card-title">Empleados Registrados</h3>
+            <p class="reportes__card-value">312</p>
+          </article>
+
+          <article class="reportes__card">
+            <h3 class="reportes__card-title">Reportes Generados</h3>
+            <p class="reportes__card-value">87</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="reportes__historial" aria-labelledby="titulo-historial">
+        <h2 class="reportes__section-title" id="titulo-historial">Historial de Reportes</h2>
+
+        <div class="reportes__tabla-wrap">
+          <table class="reportes__tabla">
+            <thead class="reportes__thead">
+              <tr class="reportes__fila">
+                <th class="reportes__encabezado" scope="col">ID</th>
+                <th class="reportes__encabezado" scope="col">Nombre del Reporte</th>
+                <th class="reportes__encabezado" scope="col">Área</th>
+                <th class="reportes__encabezado" scope="col">Responsable</th>
+                <th class="reportes__encabezado" scope="col">Fecha de Generación</th>
+                <th class="reportes__encabezado" scope="col">Estado</th>
+                <th class="reportes__encabezado" scope="col">Formato</th>
+                <th class="reportes__encabezado" scope="col">Acciones</th>
+              </tr>
+            </thead>
+            <tbody class="reportes__tbody">
+              <tr class="reportes__fila">
+                <td class="reportes__celda">REP-0001</td>
+                <td class="reportes__celda">Reporte General de Misiones</td>
+                <td class="reportes__celda">Misiones</td>
+                <td class="reportes__celda">Dra. Elena Vargas</td>
+                <td class="reportes__celda">2026-07-01</td>
+                <td class="reportes__celda">Generado</td>
+                <td class="reportes__celda">PDF</td>
+                <td class="reportes__celda">
+                  <button class="reportes__accion" type="button">Ver</button>
+                  <button class="reportes__accion" type="button">Descargar</button>
+                </td>
+              </tr>
+
+              <tr class="reportes__fila">
+                <td class="reportes__celda">REP-0002</td>
+                <td class="reportes__celda">Reporte de Inventario Espacial</td>
+                <td class="reportes__celda">Inventario</td>
+                <td class="reportes__celda">Ing. Carlos Medina</td>
+                <td class="reportes__celda">2026-07-05</td>
+                <td class="reportes__celda">Generado</td>
+                <td class="reportes__celda">Excel</td>
+                <td class="reportes__celda">
+                  <button class="reportes__accion" type="button">Ver</button>
+                  <button class="reportes__accion" type="button">Descargar</button>
+                </td>
+              </tr>
+
+              <tr class="reportes__fila">
+                <td class="reportes__celda">REP-0003</td>
+                <td class="reportes__celda">Reporte de Clientes Corporativos</td>
+                <td class="reportes__celda">Clientes</td>
+                <td class="reportes__celda">Ana Torres</td>
+                <td class="reportes__celda">2026-07-10</td>
+                <td class="reportes__celda">Programado</td>
+                <td class="reportes__celda">PDF</td>
+                <td class="reportes__celda">
+                  <button class="reportes__accion" type="button">Ver</button>
+                  <button class="reportes__accion" type="button">Descargar</button>
+                </td>
+              </tr>
+
+              <tr class="reportes__fila">
+                <td class="reportes__celda">REP-0004</td>
+                <td class="reportes__celda">Reporte de Empleados</td>
+                <td class="reportes__celda">Empleados</td>
+                <td class="reportes__celda">María Pérez</td>
+                <td class="reportes__celda">2026-07-14</td>
+                <td class="reportes__celda">En Proceso</td>
+                <td class="reportes__celda">Excel</td>
+                <td class="reportes__celda">
+                  <button class="reportes__accion" type="button">Ver</button>
+                  <button class="reportes__accion" type="button">Descargar</button>
+                </td>
+              </tr>
+
+              <tr class="reportes__fila">
+                <td class="reportes__celda">REP-0005</td>
+                <td class="reportes__celda">Reporte Ejecutivo Mensual</td>
+                <td class="reportes__celda">Dirección</td>
+                <td class="reportes__celda">Dr. Andrés Paredes</td>
+                <td class="reportes__celda">2026-07-20</td>
+                <td class="reportes__celda">Generado</td>
+                <td class="reportes__celda">PDF</td>
+                <td class="reportes__celda">
+                  <button class="reportes__accion" type="button">Ver</button>
+                  <button class="reportes__accion" type="button">Descargar</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+    </main>
+
+    <footer class="reportes__footer" role="contentinfo">
+      <p class="reportes__footer-text">Stellarix - Sistema de Gestión Empresarial © 2026</p>
+    </footer>
+
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="https://cdn.jsdelivr.net/npm/toastify-js@1.12.0/src/toastify.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
