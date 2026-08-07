@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Módulo de configuración del Sistema de Gestión Empresarial Stellarix.">
+  <title>Configuración del Sistema · Stellarix</title>
+  <link rel="stylesheet" href="configuracion.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js@1.12.0/src/toastify.min.css">
+</head>
+<body>
+  <div class="configuracion">
+
+    <header class="configuracion__header" role="banner">
+      <div class="configuracion__brand">
+        <h1 class="configuracion__brand-name">Stellarix</h1>
+        <h2 class="configuracion__title">Configuración del Sistema</h2>
+      </div>
+
+      <div class="configuracion__header-tools">
+        <form class="configuracion__search" role="search" aria-label="Búsqueda">
+          <input class="configuracion__search-input" type="search" placeholder="Buscar..." aria-label="Buscar en el sistema">
+        </form>
+        <button class="configuracion__theme-toggle" type="button" aria-label="Cambiar tema" title="Cambiar tema"></button>
+      </div>
+
+      <nav class="configuracion__nav" aria-label="Navegación principal">
+        <ul class="configuracion__nav-list">
+          <li class="configuracion__nav-item"><a class="configuracion__nav-link" href="Dashboard.html">Dashboard</a></li>
+          <li class="configuracion__nav-item"><a class="configuracion__nav-link" href="Clientes.html">Clientes</a></li>
+          <li class="configuracion__nav-item"><a class="configuracion__nav-link" href="Misiones.html">Misiones</a></li>
+          <li class="configuracion__nav-item"><a class="configuracion__nav-link" href="#inventario">Inventario</a></li>
+          <li class="configuracion__nav-item"><a class="configuracion__nav-link" href="#empleados">Empleados</a></li>
+          <li class="configuracion__nav-item"><a class="configuracion__nav-link" href="Reportes.html">Reportes</a></li>
+          <li class="configuracion__nav-item"><a class="configuracion__nav-link configuracion__nav-link--active" href="Configuracion.html" aria-current="page">Configuración</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <main class="configuracion__main" id="contenido">
+
+      <section class="configuracion__empresa" aria-labelledby="titulo-empresa">
+        <h2 class="configuracion__section-title" id="titulo-empresa">Información de la Empresa</h2>
+
+        <form class="configuracion__form" id="empresaForm" novalidate>
+          <fieldset class="configuracion__fieldset">
+            <legend class="configuracion__legend">Datos de la Empresa</legend>
+
+            <div class="configuracion__campo">
+              <label class="configuracion__label" for="nombreEmpresa">Nombre de la Empresa</label>
+              <input class="configuracion__input" type="text" id="nombreEmpresa" name="nombreEmpresa" placeholder="Ingresá el nombre de la empresa">
+            </div>
+
+            <div class="configuracion__campo">
+              <label class="configuracion__label" for="razonSocial">Razón Social</label>
+              <input class="configuracion__input" type="text" id="razonSocial" name="razonSocial" placeholder="Ingresá la razón social">
+            </div>
+
+            <div class="configuracion__campo">
+              <label class="configuracion__label" for="correoCorporativo">Correo Corporativo</label>
+              <input class="configuracion__input" type="email" id="correoCorporativo" name="correoCorporativo" placeholder="nombre@stellarix.com">
+            </div>
+
+            <div class="configuracion__campo">
+              <label class="configuracion__label" for="telefono">Teléfono</label>
+              <input class="configuracion__input" type="tel" id="telefono" name="telefono" placeholder="Ingresá el teléfono">
+            </div>
+
+            <div class="configuracion__campo">
+              <label class="configuracion__label" for="direccion">Dirección</label>
+              <input class="configuracion__input" type="text" id="direccion" name="direccion" placeholder="Ingresá la dirección">
+            </div>
+
+            <div class="configuracion__campo">
+              <label class="configuracion__label" for="sitioWeb">Sitio Web</label>
+              <input class="configuracion__input" type="url" id="sitioWeb" name="sitioWeb" placeholder="https://www.stellarix.com">
+            </div>
+
+            <div class="configuracion__campo">
+              <label class="configuracion__label" for="pais">País</label>
+              <input class="configuracion__input" type="text" id="pais" name="pais" placeholder="Ingresá el país">
+            </div>
+
+            <div class="configuracion__campo">
+              <label class="configuracion__label" for="ciudad">Ciudad</label>
+              <input class="configuracion__input" type="text" id="ciudad" name="ciudad" placeholder="Ingresá la ciudad">
+            </div>
+          </fieldset>
+        </form>
+      </section>
+
+      <section class="configuracion__sistema" aria-labelledby="titulo-sistema">
+        <h2 class="configuracion__section-title" id="titulo-sistema">Configuración del Sistema</h2>
+
+        <form class="configuracion__form" id="sistemaForm" novalidate>
+          <fieldset class="configuracion__fieldset">
+            <legend class="configuracion__legend">Preferencias Generales</legend>
+
+            <div class="configuracion__campo">
+              <label class="configuracion__label" for="idioma">Idioma del Sistema</label>
+              <select class="configuracion__input" id="idioma" name="idioma">
+                <option value="es">Español</option>
+                <option value="en">Inglés</option>
+                <option value="fr">Francés</option>
+                <option value="de">Alemán</option>
+              </select>
+            </div>
+
+            <div class="configuracion__campo">
+              <label class="configuracion__label" for="zonaHoraria">Zona Horaria</label>
+              <select class="configuracion__input" id="zonaHoraria" name="zonaHoraria">
+                <option value="UTC-5">UTC-5 (Bogotá)</option>
+                <option value="UTC-3">UTC-3 (Buenos Aires)</option>
+                <option value="UTC+0">UTC+0 (Londres)</option>
+                <option value="UTC+1">UTC+1 (Madrid)</option>
+              </select>
+            </div>
+
+            <div class="configuracion__campo">
+              <label class="configuracion__label" for="moneda">Moneda</label>
+              <select class="configuracion__input" id="moneda" name="moneda">
+                <option value="USD">USD - Dólar estadounidense</option>
+                <option value="EUR">EUR - Euro</option>
+                <option value="MXN">MXN - Peso mexicano</option>
+                <option value="ARS">ARS - Peso argentino</option>
+              </select>
+            </div>
+
+            <div class="configuracion__campo">
+              <label class="configuracion__label" for="formatoFecha">Formato de Fecha</label>
+              <select class="configuracion__input" id="formatoFecha" name="formatoFecha">
+                <option value="dd/mm/aaaa">DD/MM/AAAA</option>
+                <option value="mm/dd/aaaa">MM/DD/AAAA</option>
+                <option value="aaaa-mm-dd">AAAA-MM-DD</option>
+              </select>
+            </div>
+
+            <div class="configuracion__campo">
+              <label class="configuracion__label" for="temaSistema">Tema del Sistema</label>
+              <select class="configuracion__input" id="temaSistema" name="temaSistema">
+                <option value="claro">Claro</option>
+                <option value="oscuro">Oscuro</option>
+              </select>
+            </div>
+
+            <div class="configuracion__campo">
+              <label class="configuracion__label" for="estadoSistema">Estado del Sistema</label>
+              <select class="configuracion__input" id="estadoSistema" name="estadoSistema">
+                <option value="activo">Activo</option>
+                <option value="mantenimiento">Mantenimiento</option>
+              </select>
+            </div>
+          </fieldset>
+        </form>
+      </section>
+
+      <section class="configuracion__usuarios" aria-labelledby="titulo-usuarios">
+        <h2 class="configuracion__section-title" id="titulo-usuarios">Configuración de Usuarios</h2>
+
+        <form class="configuracion__form" id="usuarioForm" novalidate>
+          <fieldset class="configuracion__fieldset">
+            <legend class="configuracion__legend">Cuenta del Administrador</legend>
+
+            <div class="configuracion__campo">
+              <label class="configuracion__label" for="nombreAdmin">Nombre del Administrador</label>
+              <input class="configuracion__input" type="text" id="nombreAdmin" name="nombreAdmin" placeholder="Ingresá el nombre del administrador">
+            </div>
+
+            <div class="configuracion__campo">
+              <label class="configuracion__label" for="correoAdmin">Correo Electrónico</label>
+              <input class="configuracion__input" type="email" id="correoAdmin" name="correoAdmin" placeholder="nombre@stellarix.com">
+            </div>
+
+            <div class="configuracion__campo">
+              <label class="configuracion__label" for="usuarioAdmin">Nombre de Usuario</label>
+              <input class="configuracion__input" type="text" id="usuarioAdmin" name="usuarioAdmin" placeholder="Ingresá el nombre de usuario">
+            </div>
+
+            <div class="configuracion__campo">
+              <label class="configuracion__label" for="nuevaPassword">Nueva Contraseña</label>
+              <input class="configuracion__input" type="password" id="nuevaPassword" name="nuevaPassword" placeholder="Ingresá la nueva contraseña">
+            </div>
+
+            <div class="configuracion__campo">
+              <label class="configuracion__label" for="confirmarPassword">Confirmar Contraseña</label>
+              <input class="configuracion__input" type="password" id="confirmarPassword" name="confirmarPassword" placeholder="Confirmá la nueva contraseña">
+            </div>
+
+            <div class="configuracion__campo">
+              <label class="configuracion__label" for="rolUsuario">Rol del Usuario</label>
+              <select class="configuracion__input" id="rolUsuario" name="rolUsuario">
+                <option value="administrador">Administrador</option>
+                <option value="gerente">Gerente</option>
+                <option value="operador">Operador</option>
+                <option value="soporte">Soporte</option>
+              </select>
+            </div>
+          </fieldset>
+        </form>
+      </section>
+
+      <section class="configuracion__seguridad" aria-labelledby="titulo-seguridad">
+        <h2 class="configuracion__section-title" id="titulo-seguridad">Seguridad</h2>
+
+        <form class="configuracion__form" id="seguridadForm" novalidate>
+          <fieldset class="configuracion__fieldset">
+            <legend class="configuracion__legend">Opciones de Seguridad</legend>
+
+            <div class="configuracion__campo configuracion__campo--check">
+              <input class="configuracion__input configuracion__input--checkbox" type="checkbox" id="authDosPasos" name="authDosPasos">
+              <label class="configuracion__label" for="authDosPasos">Activar autenticación en dos pasos</label>
+            </div>
+
+            <div class="configuracion__campo configuracion__campo--check">
+              <input class="configuracion__input configuracion__input--checkbox" type="checkbox" id="cerrarSesiones" name="cerrarSesiones">
+              <label class="configuracion__label" for="cerrarSesiones">Cerrar todas las sesiones activas</label>
+            </div>
+
+            <div class="configuracion__campo">
+              <label class="configuracion__label" for="tiempoInactividad">Tiempo de cierre automático por inactividad</label>
+              <select class="configuracion__input" id="tiempoInactividad" name="tiempoInactividad">
+                <option value="5">5 minutos</option>
+                <option value="10">10 minutos</option>
+                <option value="15">15 minutos</option>
+                <option value="30">30 minutos</option>
+                <option value="60">60 minutos</option>
+              </select>
+            </div>
+
+            <div class="configuracion__campo configuracion__campo--boton">
+              <button class="configuracion__boton" type="button">Cambiar contraseña</button>
+            </div>
+          </fieldset>
+        </form>
+      </section>
+
+      <section class="configuracion__respaldos" aria-labelledby="titulo-respaldos">
+        <h2 class="configuracion__section-title" id="titulo-respaldos">Copias de Seguridad</h2>
+
+        <article class="configuracion__respaldo-info" aria-label="Información de copias de seguridad">
+          <div class="configuracion__campo">
+            <p class="configuracion__label">Fecha del último respaldo</p>
+            <p class="configuracion__valor">05/08/2026</p>
+          </div>
+
+          <div class="configuracion__campo">
+            <p class="configuracion__label">Tipo de respaldo</p>
+            <p class="configuracion__valor">Completo</p>
+          </div>
+
+          <div class="configuracion__campo">
+            <p class="configuracion__label">Ubicación del respaldo</p>
+            <p class="configuracion__valor">Servidor Seguro / Backup-Stellarix</p>
+          </div>
+
+          <div class="configuracion__campo">
+            <p class="configuracion__label">Frecuencia de respaldo</p>
+            <p class="configuracion__valor">Diaria</p>
+          </div>
+        </article>
+      </section>
+
+      <section class="configuracion__acciones" aria-label="Acciones de configuración">
+        <button class="configuracion__boton configuracion__boton--principal" type="button">Guardar Cambios</button>
+        <button class="configuracion__boton" type="button">Restaurar Configuración</button>
+        <button class="configuracion__boton" type="button">Crear Respaldo</button>
+        <button class="configuracion__boton" type="button">Restablecer Valores Predeterminados</button>
+        <button class="configuracion__boton configuracion__boton--cancelar" type="button">Cancelar</button>
+      </section>
+
+      <section class="configuracion__info-sistema" aria-labelledby="titulo-info-sistema">
+        <h2 class="configuracion__section-title" id="titulo-info-sistema">Información del Sistema</h2>
+
+        <div class="configuracion__tabla-wrap">
+          <table class="configuracion__tabla">
+            <thead class="configuracion__thead">
+              <tr class="configuracion__fila">
+                <th class="configuracion__encabezado" scope="col">Versión del Sistema</th>
+                <th class="configuracion__encabezado" scope="col">Nombre del Sistema</th>
+                <th class="configuracion__encabezado" scope="col">Empresa</th>
+                <th class="configuracion__encabezado" scope="col">Última Actualización</th>
+                <th class="configuracion__encabezado" scope="col">Estado</th>
+                <th class="configuracion__encabezado" scope="col">Licencia</th>
+              </tr>
+            </thead>
+            <tbody class="configuracion__tbody">
+              <tr class="configuracion__fila">
+                <td class="configuracion__celda">1.0.0</td>
+                <td class="configuracion__celda">Stellarix ERP</td>
+                <td class="configuracion__celda">Stellarix</td>
+                <td class="configuracion__celda">07/08/2026</td>
+                <td class="configuracion__celda">Activo</td>
+                <td class="configuracion__celda">Educativa</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+    </main>
+
+    <footer class="configuracion__footer" role="contentinfo">
+      <p class="configuracion__footer-text">Stellarix - Sistema de Gestión Empresarial © 2026</p>
+    </footer>
+
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="https://cdn.jsdelivr.net/npm/toastify-js@1.12.0/src/toastify.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
