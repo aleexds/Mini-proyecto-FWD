@@ -1,628 +1,540 @@
-const STORAGE_KEY = 'fwd-login-credentials';
-const USERS_KEY = 'fwd-registered-users';
-const ACTIVE_USER_KEY = 'fwd-active-user';
-const PRODUCTS_KEY = 'fwd-products';
-const SUPPLIERS_KEY = 'fwd-suppliers';
+﻿(() => {
+  const STORAGE_KEYS = {
+    users: 'fwd-registered-users',
+    activeUser: 'fwd-active-user',
+    theme: 'fwd-theme',
+    dragItems: 'fwd-drag-items',
+    clients: 'fwd-clients',
+    products: 'fwd-products',
+    suppliers: 'fwd-suppliers'
+  };
 
-const defaultCredentials = {
-  username: 'FWD',
-  password: '1234'
-};
+  const defaultUser = {
+    username: 'FWD',
+    password: '1234',
+    nombre: 'FWD',
+    apellido: 'Admin'
+  };
 
-function getStorageItem(key, fallback = null) {
-  const stored = localStorage.getItem(key);
-  return stored ? JSON.parse(stored) : fallback;
-}
+  const pageName = window.location.pathname.split('/').pop() || 'index.html';
 
-function saveStorageItem(key, value) {
-  localStorage.setItem(key, JSON.stringify(value));
-}
+  const safeParse = (value, fallback) => {
+    try {
+      return value ? JSON.parse(value) : fallback;
+    } catch {
+      return fallback;
+    }
+  };
 
-function getStoredCredentials() {
-  return getStorageItem(STORAGE_KEY, defaultCredentials);
-}
-
-function saveStoredCredentials(credentials) {
-  saveStorageItem(STORAGE_KEY, credentials);
-}
-
-function getUsers() {
-  return getStorageItem(USERS_KEY, []);
-}
-
-function saveUsers(users) {
-  saveStorageItem(USERS_KEY, users);
-}
-
-function getActiveUser() {
-  return getStorageItem(ACTIVE_USER_KEY, null);
-}
-
-function saveActiveUser(user) {
-  saveStorageItem(ACTIVE_USER_KEY, user);
-}
-
-function clearActiveUser() {
-  localStorage.removeItem(ACTIVE_USER_KEY);
-}
-
-function getDisplayName(user) {
-  if (!user) return 'Usuario';
-
-  const fullName = [user.nombre, user.apellido].filter(Boolean).join(' ').trim();
-  return fullName || user.name || user.username || 'Usuario';
-}
-
-function getInitials(name) {
-  return name
-    .split(' ')
-    .filter(Boolean)
-    .slice(0, 2)
-    .map((part) => part[0].toUpperCase())
-    .join('') || 'U';
-}
-
-if (!localStorage.getItem(STORAGE_KEY)) {
-  saveStoredCredentials(defaultCredentials);
-}
-
-const loginForm = document.getElementById('loginForm');
-const registrationForm = document.getElementById('registroForm');
-const usernameInput = document.getElementById('username');
-const passwordInput = document.getElementById('password');
-const errorMsg = document.getElementById('errorMsg');
-const togglePasswordButton = document.getElementById('togglePassword');
-
-function showErrorMessage() {
-  if (errorMsg) {
-    errorMsg.classList.remove('hidden');
-    errorMsg.textContent = 'Usuario o contraseña incorrectos';
+  function readStorage(key, fallback = null) {
+    return safeParse(localStorage.getItem(key), fallback);
   }
-}
 
-function hideErrorMessage() {
-  if (errorMsg) {
-    errorMsg.classList.add('hidden');
-    errorMsg.textContent = '';
+  function writeStorage(key, value) {
+    localStorage.setItem(key, JSON.stringify(value));
   }
-}
 
-function showLoginErrorAlert() {
-  Swal.fire({
-    title: 'Error',
-    text: 'Credenciales incorrectas',
-    icon: 'error'
-  });
-}
+  function getUsers() {
+    const users = readStorage(STORAGE_KEYS.users, []);
+    if (!Array.isArray(users)) return [defaultUser];
+    if (!users.some((user) => user.username && user.username.toLowerCase() === defaultUser.username.toLowerCase())) {
+      users.unshift(defaultUser);
+      writeStorage(STORAGE_KEYS.users, users);
+    }
+    return users;
+  }
 
-function showLoginSuccessAlert() {
-  Swal.fire({
-    title: 'Credenciales correctas',
-    text: 'Acceso concedido',
-    icon: 'success'
-  }).then(() => {
-    window.location.href = 'Dashboard.html';
-  });
-}
+  function saveUsers(users) {
+    writeStorage(STORAGE_KEYS.users, users);
+  }
 
-function showRegistrationSuccessAlert() {
-  Swal.fire({
-    title: 'Registro exitoso',
-    text: 'Tu cuenta fue creada correctamente.',
-    icon: 'success'
-  }).then(() => {
-    window.location.href = 'index.html';
-  });
-}
+  function getActiveUser() {
+    return readStorage(STORAGE_KEYS.activeUser, null);
+  }
 
-if (togglePasswordButton && passwordInput) {
-  togglePasswordButton.addEventListener('click', () => {
-    const isPasswordHidden = passwordInput.getAttribute('type') === 'password';
-    const nextType = isPasswordHidden ? 'text' : 'password';
-    const nextLabel = isPasswordHidden ? 'Ocultar contraseña' : 'Mostrar contraseña';
+  function saveActiveUser(user) {
+    writeStorage(STORAGE_KEYS.activeUser, user);
+  }
 
-    passwordInput.setAttribute('type', nextType);
-    togglePasswordButton.setAttribute('aria-label', nextLabel);
-    togglePasswordButton.setAttribute('title', nextLabel);
-    togglePasswordButton.classList.toggle('visible', isPasswordHidden);
-  });
-}
+  function clearActiveUser() {
+    localStorage.removeItem(STORAGE_KEYS.activeUser);
+  }
 
-if (loginForm) {
-  loginForm.addEventListener('submit', (event) => {
-    event.preventDefault();
+  function getDisplayName(user) {
+    if (!user) return 'Usuario';
+    const fullName = [user.nombre, user.apellido].filter(Boolean).join(' ').trim();
+    return fullName || user.username || 'Usuario';
+  }
 
-    const enteredUsername = usernameInput?.value.trim() || '';
-    const enteredPassword = passwordInput?.value.trim() || '';
+  function getInitials(name) {
+    return name.split(' ').filter(Boolean).slice(0, 2).map((part) => part[0].toUpperCase()).join('') || 'U';
+  }
 
-    const storedCredentials = getStoredCredentials();
-    const registeredUsers = getUsers();
+  function showToast(message, type = 'info') {
+    if (typeof Toastify === 'undefined') return;
+    const palette = { success: '#24b47e', error: '#e5484d', info: '#3b82f6', warning: '#f59e0b' };
+    Toastify({
+      text: message,
+      duration: 3500,
+      close: true,
+      gravity: 'top',
+      position: 'right',
+      style: { background: palette[type] || palette.info }
+    }).showToast();
+  }
 
-    const matchesDefault =
-      enteredUsername === storedCredentials.username &&
-      enteredPassword === storedCredentials.password;
+  function setupAuth() {
+    const loginForm = document.getElementById('loginForm');
+    const registrationForm = document.getElementById('registroForm');
+    const usernameInput = document.getElementById('username');
+    const passwordInput = document.getElementById('password');
+    const errorMsg = document.getElementById('errorMsg');
 
-    const matchedUser = registeredUsers.find(
-      (user) =>
-        user.username.toLowerCase() === enteredUsername.toLowerCase() &&
-        user.password === enteredPassword
-    );
+    function setLoginError() {
+      if (errorMsg) {
+        errorMsg.classList.remove('hidden');
+        errorMsg.textContent = 'Usuario o contraseña incorrectos';
+      }
+    }
 
-    if (matchesDefault || matchedUser) {
-      hideErrorMessage();
-      const authUser = matchedUser || {
-        username: enteredUsername,
-        nombre: enteredUsername,
-        apellido: ''
+    function clearLoginError() {
+      if (errorMsg) {
+        errorMsg.classList.add('hidden');
+        errorMsg.textContent = '';
+      }
+    }
+
+    if (loginForm) {
+      loginForm.addEventListener('submit', (event) => {
+        event.preventDefault();
+        const enteredUsername = usernameInput?.value.trim() || '';
+        const enteredPassword = passwordInput?.value.trim() || '';
+        const users = getUsers();
+        const matchedUser = users.find((user) => user.username.toLowerCase() === enteredUsername.toLowerCase() && user.password === enteredPassword);
+
+        if (matchedUser) {
+          clearLoginError();
+          saveActiveUser(matchedUser);
+          Swal.fire({ title: 'Acceso concedido', text: 'Bienvenido al panel.', icon: 'success' }).then(() => {
+            window.location.href = 'Dashboard.html';
+          });
+        } else {
+          setLoginError();
+          Swal.fire({ title: 'Error', text: 'Credenciales incorrectas', icon: 'error' });
+        }
+      });
+    }
+
+    if (registrationForm) {
+      registrationForm.addEventListener('submit', (event) => {
+        event.preventDefault();
+        const nombre = document.getElementById('nombre')?.value.trim() || '';
+        const apellido = document.getElementById('apellido')?.value.trim() || '';
+        const usuario = document.getElementById('usuario')?.value.trim() || '';
+        const password = document.getElementById('password')?.value.trim() || '';
+
+        if (!nombre || !apellido || !usuario || !password) {
+          Swal.fire({ title: 'Datos incompletos', text: 'Completá todos los campos.', icon: 'warning' });
+          return;
+        }
+
+        const users = getUsers();
+        const exists = users.some((user) => user.username.toLowerCase() === usuario.toLowerCase());
+        if (exists) {
+          Swal.fire({ title: 'Usuario ya registrado', text: 'Elegí otro nombre de usuario.', icon: 'warning' });
+          return;
+        }
+
+        const newUser = { username: usuario, nombre, apellido, password };
+        users.push(newUser);
+        saveUsers(users);
+        saveActiveUser(newUser);
+        Swal.fire({ title: 'Registro exitoso', text: 'Tu cuenta quedó creada.', icon: 'success' }).then(() => {
+          window.location.href = 'index.html';
+        });
+      });
+    }
+  }
+
+  function setupNavigation() {
+    document.querySelectorAll('a[href="#productos"], a[href="Productos.html"], a[href="#Proveedores"], a[href="#proveedores"], a[href="Proveedores.html"], a[href="#clientes"], a[href="Clientes.html"], a[href="clientes.html"], a[href="index.html"]').forEach((link) => {
+      link.addEventListener('click', (event) => {
+        const href = link.getAttribute('href');
+        if (href === 'index.html') {
+          event.preventDefault();
+          clearActiveUser();
+          window.location.href = 'index.html';
+        } else if (href === '#productos') {
+          event.preventDefault();
+          window.location.href = 'Productos.html';
+        } else if (href === '#Proveedores' || href === '#proveedores') {
+          event.preventDefault();
+          window.location.href = 'Proveedores.html';
+        } else if (href === '#clientes') {
+          event.preventDefault();
+          window.location.href = 'Clientes.html';
+        }
+      });
+    });
+  }
+
+  function setupDashboard() {
+    if (pageName !== 'Dashboard.html') return;
+    const activeUser = getActiveUser();
+    if (!activeUser) {
+      Swal.fire({ title: 'Sesión requerida', text: 'Debes iniciar sesión primero.', icon: 'warning' }).then(() => {
+        window.location.href = 'index.html';
+      });
+      return;
+    }
+
+    const welcomeTitle = document.getElementById('titulo-bienvenida');
+    const userNameElement = document.querySelector('.dashboard__user-name');
+    const initialsElement = document.getElementById('profile-initials');
+    const avatarElement = document.getElementById('profile-avatar');
+    const changeAvatarButton = document.getElementById('change-avatar-button');
+    const fileInput = document.getElementById('avatar-file-input');
+    const displayName = getDisplayName(activeUser);
+
+    if (welcomeTitle) welcomeTitle.textContent = `Bienvenido/a de nuevo, ${displayName}`;
+    if (userNameElement) userNameElement.textContent = displayName;
+    if (initialsElement) initialsElement.textContent = getInitials(displayName);
+
+    if (avatarElement) {
+      const avatarValue = activeUser.avatar || '';
+      if (avatarValue) {
+        avatarElement.src = avatarValue;
+        avatarElement.hidden = false;
+        if (initialsElement) initialsElement.style.display = 'none';
+      } else {
+        avatarElement.removeAttribute('src');
+        avatarElement.hidden = true;
+        if (initialsElement) initialsElement.style.display = 'flex';
+      }
+    }
+
+    if (changeAvatarButton && fileInput) {
+      changeAvatarButton.addEventListener('click', () => fileInput.click());
+      fileInput.onchange = () => {
+        const file = fileInput.files?.[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = () => {
+          const imageData = reader.result;
+          const updatedUser = { ...activeUser, avatar: imageData };
+          saveActiveUser(updatedUser);
+          const users = getUsers().map((user) => user.username.toLowerCase() === updatedUser.username.toLowerCase() ? updatedUser : user);
+          saveUsers(users);
+          setupDashboard();
+          showToast('Foto de perfil actualizada', 'success');
+        };
+        reader.readAsDataURL(file);
       };
-
-      saveActiveUser(authUser);
-      showLoginSuccessAlert();
-    } else {
-      showErrorMessage();
-      showLoginErrorAlert();
     }
-  });
-}
 
-if (registrationForm) {
-  registrationForm.addEventListener('submit', (event) => {
-    event.preventDefault();
-
-    const nombre = document.getElementById('nombre')?.value.trim() || '';
-    const apellido = document.getElementById('apellido')?.value.trim() || '';
-    const usuario = document.getElementById('usuario')?.value.trim() || '';
-    const password = document.getElementById('password')?.value.trim() || '';
-
-    if (!nombre || !apellido || !usuario || !password) {
-      Swal.fire({
-        title: 'Datos incompletos',
-        text: 'Completá todos los campos para registrar tu cuenta.',
-        icon: 'warning'
+    const sidebarFooter = document.querySelector('.dashboard__sidebar-footer');
+    if (sidebarFooter && !document.getElementById('profile-editor-button')) {
+      const button = document.createElement('button');
+      button.id = 'profile-editor-button';
+      button.type = 'button';
+      button.textContent = 'Editar perfil';
+      button.style.marginTop = '12px';
+      button.style.padding = '8px 12px';
+      button.style.border = 'none';
+      button.style.borderRadius = '999px';
+      button.style.cursor = 'pointer';
+      button.addEventListener('click', async () => {
+        const result = await Swal.fire({
+          title: 'Editar perfil',
+          html: `
+            <label>Nombre</label>
+            <input id="name" class="swal2-input" value="${activeUser.nombre || ''}">
+            <label>Apellido</label>
+            <input id="lastname" class="swal2-input" value="${activeUser.apellido || ''}">
+            <label>Nueva contraseña</label>
+            <input id="newPassword" type="password" class="swal2-input" value="${activeUser.password || ''}">
+          `,
+          showCancelButton: true,
+          confirmButtonText: 'Guardar'
+        });
+        if (!result.isConfirmed) return;
+        const updatedUser = { ...activeUser };
+        updatedUser.nombre = document.getElementById('name')?.value.trim() || updatedUser.nombre || 'Usuario';
+        updatedUser.apellido = document.getElementById('lastname')?.value.trim() || updatedUser.apellido || '';
+        updatedUser.password = document.getElementById('newPassword')?.value.trim() || updatedUser.password || '';
+        saveActiveUser(updatedUser);
+        const users = getUsers().map((user) => user.username.toLowerCase() === updatedUser.username.toLowerCase() ? updatedUser : user);
+        saveUsers(users);
+        setupDashboard();
+        showToast('Perfil actualizado', 'success');
       });
-      return;
+      sidebarFooter.appendChild(button);
     }
+  }
 
-    const users = getUsers();
-    const alreadyExists = users.some(
-      (user) => user.username.toLowerCase() === usuario.toLowerCase()
-    );
-
-    if (alreadyExists) {
-      Swal.fire({
-        title: 'Ese usuario ya existe',
-        text: 'Elegí otro nombre de usuario o iniciá sesión.',
-        icon: 'warning'
+  function setupModuleForms() {
+    if (pageName === 'Clientes.html') {
+      const form = document.getElementById('clienteForm');
+      const tbody = document.querySelector('.clientes__tbody');
+      if (!form || !tbody) return;
+      const render = () => {
+        const clients = readStorage(STORAGE_KEYS.clients, []);
+        tbody.innerHTML = '';
+        if (clients.length === 0) {
+          tbody.innerHTML = '<tr><td colspan="10" style="text-align:center;">No hay clientes registrados.</td></tr>';
+          return;
+        }
+        clients.forEach((client) => {
+          const row = document.createElement('tr');
+          row.className = 'clientes__fila';
+          row.innerHTML = `
+            <td class="clientes__celda">${client.clienteId || ''}</td>
+            <td class="clientes__celda">${client.nombre || ''}</td>
+            <td class="clientes__celda">${client.empresa || ''}</td>
+            <td class="clientes__celda">${client.correo || ''}</td>
+            <td class="clientes__celda">${client.telefono || ''}</td>
+            <td class="clientes__celda">${client.pais || ''}</td>
+            <td class="clientes__celda">${client.tipoCliente || ''}</td>
+            <td class="clientes__celda">${client.estado || ''}</td>
+            <td class="clientes__celda">${client.fechaRegistro || ''}</td>
+            <td class="clientes__celda">Editar / Eliminar</td>
+          `;
+          tbody.appendChild(row);
+        });
+      };
+      render();
+      form.addEventListener('submit', (event) => {
+        event.preventDefault();
+        const formData = new FormData(form);
+        const client = Object.fromEntries(formData.entries());
+        const clients = readStorage(STORAGE_KEYS.clients, []);
+        clients.push(client);
+        writeStorage(STORAGE_KEYS.clients, clients);
+        render();
+        form.reset();
+        Swal.fire({ title: 'Cliente registrado', text: 'El cliente se guardó correctamente.', icon: 'success' });
       });
-      return;
     }
 
-    const newUser = {
-      username: usuario,
-      nombre,
-      apellido,
-      password
+    if (pageName === 'Productos.html') {
+      const form = document.getElementById('productoForm');
+      const tbody = document.querySelector('.productos__tbody');
+      if (!form || !tbody) return;
+      const render = () => {
+        const products = readStorage(STORAGE_KEYS.products, []);
+        tbody.innerHTML = '';
+        if (products.length === 0) {
+          tbody.innerHTML = '<tr><td colspan="10" style="text-align:center;">No hay productos registrados.</td></tr>';
+          return;
+        }
+        products.forEach((product) => {
+          const row = document.createElement('tr');
+          row.className = 'productos__fila';
+          row.innerHTML = `
+            <td class="productos__celda">${product.productoId || ''}</td>
+            <td class="productos__celda">${product.nombre || ''}</td>
+            <td class="productos__celda">${product.categoria || ''}</td>
+            <td class="productos__celda">${product.codigo || ''}</td>
+            <td class="productos__celda">${product.fabricante || ''}</td>
+            <td class="productos__celda">${product.cantidad || ''}</td>
+            <td class="productos__celda">$ ${Number(product.precio || 0).toLocaleString('es-AR')}</td>
+            <td class="productos__celda">${product.estado || ''}</td>
+            <td class="productos__celda">${product.fechaIngreso || ''}</td>
+            <td class="productos__celda">Registrar / Editar</td>
+          `;
+          tbody.appendChild(row);
+        });
+      };
+      render();
+      form.addEventListener('submit', (event) => {
+        event.preventDefault();
+        const formData = new FormData(form);
+        const product = Object.fromEntries(formData.entries());
+        const products = readStorage(STORAGE_KEYS.products, []);
+        products.push(product);
+        writeStorage(STORAGE_KEYS.products, products);
+        render();
+        form.reset();
+        Swal.fire({ title: 'Producto registrado', text: 'El producto se guardó correctamente.', icon: 'success' });
+      });
+    }
+
+    if (pageName === 'Proveedores.html') {
+      const form = document.getElementById('proveedorForm');
+      const tbody = document.querySelector('.proveedores__tbody');
+      if (!form || !tbody) return;
+      const render = () => {
+        const suppliers = readStorage(STORAGE_KEYS.suppliers, []);
+        tbody.innerHTML = '';
+        if (suppliers.length === 0) {
+          tbody.innerHTML = '<tr><td colspan="10" style="text-align:center;">No hay proveedores registrados.</td></tr>';
+          return;
+        }
+        suppliers.forEach((supplier) => {
+          const row = document.createElement('tr');
+          row.className = 'proveedores__fila';
+          row.innerHTML = `
+            <td class="proveedores__celda">${supplier.proveedorId || ''}</td>
+            <td class="proveedores__celda">${supplier.empresa || ''}</td>
+            <td class="proveedores__celda">${supplier.contacto || ''}</td>
+            <td class="proveedores__celda">${supplier.correo || ''}</td>
+            <td class="proveedores__celda">${supplier.telefono || ''}</td>
+            <td class="proveedores__celda">${supplier.pais || ''}</td>
+            <td class="proveedores__celda">${supplier.tipoSuministro || ''}</td>
+            <td class="proveedores__celda">${supplier.estado || ''}</td>
+            <td class="proveedores__celda">${supplier.fechaRegistro || ''}</td>
+            <td class="proveedores__celda">Registrar / Editar</td>
+          `;
+          tbody.appendChild(row);
+        });
+      };
+      render();
+      form.addEventListener('submit', (event) => {
+        event.preventDefault();
+        const formData = new FormData(form);
+        const supplier = Object.fromEntries(formData.entries());
+        const suppliers = readStorage(STORAGE_KEYS.suppliers, []);
+        suppliers.push(supplier);
+        writeStorage(STORAGE_KEYS.suppliers, suppliers);
+        render();
+        form.reset();
+        Swal.fire({ title: 'Proveedor registrado', text: 'El proveedor se guardó correctamente.', icon: 'success' });
+      });
+    }
+  }
+
+  function setupThemeAndEffects() {
+    const toolbar = document.createElement('div');
+    toolbar.id = 'global-toolbar';
+    toolbar.style.position = 'fixed';
+    toolbar.style.right = '16px';
+    toolbar.style.top = '16px';
+    toolbar.style.display = 'flex';
+    toolbar.style.gap = '8px';
+    toolbar.style.zIndex = '2000';
+    toolbar.style.padding = '8px';
+    toolbar.style.borderRadius = '999px';
+    toolbar.style.background = 'rgba(8, 15, 34, 0.9)';
+    toolbar.style.backdropFilter = 'blur(8px)';
+    document.body.appendChild(toolbar);
+
+    const themeButton = document.createElement('button');
+    themeButton.type = 'button';
+    themeButton.textContent = '🌙';
+    themeButton.style.border = 'none';
+    themeButton.style.borderRadius = '999px';
+    themeButton.style.padding = '8px 10px';
+    themeButton.style.cursor = 'pointer';
+    themeButton.addEventListener('click', () => {
+      const next = document.body.dataset.theme === 'dark' ? 'light' : 'dark';
+      document.body.dataset.theme = next;
+      document.body.style.background = next === 'dark' ? '#07111f' : '#f4f7ff';
+      document.body.style.color = next === 'dark' ? '#f3f6ff' : '#132035';
+      themeButton.textContent = next === 'dark' ? '☀️' : '🌙';
+      writeStorage(STORAGE_KEYS.theme, next);
+      showToast(next === 'dark' ? 'Modo oscuro activado' : 'Modo claro activado', 'info');
+    });
+    toolbar.appendChild(themeButton);
+
+    const searchInput = document.createElement('input');
+    searchInput.placeholder = 'Buscar...';
+    searchInput.style.border = 'none';
+    searchInput.style.borderRadius = '999px';
+    searchInput.style.padding = '8px 12px';
+    searchInput.style.minWidth = '220px';
+    searchInput.addEventListener('input', (event) => {
+      const term = event.target.value.toLowerCase();
+      document.querySelectorAll('article, section, tr, li, form').forEach((element) => {
+        const text = element.textContent.toLowerCase();
+        element.style.display = !term || text.includes(term) ? '' : 'none';
+      });
+    });
+    toolbar.appendChild(searchInput);
+
+    const canvas = document.createElement('canvas');
+    canvas.id = 'bg-canvas';
+    canvas.style.position = 'fixed';
+    canvas.style.inset = '0';
+    canvas.style.pointerEvents = 'none';
+    canvas.style.zIndex = '0';
+    document.body.appendChild(canvas);
+
+    const ctx = canvas.getContext('2d');
+    const stars = Array.from({ length: 90 }, () => ({ x: Math.random() * window.innerWidth, y: Math.random() * window.innerHeight, radius: Math.random() * 1.4 + 0.4, speed: Math.random() * 0.3 + 0.1 }));
+    const resize = () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
     };
+    const draw = () => {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      stars.forEach((star) => {
+        star.y += star.speed;
+        if (star.y > window.innerHeight) {
+          star.y = -10;
+          star.x = Math.random() * window.innerWidth;
+        }
+        ctx.beginPath();
+        ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
+        ctx.fillStyle = '#ffffff';
+        ctx.fill();
+      });
+      requestAnimationFrame(draw);
+    };
+    resize();
+    draw();
+    window.addEventListener('resize', resize);
+  }
 
-    users.push(newUser);
-    saveUsers(users);
-    saveActiveUser(newUser);
-    showRegistrationSuccessAlert();
-  });
-}
-
-function setupDashboardUser() {
-  const activeUser = getActiveUser();
-  const welcomeTitle = document.getElementById('titulo-bienvenida');
-  const userNameElement = document.querySelector('.dashboard__user-name');
-  const userInitialsElement = document.querySelector('.dashboard__user-initials');
-
-  if (!activeUser) {
-    Swal.fire({
-      title: 'Sesión no iniciada',
-      text: 'Debés iniciar sesión para ver el dashboard.',
-      icon: 'warning'
-    }).then(() => {
-      window.location.href = 'index.html';
+  function setupInactivityWarning() {
+    let timer = null;
+    const reset = () => {
+      clearTimeout(timer);
+      timer = setTimeout(() => {
+        showToast('¿Seguís ahí? Hay actividad reciente.', 'warning');
+      }, 300000);
+    };
+    ['mousemove', 'keydown', 'click', 'touchstart'].forEach((eventName) => {
+      document.addEventListener(eventName, reset, { passive: true });
     });
-    return;
+    reset();
   }
 
-  const displayName = getDisplayName(activeUser);
-
-  if (welcomeTitle) {
-    welcomeTitle.textContent = `Bienvenido/a de nuevo, ${displayName}`;
-  }
-
-  if (userNameElement) {
-    userNameElement.textContent = displayName;
-  }
-
-  if (userInitialsElement) {
-    userInitialsElement.textContent = getInitials(displayName);
-  }
-}
-
-function setupNavigation() {
-  document.querySelectorAll('a[href="#productos"], a[href="Productos.html"], a[href="#Proveedores"], a[href="#proveedores"], a[href="Proveedores.html"], a[href="#clientes"], a[href="Clientes.html"], a[href="clientes.html"]').forEach((link) => {
-    link.addEventListener('click', (event) => {
-      const href = link.getAttribute('href');
-
-      if (href === '#productos') {
+  function setupKeyboardShortcuts() {
+    document.addEventListener('keydown', (event) => {
+      if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === 's') {
         event.preventDefault();
-        window.location.href = 'Productos.html';
-      } else if (href === '#Proveedores' || href === '#proveedores') {
-        event.preventDefault();
-        window.location.href = 'Proveedores.html';
-      } else if (href === '#clientes') {
-        event.preventDefault();
-        window.location.href = 'Clientes.html';
+        showToast('Cambios guardados', 'success');
       }
     });
-  });
-
-  const logoutLink = document.querySelector('a[href="index.html"]');
-  if (logoutLink && logoutLink.textContent.includes('Cerrar sesión')) {
-    logoutLink.addEventListener('click', (event) => {
-      event.preventDefault();
-      clearActiveUser();
-      window.location.href = 'index.html';
-    });
-  }
-}
-
-function getProducts() {
-  return getStorageItem(PRODUCTS_KEY, []);
-}
-
-function saveProducts(products) {
-  saveStorageItem(PRODUCTS_KEY, products);
-}
-
-function seedProducts() {
-  if (getProducts().length > 0) return;
-
-  const initialProducts = [
-    {
-      id: 'PRD-0001',
-      nombre: 'Motor de Propulsión XR-90',
-      categoria: 'Propulsión',
-      codigo: 'SN-2026-0012',
-      fabricante: 'Stellarix Propulsion',
-      cantidad: '24',
-      precio: '850000',
-      unidadMedida: 'u',
-      estado: 'Disponible',
-      fechaIngreso: '2026-02-10',
-      ubicacion: 'Almacén A',
-      observaciones: 'Alta demanda'
-    },
-    {
-      id: 'PRD-0002',
-      nombre: 'Panel Solar Satelital PS-1200',
-      categoria: 'Energía',
-      codigo: 'SN-2026-0145',
-      fabricante: 'Stellarix Energy',
-      cantidad: '140',
-      precio: '320000',
-      unidadMedida: 'u',
-      estado: 'Disponible',
-      fechaIngreso: '2026-02-18',
-      ubicacion: 'Almacén B',
-      observaciones: 'Stock estable'
-    }
-  ];
-
-  saveProducts(initialProducts);
-}
-
-function renderProducts() {
-  const tableBody = document.querySelector('.productos__tbody');
-  if (!tableBody) return;
-
-  const products = getProducts();
-  tableBody.innerHTML = '';
-
-  if (products.length === 0) {
-    tableBody.innerHTML = '<tr><td colspan="10" style="text-align:center;">No hay productos registrados.</td></tr>';
-    return;
   }
 
-  products.forEach((product) => {
-    const row = document.createElement('tr');
-    row.className = 'productos__fila';
-    row.innerHTML = `
-      <td class="productos__celda">${product.id}</td>
-      <td class="productos__celda">${product.nombre}</td>
-      <td class="productos__celda">${product.categoria}</td>
-      <td class="productos__celda">${product.codigo}</td>
-      <td class="productos__celda">${product.fabricante}</td>
-      <td class="productos__celda">${product.cantidad}</td>
-      <td class="productos__celda">$ ${Number(product.precio).toLocaleString('es-AR')}</td>
-      <td class="productos__celda">${product.estado}</td>
-      <td class="productos__celda">${product.fechaIngreso}</td>
-      <td class="productos__celda">Registrar / Editar</td>
-    `;
-    tableBody.appendChild(row);
-  });
-}
-
-function getSuppliers() {
-  return getStorageItem(SUPPLIERS_KEY, []);
-}
-
-function saveSuppliers(suppliers) {
-  saveStorageItem(SUPPLIERS_KEY, suppliers);
-}
-
-function seedSuppliers() {
-  if (getSuppliers().length > 0) return;
-
-  const initialSuppliers = [
-    {
-      id: 'PRV-0001',
-      empresa: 'Helios Propulsión SA',
-      contacto: 'Ricardo Alonso',
-      correo: 'ralonso@heliosprop.com',
-      telefono: '+34 91 444-7788',
-      pais: 'España',
-      ciudad: 'Madrid',
-      direccion: 'Av. Espacial 123',
-      tipoSuministro: 'Propulsión',
-      estado: 'Activo',
-      fechaRegistro: '2026-01-15',
-      observaciones: 'Proveedor clave'
-    }
-  ];
-
-  saveSuppliers(initialSuppliers);
-}
-
-function renderSuppliers() {
-  const tableBody = document.querySelector('.proveedores__tbody');
-  if (!tableBody) return;
-
-  const suppliers = getSuppliers();
-  tableBody.innerHTML = '';
-
-  if (suppliers.length === 0) {
-    tableBody.innerHTML = '<tr><td colspan="10" style="text-align:center;">No hay proveedores registrados.</td></tr>';
-    return;
-  }
-
-  suppliers.forEach((supplier) => {
-    const row = document.createElement('tr');
-    row.className = 'proveedores__fila';
-    row.innerHTML = `
-      <td class="proveedores__celda">${supplier.id}</td>
-      <td class="proveedores__celda">${supplier.empresa}</td>
-      <td class="proveedores__celda">${supplier.contacto}</td>
-      <td class="proveedores__celda">${supplier.correo}</td>
-      <td class="proveedores__celda">${supplier.telefono}</td>
-      <td class="proveedores__celda">${supplier.pais}</td>
-      <td class="proveedores__celda">${supplier.tipoSuministro}</td>
-      <td class="proveedores__celda">${supplier.estado}</td>
-      <td class="proveedores__celda">${supplier.fechaRegistro}</td>
-      <td class="proveedores__celda">Registrar / Editar</td>
-    `;
-    tableBody.appendChild(row);
-  });
-}
-
-function setupProductsAndSuppliers() {
-  const productForm = document.getElementById('productoForm');
-  const supplierForm = document.getElementById('proveedorForm');
-
-  if (productForm) {
-    seedProducts();
-    renderProducts();
-
-    productForm.addEventListener('submit', (event) => {
-      event.preventDefault();
-
-      const formData = new FormData(productForm);
-      const product = Object.fromEntries(formData.entries());
-      const products = getProducts();
-
-      products.push(product);
-      saveProducts(products);
-      renderProducts();
-      productForm.reset();
-
-      Swal.fire({
-        title: 'Producto registrado',
-        text: 'El producto se guardó correctamente.',
-        icon: 'success'
+  function ensureAuthForProtectedPages() {
+    const protectedPages = ['Dashboard.html', 'Clientes.html', 'Productos.html', 'Proveedores.html'];
+    if (protectedPages.includes(pageName) && !getActiveUser()) {
+      Swal.fire({ title: 'Sesión requerida', text: 'Debes iniciar sesión antes de entrar.', icon: 'warning' }).then(() => {
+        window.location.href = 'index.html';
       });
-    });
-  }
-
-  if (supplierForm) {
-    seedSuppliers();
-    renderSuppliers();
-
-    supplierForm.addEventListener('submit', (event) => {
-      event.preventDefault();
-
-      const formData = new FormData(supplierForm);
-      const supplier = Object.fromEntries(formData.entries());
-      const suppliers = getSuppliers();
-
-      suppliers.push(supplier);
-      saveSuppliers(suppliers);
-      renderSuppliers();
-      supplierForm.reset();
-
-      Swal.fire({
-        title: 'Proveedor registrado',
-        text: 'El proveedor se guardó correctamente.',
-        icon: 'success'
-      });
-    });
-  }
-}
-
-function createSpaceBackground() {
-  if (document.getElementById('spaceCanvas')) {
-    return;
-  }
-
-  const canvas = document.createElement('canvas');
-  canvas.id = 'spaceCanvas';
-  canvas.style.position = 'fixed';
-  canvas.style.inset = '0';
-  canvas.style.width = '100%';
-  canvas.style.height = '100%';
-  canvas.style.zIndex = '-1';
-  canvas.style.pointerEvents = 'none';
-  document.body.prepend(canvas);
-
-  const ctx = canvas.getContext('2d');
-  const stars = [];
-  const planets = [];
-  const blackHoles = [];
-
-  function createScene() {
-    const width = window.innerWidth;
-    const height = window.innerHeight;
-    const dpr = Math.min(window.devicePixelRatio || 1, 2);
-
-    canvas.width = Math.floor(width * dpr);
-    canvas.height = Math.floor(height * dpr);
-    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-
-    stars.length = 0;
-    planets.length = 0;
-    blackHoles.length = 0;
-
-    const starCount = width > 900 ? 140 : 90;
-    for (let i = 0; i < starCount; i += 1) {
-      stars.push({
-        x: Math.random() * width,
-        y: Math.random() * height,
-        size: Math.random() * 1.8 + 0.4,
-        alpha: Math.random() * 0.8 + 0.2,
-        speed: Math.random() * 0.25 + 0.05
-      });
+      return false;
     }
-
-    const planetCount = width > 900 ? 3 : 2;
-    for (let i = 0; i < planetCount; i += 1) {
-      planets.push({
-        x: Math.random() * width,
-        y: Math.random() * height * 0.7,
-        radius: Math.random() * 24 + 14,
-        color: i === 0 ? '#6fd6ff' : '#b99cff',
-        speed: (Math.random() * 0.002 + 0.001) * (i % 2 === 0 ? 1 : -1),
-        offset: Math.random() * Math.PI * 2
-      });
-    }
-
-    const blackHoleCount = width > 900 ? 2 : 1;
-    for (let i = 0; i < blackHoleCount; i += 1) {
-      blackHoles.push({
-        x: Math.random() * width,
-        y: Math.random() * height * 0.8,
-        radius: Math.random() * 18 + 14,
-        glow: Math.random() * 0.3 + 0.3
-      });
-    }
+    return true;
   }
 
-  function animate() {
-    const width = window.innerWidth;
-    const height = window.innerHeight;
-
-    ctx.clearRect(0, 0, width, height);
-
-    const background = ctx.createLinearGradient(0, 0, 0, height);
-    background.addColorStop(0, '#020611');
-    background.addColorStop(1, '#071224');
-    ctx.fillStyle = background;
-    ctx.fillRect(0, 0, width, height);
-
-    stars.forEach((star) => {
-      star.y += star.speed;
-      if (star.y > height + 5) {
-        star.y = -5;
-        star.x = Math.random() * width;
-      }
-
-      ctx.beginPath();
-      ctx.arc(star.x, star.y, star.size, 0, Math.PI * 2);
-      ctx.fillStyle = `rgba(255,255,255,${star.alpha})`;
-      ctx.fill();
-    });
-
-    planets.forEach((planet, index) => {
-      planet.offset += planet.speed;
-      const driftX = Math.sin(planet.offset) * (30 + index * 12);
-      const driftY = Math.cos(planet.offset * 0.7) * (20 + index * 8);
-
-      ctx.beginPath();
-      ctx.arc(planet.x + driftX, planet.y + driftY, planet.radius, 0, Math.PI * 2);
-      ctx.fillStyle = planet.color;
-      ctx.globalAlpha = 0.82;
-      ctx.fill();
-      ctx.globalAlpha = 1;
-    });
-
-    blackHoles.forEach((hole) => {
-      const gradient = ctx.createRadialGradient(hole.x, hole.y, 2, hole.x, hole.y, hole.radius * 2.3);
-      gradient.addColorStop(0, 'rgba(255,255,255,0.2)');
-      gradient.addColorStop(0.3, 'rgba(0,0,0,0.4)');
-      gradient.addColorStop(1, 'rgba(0,0,0,0.95)');
-      ctx.fillStyle = gradient;
-      ctx.beginPath();
-      ctx.arc(hole.x, hole.y, hole.radius * 2.3, 0, Math.PI * 2);
-      ctx.fill();
-
-      ctx.beginPath();
-      ctx.arc(hole.x, hole.y, hole.radius, 0, Math.PI * 2);
-      ctx.fillStyle = '#000';
-      ctx.fill();
-    });
-
-    requestAnimationFrame(animate);
-  }
-
-  createScene();
-  animate();
-  window.addEventListener('resize', createScene);
-}
-
-const currentPage = window.location.pathname.split('/').pop() || 'index.html';
-
-if (currentPage === 'Dashboard.html') {
-  setupDashboardUser();
-  setupNavigation();
-} else if (currentPage === 'Clientes.html') {
-  const activeUser = getActiveUser();
-  if (!activeUser) {
-    Swal.fire({
-      title: 'Sesión no iniciada',
-      text: 'Debés iniciar sesión para ver la vista de clientes.',
-      icon: 'warning'
-    }).then(() => {
-      window.location.href = 'index.html';
-    });
-  } else {
+  function init() {
+    getUsers();
+    setupAuth();
     setupNavigation();
+    setupThemeAndEffects();
+    setupInactivityWarning();
+    setupKeyboardShortcuts();
+    if (ensureAuthForProtectedPages()) {
+      setupDashboard();
+      setupModuleForms();
+    }
   }
-} else if (currentPage === 'Productos.html' || currentPage === 'Proveedores.html') {
-  const activeUser = getActiveUser();
-  if (!activeUser) {
-    Swal.fire({
-      title: 'Sesión no iniciada',
-      text: 'Debés iniciar sesión para ver esta vista.',
-      icon: 'warning'
-    }).then(() => {
-      window.location.href = 'index.html';
-    });
-  } else {
-    setupNavigation();
-    setupProductsAndSuppliers();
-  }
-}
 
-createSpaceBackground();
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+})();
