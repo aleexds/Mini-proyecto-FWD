@@ -436,20 +436,22 @@
     });
     toolbar.appendChild(themeButton);
 
-    const searchInput = document.createElement('input');
-    searchInput.placeholder = 'Buscar...';
-    searchInput.style.border = 'none';
-    searchInput.style.borderRadius = '999px';
-    searchInput.style.padding = '8px 12px';
-    searchInput.style.minWidth = '220px';
-    searchInput.addEventListener('input', (event) => {
-      const term = event.target.value.toLowerCase();
-      document.querySelectorAll('article, section, tr, li, form').forEach((element) => {
-        const text = element.textContent.toLowerCase();
-        element.style.display = !term || text.includes(term) ? '' : 'none';
+    if (pageName === 'Dashboard.html') {
+      const searchInput = document.createElement('input');
+      searchInput.placeholder = 'Buscar...';
+      searchInput.style.border = 'none';
+      searchInput.style.borderRadius = '999px';
+      searchInput.style.padding = '8px 12px';
+      searchInput.style.minWidth = '220px';
+      searchInput.addEventListener('input', (event) => {
+        const term = event.target.value.toLowerCase();
+        document.querySelectorAll('article, section, tr, li, form').forEach((element) => {
+          const text = element.textContent.toLowerCase();
+          element.style.display = !term || text.includes(term) ? '' : 'none';
+        });
       });
-    });
-    toolbar.appendChild(searchInput);
+      toolbar.appendChild(searchInput);
+    }
 
     const canvas = document.createElement('canvas');
     canvas.id = 'bg-canvas';
