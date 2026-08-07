@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Módulo de administración de empleados del Sistema de Gestión Empresarial Stellarix.">
+  <title>Administración de Empleados · Stellarix</title>
+  <link rel="stylesheet" href="empleados.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js@1.12.0/src/toastify.min.css">
+</head>
+<body>
+  <div class="empleados">
+
+    <header class="empleados__header" role="banner">
+      <div class="empleados__brand">
+        <h1 class="empleados__brand-name">Stellarix</h1>
+        <h2 class="empleados__title">Administración de Empleados</h2>
+      </div>
+
+      <div class="empleados__header-tools">
+        <form class="empleados__search" role="search" aria-label="Búsqueda">
+          <input class="empleados__search-input" type="search" placeholder="Buscar..." aria-label="Buscar en el sistema">
+        </form>
+        <button class="empleados__theme-toggle" type="button" aria-label="Cambiar tema" title="Cambiar tema"></button>
+      </div>
+
+      <nav class="empleados__nav" aria-label="Navegación principal">
+        <ul class="empleados__nav-list">
+          <li class="empleados__nav-item"><a class="empleados__nav-link" href="Dashboard.html">Dashboard</a></li>
+          <li class="empleados__nav-item"><a class="empleados__nav-link" href="Clientes.html">Clientes</a></li>
+          <li class="empleados__nav-item"><a class="empleados__nav-link" href="Misiones.html">Misiones</a></li>
+          <li class="empleados__nav-item"><a class="empleados__nav-link" href="#inventario">Inventario</a></li>
+          <li class="empleados__nav-item"><a class="empleados__nav-link empleados__nav-link--active" href="Empleados.html" aria-current="page">Empleados</a></li>
+          <li class="empleados__nav-item"><a class="empleados__nav-link" href="Reportes.html">Reportes</a></li>
+          <li class="empleados__nav-item"><a class="empleados__nav-link" href="Configuracion.html">Configuración</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <main class="empleados__main" id="contenido">
+
+      <section class="empleados__registro" aria-labelledby="titulo-registro">
+        <h2 class="empleados__section-title" id="titulo-registro">Registrar / Editar Empleado</h2>
+
+        <form class="empleados__form" id="empleadoForm" novalidate>
+          <fieldset class="empleados__fieldset">
+            <legend class="empleados__legend">Datos Generales del Empleado</legend>
+
+            <div class="empleados__campo">
+              <label class="empleados__label" for="empleadoId">ID del Empleado</label>
+              <input class="empleados__input" type="text" id="empleadoId" name="empleadoId" placeholder="EMP-0001">
+            </div>
+
+            <div class="empleados__campo">
+              <label class="empleados__label" for="nombre">Nombre Completo</label>
+              <input class="empleados__input" type="text" id="nombre" name="nombre" placeholder="Ingresá el nombre completo">
+            </div>
+
+            <div class="empleados__campo">
+              <label class="empleados__label" for="identificacion">Número de Identificación</label>
+              <input class="empleados__input" type="text" id="identificacion" name="identificacion" placeholder="Ingresá el número de identificación">
+            </div>
+
+            <div class="empleados__campo">
+              <label class="empleados__label" for="fechaNacimiento">Fecha de Nacimiento</label>
+              <input class="empleados__input" type="date" id="fechaNacimiento" name="fechaNacimiento">
+            </div>
+
+            <div class="empleados__campo">
+              <label class="empleados__label" for="genero">Género</label>
+              <select class="empleados__input" id="genero" name="genero">
+                <option value="">Seleccioná un género</option>
+                <option value="Masculino">Masculino</option>
+                <option value="Femenino">Femenino</option>
+                <option value="Otro">Otro</option>
+                <option value="Prefiero no decirlo">Prefiero no decirlo</option>
+              </select>
+            </div>
+
+            <div class="empleados__campo">
+              <label class="empleados__label" for="correo">Correo Electrónico Corporativo</label>
+              <input class="empleados__input" type="email" id="correo" name="correo" placeholder="nombre@stellarix.com">
+            </div>
+
+            <div class="empleados__campo">
+              <label class="empleados__label" for="telefono">Teléfono</label>
+              <input class="empleados__input" type="tel" id="telefono" name="telefono" placeholder="Ingresá el teléfono">
+            </div>
+
+            <div class="empleados__campo">
+              <label class="empleados__label" for="direccion">Dirección</label>
+              <input class="empleados__input" type="text" id="direccion" name="direccion" placeholder="Ingresá la dirección">
+            </div>
+          </fieldset>
+
+          <fieldset class="empleados__fieldset">
+            <legend class="empleados__legend">Datos Laborales</legend>
+
+            <div class="empleados__campo">
+              <label class="empleados__label" for="departamento">Departamento</label>
+              <select class="empleados__input" id="departamento" name="departamento">
+                <option value="">Seleccioná un departamento</option>
+                <option value="Ingeniería Aeroespacial">Ingeniería Aeroespacial</option>
+                <option value="Investigación y Desarrollo">Investigación y Desarrollo</option>
+                <option value="Operaciones de Misión">Operaciones de Misión</option>
+                <option value="Producción">Producción</option>
+                <option value="Tecnología de la Información">Tecnología de la Información</option>
+                <option value="Administración">Administración</option>
+              </select>
+            </div>
+
+            <div class="empleados__campo">
+              <label class="empleados__label" for="cargo">Cargo</label>
+              <input class="empleados__input" type="text" id="cargo" name="cargo" placeholder="Ingresá el cargo del empleado">
+            </div>
+
+            <div class="empleados__campo">
+              <label class="empleados__label" for="supervisor">Supervisor</label>
+              <input class="empleados__input" type="text" id="supervisor" name="supervisor" placeholder="Ingresá el supervisor a cargo">
+            </div>
+
+            <div class="empleados__campo">
+              <label class="empleados__label" for="fechaContratacion">Fecha de Contratación</label>
+              <input class="empleados__input" type="date" id="fechaContratacion" name="fechaContratacion">
+            </div>
+
+            <div class="empleados__campo">
+              <label class="empleados__label" for="salario">Salario</label>
+              <input class="empleados__input" type="number" id="salario" name="salario" min="0" step="0.01" placeholder="Ingresá el salario (USD)">
+            </div>
+
+            <div class="empleados__campo">
+              <label class="empleados__label" for="tipoContrato">Tipo de Contrato</label>
+              <select class="empleados__input" id="tipoContrato" name="tipoContrato">
+                <option value="">Seleccioná un tipo de contrato</option>
+                <option value="Tiempo Completo">Tiempo Completo</option>
+                <option value="Medio Tiempo">Medio Tiempo</option>
+                <option value="Temporal">Temporal</option>
+                <option value="Práctica">Práctica</option>
+              </select>
+            </div>
+
+            <div class="empleados__campo">
+              <label class="empleados__label" for="turno">Turno</label>
+              <select class="empleados__input" id="turno" name="turno">
+                <option value="">Seleccioná un turno</option>
+                <option value="Diurno">Diurno</option>
+                <option value="Nocturno">Nocturno</option>
+                <option value="Mixto">Mixto</option>
+              </select>
+            </div>
+
+            <div class="empleados__campo">
+              <label class="empleados__label" for="estado">Estado</label>
+              <select class="empleados__input" id="estado" name="estado">
+                <option value="Activo">Activo</option>
+                <option value="Vacaciones">Vacaciones</option>
+                <option value="Permiso">Permiso</option>
+                <option value="Inactivo">Inactivo</option>
+              </select>
+            </div>
+
+            <div class="empleados__campo empleados__campo--observaciones">
+              <label class="empleados__label" for="observaciones">Observaciones</label>
+              <textarea class="empleados__input" id="observaciones" name="observaciones" rows="4" placeholder="Observaciones adicionales del empleado"></textarea>
+            </div>
+          </fieldset>
+
+          <div class="empleados__acciones">
+            <button class="empleados__boton empleados__boton--registrar" type="submit">Registrar</button>
+            <button class="empleados__boton" type="button">Consultar</button>
+            <button class="empleados__boton" type="button">Editar</button>
+            <button class="empleados__boton empleados__boton--eliminar" type="button">Eliminar</button>
+            <button class="empleados__boton" type="reset">Limpiar</button>
+          </div>
+        </form>
+      </section>
+
+      <section class="empleados__resumen" aria-labelledby="titulo-resumen">
+        <h2 class="empleados__section-title" id="titulo-resumen">Resumen de Personal</h2>
+
+        <div class="empleados__cards">
+          <article class="empleados__card">
+            <h3 class="empleados__card-title">Total de Empleados</h3>
+            <p class="empleados__card-value">312</p>
+          </article>
+
+          <article class="empleados__card">
+            <h3 class="empleados__card-title">Ingenieros Aeroespaciales</h3>
+            <p class="empleados__card-value">84</p>
+          </article>
+
+          <article class="empleados__card">
+            <h3 class="empleados__card-title">Técnicos Especializados</h3>
+            <p class="empleados__card-value">96</p>
+          </article>
+
+          <article class="empleados__card">
+            <h3 class="empleados__card-title">Personal Administrativo</h3>
+            <p class="empleados__card-value">48</p>
+          </article>
+
+          <article class="empleados__card">
+            <h3 class="empleados__card-title">Empleados Activos</h3>
+            <p class="empleados__card-value">274</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="empleados__lista" aria-labelledby="titulo-lista">
+        <h2 class="empleados__section-title" id="titulo-lista">Listado de Empleados</h2>
+
+        <div class="empleados__tabla-wrap">
+          <table class="empleados__tabla">
+            <thead class="empleados__thead">
+              <tr class="empleados__fila">
+                <th class="empleados__encabezado" scope="col">ID</th>
+                <th class="empleados__encabezado" scope="col">Nombre</th>
+                <th class="empleados__encabezado" scope="col">Cargo</th>
+                <th class="empleados__encabezado" scope="col">Departamento</th>
+                <th class="empleados__encabezado" scope="col">Correo</th>
+                <th class="empleados__encabezado" scope="col">Teléfono</th>
+                <th class="empleados__encabezado" scope="col">Fecha de Contratación</th>
+                <th class="empleados__encabezado" scope="col">Estado</th>
+                <th class="empleados__encabezado" scope="col">Supervisor</th>
+                <th class="empleados__encabezado" scope="col">Acciones</th>
+              </tr>
+            </thead>
+            <tbody class="empleados__tbody">
+              <tr class="empleados__fila">
+                <td class="empleados__celda">EMP-0001</td>
+                <td class="empleados__celda">Elena Vargas</td>
+                <td class="empleados__celda">Ingeniero Aeroespacial</td>
+                <td class="empleados__celda">Ingeniería Aeroespacial</td>
+                <td class="empleados__celda">elena.vargas@stellarix.com</td>
+                <td class="empleados__celda">+54 11 2345-6789</td>
+                <td class="empleados__celda">2024-05-14</td>
+                <td class="empleados__celda">Activo</td>
+                <td class="empleados__celda">Dr. Andrés Paredes</td>
+                <td class="empleados__celda">
+                  <button class="empleados__accion" type="button">Editar</button>
+                  <button class="empleados__accion empleados__accion--eliminar" type="button">Eliminar</button>
+                </td>
+              </tr>
+
+              <tr class="empleados__fila">
+                <td class="empleados__celda">EMP-0002</td>
+                <td class="empleados__celda">Marco Reyes</td>
+                <td class="empleados__celda">Ingeniero de Propulsión</td>
+                <td class="empleados__celda">Ingeniería Aeroespacial</td>
+                <td class="empleados__celda">marco.reyes@stellarix.com</td>
+                <td class="empleados__celda">+54 11 3456-7890</td>
+                <td class="empleados__celda">2024-08-03</td>
+                <td class="empleados__celda">Vacaciones</td>
+                <td class="empleados__celda">Dra. Elena Vargas</td>
+                <td class="empleados__celda">
+                  <button class="empleados__accion" type="button">Editar</button>
+                  <button class="empleados__accion empleados__accion--eliminar" type="button">Eliminar</button>
+                </td>
+              </tr>
+
+              <tr class="empleados__fila">
+                <td class="empleados__celda">EMP-0003</td>
+                <td class="empleados__celda">Sofía Herrera</td>
+                <td class="empleados__celda">Especialista en Satélites</td>
+                <td class="empleados__celda">Investigación y Desarrollo</td>
+                <td class="empleados__celda">sofia.herrera@stellarix.com</td>
+                <td class="empleados__celda">+54 11 4567-8901</td>
+                <td class="empleados__celda">2025-01-20</td>
+                <td class="empleados__celda">Activo</td>
+                <td class="empleados__celda">Dr. Marco Reyes</td>
+                <td class="empleados__celda">
+                  <button class="empleados__accion" type="button">Editar</button>
+                  <button class="empleados__accion empleados__accion--eliminar" type="button">Eliminar</button>
+                </td>
+              </tr>
+
+              <tr class="empleados__fila">
+                <td class="empleados__celda">EMP-0004</td>
+                <td class="empleados__celda">Carlos Medina</td>
+                <td class="empleados__celda">Técnico en Sistemas Espaciales</td>
+                <td class="empleados__celda">Operaciones de Misión</td>
+                <td class="empleados__celda">carlos.medina@stellarix.com</td>
+                <td class="empleados__celda">+54 11 5678-9012</td>
+                <td class="empleados__celda">2025-03-11</td>
+                <td class="empleados__celda">Permiso</td>
+                <td class="empleados__celda">Ing. Sofía Herrera</td>
+                <td class="empleados__celda">
+                  <button class="empleados__accion" type="button">Editar</button>
+                  <button class="empleados__accion empleados__accion--eliminar" type="button">Eliminar</button>
+                </td>
+              </tr>
+
+              <tr class="empleados__fila">
+                <td class="empleados__celda">EMP-0005</td>
+                <td class="empleados__celda">Andrés Paredes</td>
+                <td class="empleados__celda">Gerente de Misiones</td>
+                <td class="empleados__celda">Operaciones de Misión</td>
+                <td class="empleados__celda">andres.paredes@stellarix.com</td>
+                <td class="empleados__celda">+54 11 6789-0123</td>
+                <td class="empleados__celda">2023-09-27</td>
+                <td class="empleados__celda">Activo</td>
+                <td class="empleados__celda">Dirección General</td>
+                <td class="empleados__celda">
+                  <button class="empleados__accion" type="button">Editar</button>
+                  <button class="empleados__accion empleados__accion--eliminar" type="button">Eliminar</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+    </main>
+
+    <footer class="empleados__footer" role="contentinfo">
+      <p class="empleados__footer-text">Stellarix - Sistema de Gestión Empresarial © 2026</p>
+    </footer>
+
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="https://cdn.jsdelivr.net/npm/toastify-js@1.12.0/src/toastify.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
