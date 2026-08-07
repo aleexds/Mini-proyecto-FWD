@@ -964,3 +964,98 @@ body{
 .danger{
     background:#ef4444;
 }
+
+/*=============================
+        MODO OSCURO
+=============================*/
+
+body[data-theme="dark"] .dashboard__panel{
+    background:rgba(12,22,42,0.95);
+}
+
+body[data-theme="dark"] .dashboard__panel-title{
+    color:var(--text);
+}
+
+body[data-theme="dark"] .dashboard__metric{
+    background:rgba(19,43,74,0.55);
+    border-color:rgba(103,217,255,0.22);
+}
+
+body[data-theme="dark"] .dashboard__metric-label{
+    color:var(--text-light);
+}
+
+body[data-theme="dark"] .dashboard__metric-value{
+    color:#67d9ff;
+}
+
+body[data-theme="dark"] .supply-item{
+    background:rgba(19,43,74,0.55);
+    border-color:rgba(103,217,255,0.22);
+}
+
+body[data-theme="dark"] .supply-item span{
+    color:var(--text);
+}
+
+body[data-theme="dark"] .supply-item strong{
+    color:#67d9ff;
+}
+
+body[data-theme="dark"] .stat-box{
+    background:rgba(19,43,74,0.55);
+}
+
+body[data-theme="dark"] .stat-box h3{
+    color:#67d9ff;
+}
+
+body[data-theme="dark"] .stat-box span{
+    color:#9db0d4;
+}
+
+body[data-theme="dark"] .dashboard-table th{
+    color:#9db0d4;
+    border-bottom-color:rgba(103,217,255,0.22);
+}
+
+body[data-theme="dark"] .dashboard-table td{
+    color:var(--text);
+    border-bottom-color:rgba(103,217,255,0.22);
+}
+
+body[data-theme="dark"] .analytics-footer{
+    color:#9db0d4;
+}
+
+/*=============================
+        MODO CLARO
+=============================*/
+
+body[data-theme="light"]{
+    background:#f3f5fb;
+    color:#13264d;
+}
+
+body[data-theme="light"] .dashboard__card{
+    background:#ffffff;
+    border-color:#e4e8f1;
+}
+
+body[data-theme="light"] .dashboard__card-title{
+    color:#8692aa;
+}
+
+body[data-theme="light"] .dashboard__card-value{
+    color:#16376d;
+}
+
+body[data-theme="light"] .dashboard__welcome-title{
+    color:#13264d;
+}
+
+body[data-theme="light"] .dashboard__welcome-text,
+body[data-theme="light"] .dashboard__footer-text{
+    color:#8692aa;
+}
