@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Módulo de administración de inventario del Sistema de Gestión Empresarial Stellarix.">
+  <title>Administración de Inventario · Stellarix</title>
+  <link rel="stylesheet" href="inventario.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js@1.12.0/src/toastify.min.css">
+</head>
+<body>
+  <div class="inventario">
+
+    <header class="inventario__header" role="banner">
+      <div class="inventario__brand">
+        <h1 class="inventario__brand-name">Stellarix</h1>
+        <h2 class="inventario__title">Administración de Inventario</h2>
+      </div>
+
+      <div class="inventario__header-tools">
+        <form class="inventario__search" role="search" aria-label="Búsqueda">
+          <input class="inventario__search-input" type="search" placeholder="Buscar..." aria-label="Buscar en el sistema">
+        </form>
+        <button class="inventario__theme-toggle" type="button" aria-label="Cambiar tema" title="Cambiar tema"></button>
+      </div>
+
+      <nav class="inventario__nav" aria-label="Navegación principal">
+        <ul class="inventario__nav-list">
+          <li class="inventario__nav-item"><a class="inventario__nav-link" href="Dashboard.html">Dashboard</a></li>
+          <li class="inventario__nav-item"><a class="inventario__nav-link" href="Clientes.html">Clientes</a></li>
+          <li class="inventario__nav-item"><a class="inventario__nav-link" href="Misiones.html">Misiones</a></li>
+          <li class="inventario__nav-item"><a class="inventario__nav-link inventario__nav-link--active" href="Inventario.html" aria-current="page">Inventario</a></li>
+          <li class="inventario__nav-item"><a class="inventario__nav-link" href="#empleados">Empleados</a></li>
+          <li class="inventario__nav-item"><a class="inventario__nav-link" href="Reportes.html">Reportes</a></li>
+          <li class="inventario__nav-item"><a class="inventario__nav-link" href="#configuracion">Configuración</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <main class="inventario__main" id="contenido">
+
+      <section class="inventario__registro" aria-labelledby="titulo-registro">
+        <h2 class="inventario__section-title" id="titulo-registro">Registrar / Editar Elemento</h2>
+
+        <form class="inventario__form" id="inventarioForm" novalidate>
+          <fieldset class="inventario__fieldset">
+            <legend class="inventario__legend">Datos del Producto</legend>
+
+            <div class="inventario__campo">
+              <label class="inventario__label" for="inventarioId">ID del Inventario</label>
+              <input class="inventario__input" type="text" id="inventarioId" name="inventarioId" placeholder="INV-0001">
+            </div>
+
+            <div class="inventario__campo">
+              <label class="inventario__label" for="codigoProducto">Código del Producto</label>
+              <input class="inventario__input" type="text" id="codigoProducto" name="codigoProducto" placeholder="Ej: SX-100">
+            </div>
+
+            <div class="inventario__campo">
+              <label class="inventario__label" for="nombreProducto">Nombre del Producto</label>
+              <input class="inventario__input" type="text" id="nombreProducto" name="nombreProducto" placeholder="Ingresá el nombre del producto">
+            </div>
+
+            <div class="inventario__campo">
+              <label class="inventario__label" for="categoria">Categoría</label>
+              <input class="inventario__input" type="text" id="categoria" name="categoria" placeholder="Ingresá la categoría">
+            </div>
+
+            <div class="inventario__campo">
+              <label class="inventario__label" for="cantidad">Cantidad Disponible</label>
+              <input class="inventario__input" type="number" id="cantidad" name="cantidad" min="0" placeholder="Ingresá la cantidad disponible">
+            </div>
+
+            <div class="inventario__campo">
+              <label class="inventario__label" for="stockMinimo">Stock Mínimo</label>
+              <input class="inventario__input" type="number" id="stockMinimo" name="stockMinimo" min="0" placeholder="Ingresá el stock mínimo">
+            </div>
+
+            <div class="inventario__campo">
+              <label class="inventario__label" for="ubicacion">Ubicación en Almacén</label>
+              <input class="inventario__input" type="text" id="ubicacion" name="ubicacion" placeholder="Ej: Hangar B - Estante 4">
+            </div>
+
+            <div class="inventario__campo">
+              <label class="inventario__label" for="proveedor">Proveedor</label>
+              <input class="inventario__input" type="text" id="proveedor" name="proveedor" placeholder="Ingresá el proveedor">
+            </div>
+
+            <div class="inventario__campo">
+              <label class="inventario__label" for="fechaIngreso">Fecha de Ingreso</label>
+              <input class="inventario__input" type="date" id="fechaIngreso" name="fechaIngreso">
+            </div>
+
+            <div class="inventario__campo">
+              <label class="inventario__label" for="fechaActualizacion">Fecha de Última Actualización</label>
+              <input class="inventario__input" type="date" id="fechaActualizacion" name="fechaActualizacion">
+            </div>
+
+            <div class="inventario__campo">
+              <label class="inventario__label" for="estado">Estado</label>
+              <select class="inventario__input" id="estado" name="estado">
+                <option value="Disponible">Disponible</option>
+                <option value="Bajo Stock">Bajo Stock</option>
+                <option value="Agotado">Agotado</option>
+                <option value="En Reposición">En Reposición</option>
+              </select>
+            </div>
+
+            <div class="inventario__campo inventario__campo--observaciones">
+              <label class="inventario__label" for="observaciones">Observaciones</label>
+              <textarea class="inventario__input" id="observaciones" name="observaciones" rows="4" placeholder="Observaciones del producto"></textarea>
+            </div>
+          </fieldset>
+
+          <div class="inventario__acciones">
+            <button class="inventario__boton inventario__boton--registrar" type="submit">Registrar</button>
+            <button class="inventario__boton" type="button">Consultar</button>
+            <button class="inventario__boton" type="button">Editar</button>
+            <button class="inventario__boton inventario__boton--eliminar" type="button">Eliminar</button>
+            <button class="inventario__boton" type="reset">Limpiar</button>
+          </div>
+        </form>
+      </section>
+
+      <section class="inventario__resumen" aria-labelledby="titulo-resumen">
+        <h2 class="inventario__section-title" id="titulo-resumen">Resumen del Inventario</h2>
+
+        <div class="inventario__cards">
+          <article class="inventario__card">
+            <h3 class="inventario__card-title">Total de Productos</h3>
+            <p class="inventario__card-value">1.436</p>
+          </article>
+
+          <article class="inventario__card">
+            <h3 class="inventario__card-title">Productos Disponibles</h3>
+            <p class="inventario__card-value">1.128</p>
+          </article>
+
+          <article class="inventario__card">
+            <h3 class="inventario__card-title">Productos con Bajo Stock</h3>
+            <p class="inventario__card-value">212</p>
+          </article>
+
+          <article class="inventario__card">
+            <h3 class="inventario__card-title">Productos Agotados</h3>
+            <p class="inventario__card-value">96</p>
+          </article>
+
+          <article class="inventario__card">
+            <h3 class="inventario__card-title">Última Actualización</h3>
+            <p class="inventario__card-value">2026-08-07</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="inventario__lista" aria-labelledby="titulo-lista">
+        <h2 class="inventario__section-title" id="titulo-lista">Inventario General</h2>
+
+        <div class="inventario__tabla-wrap">
+          <table class="inventario__tabla">
+            <thead class="inventario__thead">
+              <tr class="inventario__fila">
+                <th class="inventario__encabezado" scope="col">ID</th>
+                <th class="inventario__encabezado" scope="col">Código</th>
+                <th class="inventario__encabezado" scope="col">Producto</th>
+                <th class="inventario__encabezado" scope="col">Categoría</th>
+                <th class="inventario__encabezado" scope="col">Cantidad</th>
+                <th class="inventario__encabezado" scope="col">Stock Mínimo</th>
+                <th class="inventario__encabezado" scope="col">Ubicación</th>
+                <th class="inventario__encabezado" scope="col">Proveedor</th>
+                <th class="inventario__encabezado" scope="col">Estado</th>
+                <th class="inventario__encabezado" scope="col">Fecha de Actualización</th>
+                <th class="inventario__encabezado" scope="col">Acciones</th>
+              </tr>
+            </thead>
+            <tbody class="inventario__tbody">
+              <tr class="inventario__fila">
+                <td class="inventario__celda">INV-0001</td>
+                <td class="inventario__celda">SX-100</td>
+                <td class="inventario__celda">Motor de Propulsión SX-100</td>
+                <td class="inventario__celda">Propulsión</td>
+                <td class="inventario__celda">85</td>
+                <td class="inventario__celda">20</td>
+                <td class="inventario__celda">Hangar A - Estante 1</td>
+                <td class="inventario__celda">AeroParts S.A.</td>
+                <td class="inventario__celda">Disponible</td>
+                <td class="inventario__celda">2026-08-05</td>
+                <td class="inventario__celda">
+                  <button class="inventario__accion" type="button">Editar</button>
+                  <button class="inventario__accion inventario__accion--eliminar" type="button">Eliminar</button>
+                </td>
+              </tr>
+
+              <tr class="inventario__fila">
+                <td class="inventario__celda">INV-0002</td>
+                <td class="inventario__celda">SP-22</td>
+                <td class="inventario__celda">Panel Solar Orbital SP-22</td>
+                <td class="inventario__celda">Energía</td>
+                <td class="inventario__celda">12</td>
+                <td class="inventario__celda">30</td>
+                <td class="inventario__celda">Hangar B - Estante 4</td>
+                <td class="inventario__celda">SolarTech Orbital</td>
+                <td class="inventario__celda">Bajo Stock</td>
+                <td class="inventario__celda">2026-08-04</td>
+                <td class="inventario__celda">
+                  <button class="inventario__accion" type="button">Editar</button>
+                  <button class="inventario__accion inventario__accion--eliminar" type="button">Eliminar</button>
+                </td>
+              </tr>
+
+              <tr class="inventario__fila">
+                <td class="inventario__celda">INV-0003</td>
+                <td class="inventario__celda">NS-9</td>
+                <td class="inventario__celda">Sensor de Navegación NS-9</td>
+                <td class="inventario__celda">Navegación</td>
+                <td class="inventario__celda">0</td>
+                <td class="inventario__celda">15</td>
+                <td class="inventario__celda">Laboratorio C - Módulo 2</td>
+                <td class="inventario__celda">NavSystems Ltd.</td>
+                <td class="inventario__celda">Agotado</td>
+                <td class="inventario__celda">2026-07-30</td>
+                <td class="inventario__celda">
+                  <button class="inventario__accion" type="button">Editar</button>
+                  <button class="inventario__accion inventario__accion--eliminar" type="button">Eliminar</button>
+                </td>
+              </tr>
+
+              <tr class="inventario__fila">
+                <td class="inventario__celda">INV-0004</td>
+                <td class="inventario__celda">MC-300</td>
+                <td class="inventario__celda">Módulo de Comunicación Satelital MC-300</td>
+                <td class="inventario__celda">Comunicaciones</td>
+                <td class="inventario__celda">48</td>
+                <td class="inventario__celda">10</td>
+                <td class="inventario__celda">Centro de Control - Estante 7</td>
+                <td class="inventario__celda">CommsAero</td>
+                <td class="inventario__celda">Disponible</td>
+                <td class="inventario__celda">2026-08-06</td>
+                <td class="inventario__celda">
+                  <button class="inventario__accion" type="button">Editar</button>
+                  <button class="inventario__accion inventario__accion--eliminar" type="button">Eliminar</button>
+                </td>
+              </tr>
+
+              <tr class="inventario__fila">
+                <td class="inventario__celda">INV-0005</td>
+                <td class="inventario__celda">BL-80</td>
+                <td class="inventario__celda">Batería de Litio Espacial BL-80</td>
+                <td class="inventario__celda">Energía</td>
+                <td class="inventario__celda">64</td>
+                <td class="inventario__celda">25</td>
+                <td class="inventario__celda">Hangar A - Estante 3</td>
+                <td class="inventario__celda">EnergyCell Inc.</td>
+                <td class="inventario__celda">En Reposición</td>
+                <td class="inventario__celda">2026-08-03</td>
+                <td class="inventario__celda">
+                  <button class="inventario__accion" type="button">Editar</button>
+                  <button class="inventario__accion inventario__accion--eliminar" type="button">Eliminar</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+    </main>
+
+    <footer class="inventario__footer" role="contentinfo">
+      <p class="inventario__footer-text">Stellarix - Sistema de Gestión Empresarial © 2026</p>
+    </footer>
+
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="https://cdn.jsdelivr.net/npm/toastify-js@1.12.0/src/toastify.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
