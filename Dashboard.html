@@ -11,6 +11,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
 <link rel="stylesheet" href="dashboard.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js@1.12.0/src/toastify.min.css">
 </head>
 <body>
   <div class="dashboard">
@@ -41,7 +42,12 @@
 
       <div class="dashboard__sidebar-footer">
         <div class="dashboard__user">
-          <span class="dashboard__user-initials" aria-hidden="true">MP</span>
+          <div class="dashboard__avatar-shell">
+            <img class="dashboard__user-avatar" id="profile-avatar" alt="Foto de perfil" hidden>
+            <span class="dashboard__user-initials" id="profile-initials" aria-hidden="true">MP</span>
+            <button class="dashboard__avatar-button" id="change-avatar-button" type="button" title="Cambiar foto de perfil">✎</button>
+          </div>
+            <input class="dashboard__avatar-input" id="avatar-file-input" type="file" accept="image/*" hidden>
           <div class="dashboard__user-info">
             <p class="dashboard__user-name">María Pérez</p>
             <p class="dashboard__user-role">Administradora</p>
@@ -336,6 +342,7 @@
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="https://cdn.jsdelivr.net/npm/toastify-js@1.12.0/src/toastify.min.js"></script>
   <script src="script.js"></script>
 </body>
 </html>
