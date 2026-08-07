@@ -40,7 +40,7 @@ body {
   width: 100%;
   max-width: 1040px;
   min-height: 620px;
-  background: linear-gradient(135deg, rgba(255,255,255,0.96) 0%, rgba(8,16,33,0.96) 100%);
+  background: linear-gradient(135deg, rgba(0, 0, 0, 0.96) 0%, rgba(8,16,33,0.96) 100%);
   border-radius: var(--radius-lg);
   overflow: hidden;
   box-shadow: 0 35px 80px -20px rgba(0, 0, 0, 0.45);
@@ -109,6 +109,46 @@ body {
   text-transform: uppercase;
 }
 
+/* ---------- Registro y Login: todas las letras en negro ---------- */
+
+.login-page .login-panel-inner h1,
+.registro-page .login-panel-inner h1,
+.login-page .form-group label,
+.registro-page .form-group label,
+.login-page .input-wrapper input,
+.registro-page .input-wrapper input,
+.login-page .login-brand-name,
+.registro-page .login-brand-name,
+.login-page .login-brand-tagline,
+.registro-page .login-brand-tagline {
+  color: #000000;
+}
+
+.login-page .input-wrapper input::placeholder,
+.registro-page .input-wrapper input::placeholder {
+  color: #4a5568;
+}
+
+.login-page .input-wrapper input,
+.registro-page .input-wrapper input {
+  background: #ffffff;
+}
+
+.login-page .input-icon,
+.registro-page .input-icon {
+  color: #4a5568;
+}
+
+.login-page .login-footer,
+.registro-page .login-footer {
+  color: #4a5568;
+}
+
+.login-page .login-footer a,
+.registro-page .login-footer a {
+  color: #000000;
+}
+
 /* ---------- Panel derecho: formulario ---------- */
 
 .login-panel {
@@ -150,7 +190,7 @@ body {
   border-radius: 16px;
   background: var(--navy-dark);
   color: var(--accent-cyan);
-  box-shadow: 0 10px 20px -8px rgba(14, 27, 48, 0.45);
+  box-shadow: 0 10px 20px -8px rgb(255, 255, 255);
   margin-bottom: 12px;
 }
 
@@ -510,6 +550,153 @@ body {
   text-align: center;
   color: var(--text-muted);
   font-size: 13px;
+}
+
+/* ---------- Modo oscuro ---------- */
+
+body[data-theme="dark"] {
+  background: linear-gradient(135deg, #040816 0%, #07111f 45%, #0d1830 100%);
+  color: #f3f7ff;
+}
+
+body[data-theme="dark"] .login-container {
+  background: linear-gradient(135deg, rgba(0, 0, 0, 0.96) 0%, rgba(8, 16, 33, 0.96) 100%);
+  border-color: rgba(103, 217, 255, 0.25);
+}
+
+body[data-theme="dark"] .login-panel {
+  background-color: #ffffff;
+}
+
+body[data-theme="dark"] .login-panel-inner h1,
+body[data-theme="dark"] .form-group label,
+body[data-theme="dark"] .input-wrapper input,
+body[data-theme="dark"] .login-brand-name,
+body[data-theme="dark"] .login-brand-tagline,
+body[data-theme="dark"] .login-footer a {
+  color: #000000;
+}
+
+body[data-theme="dark"] .input-wrapper input {
+  background: #ffffff;
+  border-color: var(--border-light);
+}
+
+body[data-theme="dark"] .input-wrapper input::placeholder,
+body[data-theme="dark"] .input-icon,
+body[data-theme="dark"] .login-footer {
+  color: #4a5568;
+}
+
+body[data-theme="dark"] .clientes,
+body[data-theme="dark"] .productos,
+body[data-theme="dark"] .proveedores,
+body[data-theme="dark"] .misiones {
+  background: linear-gradient(135deg, #040816 0%, #07111f 45%, #0d1830 100%);
+  color: #f3f7ff;
+}
+
+body[data-theme="dark"] .clientes__header,
+body[data-theme="dark"] .productos__header,
+body[data-theme="dark"] .proveedores__header,
+body[data-theme="dark"] .clientes__registro,
+body[data-theme="dark"] .productos__registro,
+body[data-theme="dark"] .proveedores__registro,
+body[data-theme="dark"] .clientes__lista,
+body[data-theme="dark"] .productos__lista,
+body[data-theme="dark"] .proveedores__lista {
+  background: rgba(13, 24, 48, 0.95);
+  border: 1px solid rgba(103, 217, 255, 0.22);
+  color: #f3f7ff;
+}
+
+body[data-theme="dark"] .clientes__title,
+body[data-theme="dark"] .productos__title,
+body[data-theme="dark"] .proveedores__title,
+body[data-theme="dark"] .clientes__section-title,
+body[data-theme="dark"] .productos__section-title,
+body[data-theme="dark"] .proveedores__section-title,
+body[data-theme="dark"] .clientes__label,
+body[data-theme="dark"] .productos__label,
+body[data-theme="dark"] .proveedores__label {
+  color: #f3f7ff;
+}
+
+body[data-theme="dark"] .clientes__nav-link,
+body[data-theme="dark"] .productos__nav-link,
+body[data-theme="dark"] .proveedores__nav-link {
+  color: #9db0d4;
+}
+
+body[data-theme="dark"] .clientes__nav-link:hover,
+body[data-theme="dark"] .productos__nav-link:hover,
+body[data-theme="dark"] .proveedores__nav-link:hover {
+  background: rgba(19, 43, 74, 0.6);
+  color: #f3f7ff;
+}
+
+body[data-theme="dark"] .clientes__input,
+body[data-theme="dark"] .productos__input,
+body[data-theme="dark"] .proveedores__input {
+  background: #0d1830;
+  border-color: rgba(103, 217, 255, 0.22);
+  color: #f3f7ff;
+}
+
+body[data-theme="dark"] .clientes__input:focus,
+body[data-theme="dark"] .productos__input:focus,
+body[data-theme="dark"] .proveedores__input:focus {
+  background: #0d1830;
+  border-color: #67d9ff;
+}
+
+body[data-theme="dark"] .clientes__thead,
+body[data-theme="dark"] .productos__thead,
+body[data-theme="dark"] .proveedores__thead {
+  background: rgba(19, 43, 74, 0.6);
+}
+
+body[data-theme="dark"] .clientes__encabezado,
+body[data-theme="dark"] .productos__encabezado,
+body[data-theme="dark"] .proveedores__encabezado {
+  color: #9db0d4;
+  border-bottom-color: rgba(103, 217, 255, 0.22);
+}
+
+body[data-theme="dark"] .clientes__celda,
+body[data-theme="dark"] .productos__celda,
+body[data-theme="dark"] .proveedores__celda {
+  color: #f3f7ff;
+  border-bottom-color: rgba(103, 217, 255, 0.22);
+}
+
+body[data-theme="dark"] .clientes__fila:hover,
+body[data-theme="dark"] .productos__fila:hover,
+body[data-theme="dark"] .proveedores__fila:hover {
+  background: rgba(19, 43, 74, 0.4);
+}
+
+body[data-theme="dark"] .clientes__footer,
+body[data-theme="dark"] .productos__footer,
+body[data-theme="dark"] .proveedores__footer {
+  color: #9db0d4;
+}
+
+/* ---------- Modo claro ---------- */
+
+body[data-theme="light"] {
+  background: #f3f5fb;
+  color: #13264d;
+}
+
+body[data-theme="light"] .login-container {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.98) 0%, rgba(240, 245, 255, 0.98) 100%);
+  border-color: #e4e8f1;
+  box-shadow: 0 35px 80px -20px rgba(15, 27, 48, 0.25);
+}
+
+body[data-theme="light"] .login-panel {
+  background-color: #ffffff;
 }
 
 /* ---------- Responsive ---------- */
