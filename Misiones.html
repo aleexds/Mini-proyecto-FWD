@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Módulo de administración de misiones del Sistema de Gestión Empresarial Stellarix.">
+  <title>Administración de Misiones · Stellarix</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js@1.12.0/src/toastify.min.css">
+</head>
+<body>
+  <div class="misiones">
+
+    <header class="misiones__header" role="banner">
+      <h1 class="misiones__brand">Stellarix</h1>
+      <h2 class="misiones__title">Administración de Misiones</h2>
+
+      <nav class="misiones__nav" aria-label="Navegación principal">
+        <ul class="misiones__nav-list">
+          <li class="misiones__nav-item"><a class="misiones__nav-link" href="Dashboard.html">Dashboard</a></li>
+          <li class="misiones__nav-item"><a class="misiones__nav-link" href="Clientes.html">Clientes</a></li>
+          <li class="misiones__nav-item"><a class="misiones__nav-link" href="Productos.html">Productos</a></li>
+          <li class="misiones__nav-item"><a class="misiones__nav-link" href="Proveedores.html">Proveedores</a></li>
+          <li class="misiones__nav-item"><a class="misiones__nav-link misiones__nav-link--active" href="Misiones.html" aria-current="page">Misiones</a></li>
+          <li class="misiones__nav-item"><a class="misiones__nav-link" href="#inventario">Inventario</a></li>
+          <li class="misiones__nav-item"><a class="misiones__nav-link" href="#empleados">Empleados</a></li>
+          <li class="misiones__nav-item"><a class="misiones__nav-link" href="#reportes">Reportes</a></li>
+          <li class="misiones__nav-item"><a class="misiones__nav-link" href="#configuracion">Configuración</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <main class="misiones__main" id="contenido">
+
+      <section class="misiones__registro" aria-labelledby="titulo-registro">
+        <h2 class="misiones__section-title" id="titulo-registro">Registrar / Editar Misión</h2>
+
+        <form class="misiones__form" id="misionForm" novalidate>
+          <fieldset class="misiones__fieldset">
+            <legend class="misiones__legend">Datos Generales de la Misión</legend>
+
+            <div class="misiones__campo">
+              <label class="misiones__label" for="misionId">ID de la Misión</label>
+              <input class="misiones__input" type="text" id="misionId" name="misionId" placeholder="MIS-0001">
+            </div>
+
+            <div class="misiones__campo">
+              <label class="misiones__label" for="nombre">Nombre de la Misión</label>
+              <input class="misiones__input" type="text" id="nombre" name="nombre" placeholder="Ingresá el nombre de la misión">
+            </div>
+
+            <div class="misiones__campo">
+              <label class="misiones__label" for="codigo">Código de la Misión</label>
+              <input class="misiones__input" type="text" id="codigo" name="codigo" placeholder="Ej: STX-AUR-01">
+            </div>
+
+            <div class="misiones__campo">
+              <label class="misiones__label" for="objetivo">Objetivo de la Misión</label>
+              <textarea class="misiones__input" id="objetivo" name="objetivo" rows="3" placeholder="Describí el objetivo principal de la misión"></textarea>
+            </div>
+
+            <div class="misiones__campo">
+              <label class="misiones__label" for="tipo">Tipo de Misión</label>
+              <select class="misiones__input" id="tipo" name="tipo">
+                <option value="">Seleccioná un tipo</option>
+                <option value="Orbital">Orbital</option>
+                <option value="Lunar">Lunar</option>
+                <option value="Marciana">Marciana</option>
+                <option value="Satelital">Satelital</option>
+                <option value="Investigación">Investigación</option>
+                <option value="Exploración">Exploración</option>
+              </select>
+            </div>
+
+            <div class="misiones__campo">
+              <label class="misiones__label" for="fechaInicio">Fecha de Inicio</label>
+              <input class="misiones__input" type="date" id="fechaInicio" name="fechaInicio">
+            </div>
+
+            <div class="misiones__campo">
+              <label class="misiones__label" for="fechaFin">Fecha de Finalización</label>
+              <input class="misiones__input" type="date" id="fechaFin" name="fechaFin">
+            </div>
+
+            <div class="misiones__campo">
+              <label class="misiones__label" for="estado">Estado</label>
+              <select class="misiones__input" id="estado" name="estado">
+                <option value="Planificada">Planificada</option>
+                <option value="En Preparación">En Preparación</option>
+                <option value="En Ejecución">En Ejecución</option>
+                <option value="Finalizada">Finalizada</option>
+                <option value="Cancelada">Cancelada</option>
+              </select>
+            </div>
+          </fieldset>
+
+          <fieldset class="misiones__fieldset">
+            <legend class="misiones__legend">Asignación y Recursos</legend>
+
+            <div class="misiones__campo">
+              <label class="misiones__label" for="director">Director de la Misión</label>
+              <input class="misiones__input" type="text" id="director" name="director" placeholder="Ingresá el director responsable">
+            </div>
+
+            <div class="misiones__campo">
+              <label class="misiones__label" for="equipo">Equipo Responsable</label>
+              <input class="misiones__input" type="text" id="equipo" name="equipo" placeholder="Ingresá el equipo a cargo">
+            </div>
+
+            <div class="misiones__campo">
+              <label class="misiones__label" for="presupuesto">Presupuesto</label>
+              <input class="misiones__input" type="number" id="presupuesto" name="presupuesto" min="0" step="0.01" placeholder="Ingresá el presupuesto asignado (USD)">
+            </div>
+
+            <div class="misiones__campo">
+              <label class="misiones__label" for="vehiculo">Vehículo Espacial</label>
+              <input class="misiones__input" type="text" id="vehiculo" name="vehiculo" placeholder="Ingresá el vehículo de lanzamiento">
+            </div>
+
+            <div class="misiones__campo">
+              <label class="misiones__label" for="lanzamiento">Lugar de Lanzamiento</label>
+              <input class="misiones__input" type="text" id="lanzamiento" name="lanzamiento" placeholder="Ingresá el lugar de lanzamiento">
+            </div>
+
+            <div class="misiones__campo misiones__campo--observaciones">
+              <label class="misiones__label" for="observaciones">Observaciones</label>
+              <textarea class="misiones__input" id="observaciones" name="observaciones" rows="4" placeholder="Observaciones adicionales de la misión"></textarea>
+            </div>
+          </fieldset>
+
+          <div class="misiones__acciones">
+            <button class="misiones__boton misiones__boton--registrar" type="submit">Registrar</button>
+            <button class="misiones__boton" type="button">Consultar</button>
+            <button class="misiones__boton" type="button">Editar</button>
+            <button class="misiones__boton misiones__boton--eliminar" type="button">Eliminar</button>
+            <button class="misiones__boton" type="reset">Limpiar</button>
+          </div>
+        </form>
+      </section>
+
+      <section class="misiones__lista" aria-labelledby="titulo-lista">
+        <h2 class="misiones__section-title" id="titulo-lista">Misiones Registradas</h2>
+
+        <div class="misiones__tabla-wrap">
+          <table class="misiones__tabla">
+            <thead class="misiones__thead">
+              <tr class="misiones__fila">
+                <th class="misiones__encabezado" scope="col">ID</th>
+                <th class="misiones__encabezado" scope="col">Nombre de la Misión</th>
+                <th class="misiones__encabezado" scope="col">Código</th>
+                <th class="misiones__encabezado" scope="col">Tipo</th>
+                <th class="misiones__encabezado" scope="col">Director</th>
+                <th class="misiones__encabezado" scope="col">Vehículo Espacial</th>
+                <th class="misiones__encabezado" scope="col">Estado</th>
+                <th class="misiones__encabezado" scope="col">Fecha de Inicio</th>
+                <th class="misiones__encabezado" scope="col">Fecha de Finalización</th>
+                <th class="misiones__encabezado" scope="col">Acciones</th>
+              </tr>
+            </thead>
+            <tbody class="misiones__tbody">
+              <tr class="misiones__fila">
+                <td class="misiones__celda">MIS-0001</td>
+                <td class="misiones__celda">Misión Aurora I</td>
+                <td class="misiones__celda">STX-AUR-01</td>
+                <td class="misiones__celda">Satelital</td>
+                <td class="misiones__celda">Dra. Elena Vargas</td>
+                <td class="misiones__celda">Cohete Vega XL</td>
+                <td class="misiones__celda">En Ejecución</td>
+                <td class="misiones__celda">2026-01-15</td>
+                <td class="misiones__celda">2026-08-30</td>
+                <td class="misiones__celda">
+                  <button class="misiones__accion" type="button">Editar</button>
+                  <button class="misiones__accion misiones__accion--eliminar" type="button">Eliminar</button>
+                </td>
+              </tr>
+
+              <tr class="misiones__fila">
+                <td class="misiones__celda">MIS-0002</td>
+                <td class="misiones__celda">Proyecto Helios</td>
+                <td class="misiones__celda">STX-HEL-02</td>
+                <td class="misiones__celda">Orbital</td>
+                <td class="misiones__celda">Dr. Marco Reyes</td>
+                <td class="misiones__celda">Lanzadera Águila I</td>
+                <td class="misiones__celda">En Preparación</td>
+                <td class="misiones__celda">2026-03-01</td>
+                <td class="misiones__celda">2027-01-20</td>
+                <td class="misiones__celda">
+                  <button class="misiones__accion" type="button">Editar</button>
+                  <button class="misiones__accion misiones__accion--eliminar" type="button">Eliminar</button>
+                </td>
+              </tr>
+
+              <tr class="misiones__fila">
+                <td class="misiones__celda">MIS-0003</td>
+                <td class="misiones__celda">Misión Nova Explorer</td>
+                <td class="misiones__celda">STX-NOV-03</td>
+                <td class="misiones__celda">Lunar</td>
+                <td class="misiones__celda">Ing. Sofía Herrera</td>
+                <td class="misiones__celda">Halcón Espacial III</td>
+                <td class="misiones__celda">Planificada</td>
+                <td class="misiones__celda">2026-09-10</td>
+                <td class="misiones__celda">2027-04-05</td>
+                <td class="misiones__celda">
+                  <button class="misiones__accion" type="button">Editar</button>
+                  <button class="misiones__accion misiones__accion--eliminar" type="button">Eliminar</button>
+                </td>
+              </tr>
+
+              <tr class="misiones__fila">
+                <td class="misiones__celda">MIS-0004</td>
+                <td class="misiones__celda">Proyecto Orion Deep Space</td>
+                <td class="misiones__celda">STX-ORI-04</td>
+                <td class="misiones__celda">Investigación</td>
+                <td class="misiones__celda">Dr. Andrés Paredes</td>
+                <td class="misiones__celda">Nave Centauro X</td>
+                <td class="misiones__celda">Finalizada</td>
+                <td class="misiones__celda">2024-11-20</td>
+                <td class="misiones__celda">2026-02-28</td>
+                <td class="misiones__celda">
+                  <button class="misiones__accion" type="button">Editar</button>
+                  <button class="misiones__accion misiones__accion--eliminar" type="button">Eliminar</button>
+                </td>
+              </tr>
+
+              <tr class="misiones__fila">
+                <td class="misiones__celda">MIS-0005</td>
+                <td class="misiones__celda">Misión Atlas Mars</td>
+                <td class="misiones__celda">STX-ATL-05</td>
+                <td class="misiones__celda">Marciana</td>
+                <td class="misiones__celda">Dra. Valeria Mendoza</td>
+                <td class="misiones__celda">Atlas Heavy Rocket</td>
+                <td class="misiones__celda">En Preparación</td>
+                <td class="misiones__celda">2027-01-12</td>
+                <td class="misiones__celda">2028-12-15</td>
+                <td class="misiones__celda">
+                  <button class="misiones__accion" type="button">Editar</button>
+                  <button class="misiones__accion misiones__accion--eliminar" type="button">Eliminar</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+    </main>
+
+    <footer class="misiones__footer" role="contentinfo">
+      <p class="misiones__footer-text">Stellarix - Sistema de Gestión Empresarial © 2026</p>
+    </footer>
+
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="https://cdn.jsdelivr.net/npm/toastify-js@1.12.0/src/toastify.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
