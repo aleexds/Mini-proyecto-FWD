@@ -269,7 +269,7 @@
   }
 
   function setupDashboard() {
-    if (pageName !== 'Dashboard.html') return;
+    if (pageName.toLowerCase() !== 'dashboard.html') return;
     const activeUser = getActiveUser();
     if (!activeUser) {
       Swal.fire({ title: 'Sesión requerida', text: 'Debes iniciar sesión primero.', icon: 'warning' }).then(() => {
@@ -495,7 +495,7 @@
   }
 
   function setupModuleForms() {
-    if (pageName === 'Clientes.html') {
+    if (pageName.toLowerCase() === 'clientes.html') {
       const form = document.getElementById('clienteForm');
       const tbody = document.querySelector('.clientes__tbody');
       if (!form || !tbody) return;
@@ -538,7 +538,7 @@
       });
     }
 
-    if (pageName === 'Productos.html') {
+    if (pageName.toLowerCase() === 'productos.html') {
       const form = document.getElementById('productoForm');
       const tbody = document.querySelector('.productos__tbody');
       if (!form || !tbody) return;
@@ -581,7 +581,7 @@
       });
     }
 
-    if (pageName === 'Proveedores.html') {
+    if (pageName.toLowerCase() === 'proveedores.html') {
       const form = document.getElementById('proveedorForm');
       const tbody = document.querySelector('.proveedores__tbody');
       if (!form || !tbody) return;
@@ -643,8 +643,6 @@
     const savedTheme = readStorage(STORAGE_KEYS.theme, null);
     const initialTheme = savedTheme === 'light' ? 'light' : 'dark';
     document.body.dataset.theme = initialTheme;
-    document.body.style.background = initialTheme === 'dark' ? '#07111f' : '#f4f7ff';
-    document.body.style.color = initialTheme === 'dark' ? '#f3f6ff' : '#132035';
 
     const themeButton = document.createElement('button');
     themeButton.type = 'button';
@@ -656,15 +654,13 @@
     themeButton.addEventListener('click', () => {
       const next = document.body.dataset.theme === 'dark' ? 'light' : 'dark';
       document.body.dataset.theme = next;
-      document.body.style.background = next === 'dark' ? '#07111f' : '#f4f7ff';
-      document.body.style.color = next === 'dark' ? '#f3f6ff' : '#132035';
       themeButton.textContent = next === 'dark' ? '☀️' : '🌙';
       writeStorage(STORAGE_KEYS.theme, next);
-      (next === 'dark' ? 'Modo oscuro activado' : 'Modo claro activado', 'info');
+      showToast(next === 'dark' ? 'Modo oscuro activado' : 'Modo claro activado', 'info');
     });
     toolbar.appendChild(themeButton);
 
-    if (pageName === 'Dashboard.html') {
+    if (pageName.toLowerCase() === 'dashboard.html') {
       const searchInput = document.createElement('input');
       searchInput.placeholder = 'Buscar...';
       searchInput.style.border = 'none';
