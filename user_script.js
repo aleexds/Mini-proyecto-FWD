@@ -3,7 +3,8 @@
     users: 'fwd-registered-users',
     activeUser: 'fwd-active-user',
     theme: 'fwd-user-theme',
-    orders: 'fwd-user-orders'
+    orders: 'fwd-user-orders',
+    cart: 'fwd-user-cart'
   };
 
   const defaultUser = {
@@ -57,6 +58,15 @@
     }).showToast();
   }
 
+  function getCart() {
+    return readStorage(STORAGE_KEYS.cart, []);
+  }
+
+  function saveCart(cart) {
+    writeStorage(STORAGE_KEYS.cart, cart);
+    updateCartUI();
+  }
+
   function setupUserProfile() {
     const activeUser = getActiveUser();
     const welcomeTitle = document.getElementById('titulo-bienvenida');
@@ -104,19 +114,209 @@
     }
   }
 
-  function setupCatalogSearch() {
+  function setupCatalogFiltering() {
     const searchInput = document.getElementById('catalog-filter');
+    const categoryTabs = document.querySelectorAll('.category-tab');
     const catalogCards = document.querySelectorAll('.product-card');
+
+    let activeCategory = 'all';
+    let searchTerm = '';
+
+    function filterCatalog() {
+      catalogCards.forEach((card) => {
+        const matchesCategory = activeCategory === 'all' || card.dataset.category === activeCategory;
+        const text = (card.dataset.name || card.textContent).toLowerCase();
+        const matchesSearch = !searchTerm || text.includes(searchTerm);
+
+        card.style.display = matchesCategory && matchesSearch ? '' : 'none';
+      });
+    }
 
     if (searchInput) {
       searchInput.addEventListener('input', (e) => {
-        const term = e.target.value.toLowerCase().trim();
-        catalogCards.forEach((card) => {
-          const text = (card.dataset.name || card.textContent).toLowerCase();
-          card.style.display = !term || text.includes(term) ? '' : 'none';
-        });
+        searchTerm = e.target.value.toLowerCase().trim();
+        filterCatalog();
       });
     }
+
+    categoryTabs.forEach((tab) => {
+      tab.addEventListener('click', () => {
+        categoryTabs.forEach((t) => t.classList.remove('category-tab--active'));
+        tab.classList.add('category-tab--active');
+        activeCategory = tab.dataset.category || 'all';
+        filterCatalog();
+      });
+    });
+  }
+
+  function updateCartUI() {
+    const cart = getCart();
+    const cartCountEl = document.getElementById('cart-count');
+    const cartContainer = document.getElementById('cart-items-container');
+    const subtotalEl = document.getElementById('cart-subtotal');
+    const totalEl = document.getElementById('cart-total');
+
+    const totalQty = cart.reduce((sum, item) => sum + (item.qty || 1), 0);
+    if (cartCountEl) cartCountEl.textContent = totalQty;
+
+    if (!cartContainer) return;
+
+    if (cart.length === 0) {
+      cartContainer.innerHTML = `
+        <div class="cart-empty-state">
+          <div class="cart-empty-icon">🛒</div>
+          <p>Su carrito aeroespacial está vacío.</p>
+          <small>Añada componentes del catálogo o misiones para cotizar en conjunto.</small>
+        </div>
+      `;
+      if (subtotalEl) subtotalEl.textContent = '$ 0.00 USD';
+      if (totalEl) totalEl.textContent = '$ 0.00 USD';
+      return;
+    }
+
+    cartContainer.innerHTML = '';
+    let grandTotal = 0;
+
+    cart.forEach((item) => {
+      const itemTotal = item.price * item.qty;
+      grandTotal += itemTotal;
+
+      const row = document.createElement('div');
+      row.className = 'cart-item-row';
+      row.innerHTML = `
+        <img class="cart-item-img" src="${item.img || 'https://images.unsplash.com/photo-1517976487492-5750f3195933?w=200&q=80'}" alt="${item.name}">
+        <div class="cart-item-info">
+          <div class="cart-item-title">${item.name}</div>
+          <div class="cart-item-price">$ ${item.price.toLocaleString('es-AR')} USD c/u</div>
+          <div class="cart-item-qty-wrap">
+            <button class="cart-qty-btn qty-minus" data-id="${item.id}" type="button">-</button>
+            <span class="cart-qty-num">${item.qty}</span>
+            <button class="cart-qty-btn qty-plus" data-id="${item.id}" type="button">+</button>
+          </div>
+        </div>
+        <button class="cart-item-remove remove-item" data-id="${item.id}" title="Eliminar del carrito" type="button">🗑️</button>
+      `;
+
+      cartContainer.appendChild(row);
+    });
+
+    const formattedTotal = `$ ${grandTotal.toLocaleString('es-AR', { minimumFractionDigits: 2 })} USD`;
+    if (subtotalEl) subtotalEl.textContent = formattedTotal;
+    if (totalEl) totalEl.textContent = formattedTotal;
+
+    cartContainer.querySelectorAll('.qty-minus').forEach((btn) => {
+      btn.addEventListener('click', () => changeCartQty(btn.dataset.id, -1));
+    });
+
+    cartContainer.querySelectorAll('.qty-plus').forEach((btn) => {
+      btn.addEventListener('click', () => changeCartQty(btn.dataset.id, 1));
+    });
+
+    cartContainer.querySelectorAll('.remove-item').forEach((btn) => {
+      btn.addEventListener('click', () => removeCartItem(btn.dataset.id));
+    });
+  }
+
+  function addProductToCart(id, name, price, img) {
+    const cart = getCart();
+    const existing = cart.find((item) => item.id === id);
+
+    if (existing) {
+      existing.qty = (existing.qty || 1) + 1;
+    } else {
+      cart.push({ id, name, price, img, qty: 1 });
+    }
+
+    saveCart(cart);
+    showToast(`🛒 "${name}" añadido al carrito`, 'success');
+  }
+
+  function changeCartQty(id, delta) {
+    const cart = getCart();
+    const item = cart.find((i) => i.id === id);
+    if (!item) return;
+
+    item.qty = (item.qty || 1) + delta;
+    if (item.qty <= 0) {
+      removeCartItem(id);
+      return;
+    }
+
+    saveCart(cart);
+  }
+
+  function removeCartItem(id) {
+    let cart = getCart();
+    cart = cart.filter((i) => i.id !== id);
+    saveCart(cart);
+    showToast('Artículo removido del carrito', 'info');
+  }
+
+  function clearCart() {
+    saveCart([]);
+    showToast('Carrito vaciado', 'info');
+  }
+
+  function setupCartDrawer() {
+    const drawerOverlay = document.getElementById('cart-drawer-overlay');
+    const openCartBtn = document.getElementById('open-cart-btn');
+    const closeCartBtn = document.getElementById('close-cart-btn');
+    const clearCartBtn = document.getElementById('clear-cart-btn');
+    const checkoutCartBtn = document.getElementById('checkout-cart-btn');
+
+    function openDrawer() {
+      if (!drawerOverlay) return;
+      updateCartUI();
+      drawerOverlay.hidden = false;
+    }
+
+    function closeDrawer() {
+      if (!drawerOverlay) return;
+      drawerOverlay.hidden = true;
+    }
+
+    if (openCartBtn) openCartBtn.addEventListener('click', openDrawer);
+    if (closeCartBtn) closeCartBtn.addEventListener('click', closeDrawer);
+    if (clearCartBtn) clearCartBtn.addEventListener('click', clearCart);
+
+    if (checkoutCartBtn) {
+      checkoutCartBtn.addEventListener('click', () => {
+        const cart = getCart();
+        if (cart.length === 0) {
+          Swal.fire({ title: 'Carrito Vacío', text: 'Agregue productos o misiones antes de proceder al contrato.', icon: 'warning' });
+          return;
+        }
+
+        const summaryNames = cart.map((i) => `${i.name} (x${i.qty})`).join(', ');
+        const grandTotal = cart.reduce((sum, i) => sum + i.price * i.qty, 0);
+
+        closeDrawer();
+
+        const modal = document.getElementById('purchase-modal');
+        const itemNameInput = document.getElementById('modal-item-name');
+        const quantityInput = document.getElementById('modal-quantity');
+        const unitPriceInput = document.getElementById('modal-unit-price');
+        const totalDisplay = document.getElementById('modal-total-display');
+
+        if (itemNameInput) itemNameInput.value = `Orden Consolidada: ${summaryNames}`;
+        if (quantityInput) quantityInput.value = 1;
+        if (unitPriceInput) unitPriceInput.value = grandTotal;
+        if (totalDisplay) totalDisplay.textContent = `$ ${grandTotal.toLocaleString('es-AR', { minimumFractionDigits: 2 })} USD`;
+
+        if (modal) modal.hidden = false;
+      });
+    }
+
+    document.querySelectorAll('.add-to-cart-btn').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const id = btn.dataset.id || `item-${Math.random()}`;
+        const item = btn.dataset.item || 'Componente';
+        const price = parseFloat(btn.dataset.price) || 0;
+        const img = btn.dataset.img || '';
+
+        addProductToCart(id, item, price, img);
+      });
+    });
   }
 
   function setupPurchaseModal() {
@@ -161,24 +361,17 @@
     quantityInput?.addEventListener('input', calculateTotal);
     unitPriceInput?.addEventListener('input', calculateTotal);
 
-    document.querySelectorAll('.buy-btn').forEach((btn) => {
-      btn.addEventListener('click', () => {
-        const item = btn.dataset.item || 'Componente Aeroespacial';
-        const price = parseFloat(btn.dataset.price) || 0;
-        openModal(item, price);
-      });
-    });
-
     document.querySelectorAll('.contract-btn').forEach((btn) => {
       btn.addEventListener('click', () => {
+        const id = btn.dataset.id || `srv-${Math.random()}`;
         const service = btn.dataset.service || 'Servicio Misión Orbital';
         const price = parseFloat(btn.dataset.price) || 0;
-        openModal(service, price);
+        addProductToCart(id, service, price, 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=200&q=80');
       });
     });
 
     document.getElementById('open-telemetry-modal')?.addEventListener('click', () => {
-      openModal('Ampliación Red Telemetría y Estación Terrena', 150000);
+      addProductToCart('srv-telemetry', 'Ampliación Red Telemetría y Estación Terrena', 150000, 'https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=200&q=80');
     });
 
     if (purchaseForm) {
@@ -186,7 +379,6 @@
         e.preventDefault();
         const item = itemNameInput.value.trim();
         const qty = parseInt(quantityInput.value, 10) || 1;
-        const unitPrice = parseFloat(unitPriceInput.value) || 0;
         const total = calculateTotal();
 
         if (!item || total <= 0) {
@@ -196,19 +388,20 @@
 
         const newOrder = {
           id: `ORD-2026-${Math.floor(100 + Math.random() * 900)}`,
-          servicio: `${item} (x${qty})`,
-          tipo: 'Compra Corporativa',
+          servicio: `${item}`,
+          tipo: 'Compra / Contrato Carrito',
           estado: 'Solicitud Procesada',
           fecha: new Date().toISOString().split('T')[0],
           total: `$ ${total.toLocaleString('es-AR')} USD`
         };
 
         addOrderToTable(newOrder);
+        saveCart([]); // Vaciar carrito tras la orden consolidada
         closeModal();
 
         Swal.fire({
           title: '¡Orden de Compra Emitida!',
-          text: `Su solicitud para "${item}" ha sido procesada con éxito por Stellarix Space Systems.`,
+          text: `Su orden consolidada para "${item}" ha sido procesada con éxito por Stellarix Space Systems.`,
           icon: 'success',
           confirmButtonText: 'Entendido'
         });
@@ -332,10 +525,12 @@
 
   function init() {
     setupUserProfile();
-    setupCatalogSearch();
+    setupCatalogFiltering();
+    setupCartDrawer();
     setupPurchaseModal();
     setupOrderActions();
     setupThemeAndCanvas();
+    updateCartUI();
   }
 
   if (document.readyState === 'loading') {
