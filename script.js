@@ -597,7 +597,7 @@
   }
 
   function ensureAuthForProtectedPages() {
-    const protectedPages = ['Dashboard.html', 'Clientes.html', 'Productos.html', 'Proveedores.html', 'Misiones.html', 'Empleados.html', 'Reportes.html', 'Configuracion.html'];
+    const protectedPages = ['Dashboard.html', 'Clientes.html', 'Productos.html', 'Proveedores.html', 'Pedidos.html', 'Misiones.html', 'Empleados.html', 'Reportes.html', 'Configuracion.html'];
     if (protectedPages.includes(pageName) && !getActiveUser()) {
       Swal.fire({ title: 'Sesión requerida', text: 'Debes iniciar sesión antes de entrar.', icon: 'warning' }).then(() => {
         window.location.href = 'Usuarios.html';
