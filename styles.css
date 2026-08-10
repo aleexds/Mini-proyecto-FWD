@@ -66,8 +66,8 @@ body {
   background-position: center;
 }
 
-/* Mismo panel visual, usado en registro.html con una imagen de fondo propia
-   (definida inline con style="background-image:url('descarga.jpg')") */
+/* Mismo panel visual, usado en Usuarios.html con una imagen de fondo propia
+   (definida inline con style="background-image:url('Space.jpg')") */
 .regis-visual {
   position: relative;
   flex: 1 1 50%;
@@ -299,6 +299,263 @@ body {
 
 #loginBtn:active {
   transform: translateY(1px);
+}
+
+#adminLoginBtn {
+  width: 100%;
+  padding: 14px 16px;
+  margin-top: 10px;
+  border: 1px solid var(--navy-mid);
+  border-radius: var(--radius-pill);
+  background: transparent;
+  color: var(--navy-mid);
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
+}
+
+#adminLoginBtn:hover {
+  background: var(--navy-mid);
+  color: #ffffff;
+  box-shadow: 0 12px 24px -10px rgba(19, 43, 74, 0.4);
+}
+
+/* ---------- Página de usuarios: pestañas login / registro ---------- */
+
+.usuarios-tabs {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 28px;
+  padding: 5px;
+  border-radius: var(--radius-pill);
+  background: #f1f5fb;
+}
+
+.usuarios-tab {
+  flex: 1;
+  padding: 11px 12px;
+  border: none;
+  border-radius: var(--radius-pill);
+  background: transparent;
+  color: var(--navy-mid);
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.usuarios-tab:hover {
+  color: #000000;
+}
+
+.usuarios-tab--active,
+.usuarios-tab--active:hover {
+  background: linear-gradient(90deg, var(--accent-cyan), var(--accent-purple));
+  color: #ffffff;
+  box-shadow: 0 8px 16px -6px rgba(103, 217, 255, 0.5);
+}
+
+.usuarios-panel[hidden] {
+  display: none;
+}
+
+#regSubmit {
+  width: 100%;
+  padding: 14px 16px;
+  margin-top: 8px;
+  border: none;
+  border-radius: var(--radius-pill);
+  background: linear-gradient(90deg, var(--accent-cyan), var(--accent-purple));
+  color: #fff;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.2s ease;
+  box-shadow: 0 12px 24px -10px rgba(103, 217, 255, 0.4);
+}
+
+#regSubmit:hover {
+  background: var(--navy-dark);
+  color: #ffffff;
+}
+
+#regSubmit:active {
+  transform: translateY(1px);
+}
+
+.usuarios-footer {
+  margin-top: 22px;
+  text-align: center;
+  font-size: 13.5px;
+}
+
+/* ---------- Página de acceso administrador ---------- */
+
+.admin-login-desc {
+  margin: -18px 0 26px;
+  font-size: 14px;
+  line-height: 1.6;
+  text-align: center;
+  color: var(--navy-mid);
+}
+
+.admin-login-page .login-panel-inner h1 {
+  margin-bottom: 14px;
+}
+
+/* ---------- Tableta de acceso administrador ---------- */
+
+.admin-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 5000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+.admin-modal[hidden] {
+  display: none;
+}
+
+.admin-modal__backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(4, 8, 22, 0.75);
+  backdrop-filter: blur(6px);
+}
+
+.admin-tablet {
+  position: relative;
+  width: 100%;
+  max-width: 420px;
+  border-radius: 36px;
+  background: linear-gradient(135deg, rgba(0, 0, 0, 0.96) 0%, rgba(8, 16, 33, 0.96) 100%);
+  border: 1px solid rgba(103, 217, 255, 0.25);
+  box-shadow: 0 35px 80px -20px rgba(0, 0, 0, 0.6);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  animation: adminTabletIn 0.3s ease;
+}
+
+@keyframes adminTabletIn {
+  from {
+    opacity: 0;
+    transform: translateY(24px) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.admin-tablet__camera {
+  position: absolute;
+  top: 14px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #0d1830;
+  border: 2px solid rgba(255, 255, 255, 0.45);
+  z-index: 2;
+}
+
+.admin-tablet__visual {
+  height: 150px;
+  display: flex;
+  align-items: flex-end;
+  padding: 18px;
+  background-image: linear-gradient(180deg, rgba(14, 27, 48, 0.35) 0%, rgba(10, 18, 33, 0.9) 100%), url('Space.jpg');
+  background-size: cover;
+  background-position: center;
+}
+
+.admin-tablet__badge {
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.85);
+  text-transform: uppercase;
+}
+
+.admin-tablet__body {
+  padding: 28px;
+  background: #ffffff;
+}
+
+.admin-tablet__title {
+  margin: 0 0 6px;
+  font-size: 22px;
+  font-weight: 700;
+  color: #07111f;
+  text-align: center;
+}
+
+.admin-tablet__text {
+  margin: 0 0 24px;
+  font-size: 13px;
+  color: #4a5568;
+  text-align: center;
+}
+
+.admin-tablet__acciones {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+.admin-tablet__acciones #adminSubmit {
+  width: 100%;
+  padding: 14px 16px;
+  border: none;
+  border-radius: var(--radius-pill);
+  background: linear-gradient(90deg, var(--accent-cyan), var(--accent-purple));
+  color: #fff;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.2s ease;
+  box-shadow: 0 12px 24px -10px rgba(103, 217, 255, 0.4);
+}
+
+.admin-tablet__acciones #adminSubmit:hover {
+  background: var(--navy-dark);
+}
+
+.admin-tablet__acciones .admin-tablet__cancel {
+  width: 100%;
+  padding: 14px 16px;
+  border: 1px solid var(--navy-mid);
+  border-radius: var(--radius-pill);
+  background: transparent;
+  color: var(--navy-mid);
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.admin-tablet__acciones .admin-tablet__cancel:hover {
+  background: var(--navy-mid);
+  color: #ffffff;
+}
+
+body[data-theme="dark"] .admin-tablet__body {
+  background: rgba(13, 24, 48, 0.98);
+}
+
+body[data-theme="dark"] .admin-tablet__title {
+  color: #f3f7ff;
+}
+
+body[data-theme="dark"] .admin-tablet__text {
+  color: #9db0d4;
 }
 
 .login-footer {
