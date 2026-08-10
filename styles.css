@@ -1389,7 +1389,6 @@ body[data-theme="light"] .login-panel {
     padding: 20px;
   }
 }
-<<<<<<< HEAD
 /* ---------- Componentes compartidos: búsqueda, paginación, ordenamiento ---------- */
 
 .clientes__toolbar,
@@ -1957,5 +1956,3 @@ body[data-theme="dark"] .estado-badge--Suspendido { background: rgba(239, 68, 68
 body[data-theme="dark"] .estado-badge--En-Produccion { background: rgba(251, 191, 36, 0.15); color: #fbbf24; border-color: rgba(251, 191, 36, 0.4); }
 body[data-theme="dark"] .estado-badge--Descontinuado { background: rgba(148, 163, 184, 0.15); color: #94a3b8; border-color: rgba(148, 163, 184, 0.4); }
 body[data-theme="dark"] .estado-badge--default { background: rgba(59, 130, 246, 0.15); color: #60a5fa; border-color: rgba(59, 130, 246, 0.4); }
-=======
->>>>>>> 8fbf09d34387a5cf659bdbdd2567873caf453af1
