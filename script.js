@@ -106,7 +106,7 @@
 
   function setupIntroAnimation() {
     const introOverlay = document.getElementById('introOverlay');
-    const loginContainer = document.getElementById('loginContainer');
+    const loginContainer = document.getElementById('loginContainer') || document.querySelector('.login-container');
 
     if (!introOverlay) {
       if (loginContainer) loginContainer.classList.add('login-container--visible');
@@ -152,7 +152,7 @@
         const enteredUsername = usernameInput?.value.trim() || '';
         const enteredPassword = passwordInput?.value.trim() || '';
         const users = getUsers();
-        const matchedUser = users.find((user) => user.username.toLowerCase() === enteredUsername.toLowerCase() && user.password === enteredPassword);
+        const matchedUser = users.find((user) => user.username && user.username.toLowerCase() === enteredUsername.toLowerCase() && user.password === enteredPassword);
 
         if (matchedUser) {
           clearLoginError();
@@ -199,9 +199,14 @@
         const adminUser = document.getElementById('adminUser')?.value.trim() || '';
         const adminPass = document.getElementById('adminPass')?.value.trim() || '';
 
-        if (adminUser === 'UsuarioAdmin' && adminPass === 'Admin') {
+        const admin = getUsers().find((user) => (
+          user.username && user.username.toLowerCase() === adminUser.toLowerCase()
+          && user.password === adminPass
+          && (user.rol === 'Administrador' || user.username.toLowerCase() === defaultUser.username.toLowerCase())
+        ));
+
+        if (admin) {
           closeAdminModal();
-          const admin = getUsers().find((user) => user.username.toLowerCase() === defaultUser.username.toLowerCase()) || defaultUser;
           clearLoginError();
           saveActiveUser(admin);
           showToast('Ingresaste como administrador. Bienvenido al panel.', 'success');
@@ -220,21 +225,39 @@
         const nombre = document.getElementById('regNombre')?.value.trim() || '';
         const apellido = document.getElementById('regApellido')?.value.trim() || '';
         const usuario = document.getElementById('regUsuario')?.value.trim() || '';
+        const email = document.getElementById('regEmail')?.value.trim() || '';
+        const telefono = document.getElementById('regTelefono')?.value.trim() || '';
+        const direccion = document.getElementById('regDireccion')?.value.trim() || '';
         const password = document.getElementById('regPassword')?.value.trim() || '';
 
-        if (!nombre || !apellido || !usuario || !password) {
-          Swal.fire({ title: 'Datos incompletos', text: 'Completá todos los campos.', icon: 'warning' });
+        if (!nombre || !apellido || !usuario || !email || !telefono || !password) {
+          Swal.fire({ title: 'Datos incompletos', text: 'Completá todos los campos obligatorios.', icon: 'warning' });
+          return;
+        }
+
+        if (window.FWDLogic && !window.FWDLogic.validarEmail(email)) {
+          Swal.fire({ title: 'Correo inválido', text: 'Ingresá un correo electrónico válido (ej.: nombre@correo.com).', icon: 'warning' });
+          return;
+        }
+
+        if (window.FWDLogic && !window.FWDLogic.validarTelefono(telefono)) {
+          Swal.fire({ title: 'Teléfono inválido', text: 'Ingresá un teléfono válido (ej.: +506 8888-1234).', icon: 'warning' });
+          return;
+        }
+
+        if (password.length < 4) {
+          Swal.fire({ title: 'Contraseña muy corta', text: 'La contraseña debe tener al menos 4 caracteres.', icon: 'warning' });
           return;
         }
 
         const users = getUsers();
-        const exists = users.some((user) => user.username.toLowerCase() === usuario.toLowerCase());
+        const exists = users.some((user) => user.username && user.username.toLowerCase() === usuario.toLowerCase());
         if (exists) {
           Swal.fire({ title: 'Usuario ya registrado', text: 'Elegí otro nombre de usuario.', icon: 'warning' });
           return;
         }
 
-        const newUser = { username: usuario, nombre, apellido, password, rol: 'Operador' };
+        const newUser = { username: usuario, nombre, apellido, email, telefono, direccion, password, rol: 'Operador' };
         users.push(newUser);
         saveUsers(users);
         saveActiveUser(newUser);
