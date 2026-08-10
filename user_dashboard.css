@@ -745,6 +745,93 @@ body {
 }
 
 /*======================================
+        SECCIÓN DE SOPORTE TÉCNICO
+======================================*/
+.support-channels-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.support-channel-card {
+    background: rgba(19, 43, 74, 0.55);
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    padding: 18px;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.25s ease;
+}
+
+.support-channel-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--accent);
+}
+
+.support-channel-icon {
+    font-size: 32px;
+    margin-bottom: 10px;
+}
+
+.support-channel-card h4 {
+    font-size: 15px;
+    color: var(--text);
+    margin-bottom: 6px;
+    font-weight: 700;
+}
+
+.support-channel-card p {
+    font-size: 13px;
+    color: var(--text-light);
+    line-height: 1.4;
+    margin-bottom: 14px;
+}
+
+.support-status {
+    margin-top: auto;
+    font-size: 12px;
+    color: #22c55e;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    display: inline-block;
+}
+
+.status-dot.online {
+    background: #22c55e;
+    box-shadow: 0 0 10px rgba(34, 197, 94, 0.6);
+}
+
+.support-divider {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 24px 0;
+}
+
+.support-box-title {
+    font-size: 16px;
+    color: var(--text);
+    font-weight: 700;
+    margin-bottom: 16px;
+}
+
+.support-ticket-box {
+    background: rgba(19, 43, 74, 0.35);
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    padding: 20px;
+    margin-bottom: 16px;
+}
+
+/*======================================
         ANALYTICS & SERVICIOS
 ======================================*/
 .dashboard__analytics {
@@ -1179,12 +1266,19 @@ body {
     margin-top: 10px;
 }
 
-/*=============================
-        MODO CLARO
-=============================*/
+/*=============================================
+        MODO CLARO (LEGIBILIDAD ALTA / CONTRASTE)
+=============================================*/
 body[data-theme="light"] {
+    --primary: #102546;
+    --background: #f3f5fb;
+    --card: #ffffff;
+    --border: #dbe3f0;
+    --text: #0f172a;
+    --text-light: #334155;
+    --accent: #0284c7;
     background: #f3f5fb;
-    color: #13264d;
+    color: #0f172a;
 }
 
 body[data-theme="light"] .dashboard__card,
@@ -1192,33 +1286,7 @@ body[data-theme="light"] .dashboard__panel,
 body[data-theme="light"] .modal-card,
 body[data-theme="light"] .cart-drawer {
     background: #ffffff;
-    border-color: #e4e8f1;
-}
-
-body[data-theme="light"] .dashboard__card-title,
-body[data-theme="light"] .dashboard__panel-subtitle,
-body[data-theme="light"] .dashboard__welcome-text,
-body[data-theme="light"] .dashboard__footer-text,
-body[data-theme="light"] .product-card__desc,
-body[data-theme="light"] .service-card p,
-body[data-theme="light"] .modal-title,
-body[data-theme="light"] .form-group-item label,
-body[data-theme="light"] .category-tab,
-body[data-theme="light"] .cart-drawer__subtitle,
-body[data-theme="light"] .cart-summary-line,
-body[data-theme="light"] .detail-label,
-body[data-theme="light"] .payment-card__type {
-    color: #8692aa;
-}
-
-body[data-theme="light"] .category-tab {
-    background: #f0f4fc;
-    border-color: #e4e8f1;
-}
-
-body[data-theme="light"] .category-tab--active {
-    color: #ffffff;
-    background: linear-gradient(135deg, #00c6ff, #0072ff);
+    border-color: #dbe3f0;
 }
 
 body[data-theme="light"] .dashboard__welcome-title,
@@ -1231,8 +1299,69 @@ body[data-theme="light"] .cart-drawer__header-title h3,
 body[data-theme="light"] .cart-item-title,
 body[data-theme="light"] .cart-summary-line--total,
 body[data-theme="light"] .payment-card__title,
-body[data-theme="light"] .detail-val {
-    color: #13264d;
+body[data-theme="light"] .detail-val,
+body[data-theme="light"] .support-channel-card h4,
+body[data-theme="light"] .modal-title,
+body[data-theme="light"] .form-group-item label,
+body[data-theme="light"] .support-box-title {
+    color: #0f172a;
+}
+
+/* Textos secundarios que eran gris claro ahora en azul oscuro / pizarra legible */
+body[data-theme="light"] .dashboard__card-title,
+body[data-theme="light"] .dashboard__panel-subtitle,
+body[data-theme="light"] .dashboard__welcome-text,
+body[data-theme="light"] .dashboard__footer-text,
+body[data-theme="light"] .product-card__desc,
+body[data-theme="light"] .service-card p,
+body[data-theme="light"] .category-tab,
+body[data-theme="light"] .cart-drawer__subtitle,
+body[data-theme="light"] .cart-summary-line,
+body[data-theme="light"] .detail-label,
+body[data-theme="light"] .payment-card__type,
+body[data-theme="light"] .support-channel-card p,
+body[data-theme="light"] .dashboard__user-role {
+    color: #334155;
+    font-weight: 500;
+}
+
+body[data-theme="light"] .dashboard__card-value {
+    color: #0284c7;
+}
+
+body[data-theme="light"] .product-card__specs {
+    color: #0369a1;
+    font-weight: 700;
+}
+
+body[data-theme="light"] .product-card__price {
+    color: #0f2942;
+}
+
+body[data-theme="light"] .payment-card__number {
+    color: #0284c7;
+    font-weight: 700;
+}
+
+body[data-theme="light"] .btn-sm-outline {
+    border-color: #0284c7;
+    color: #0284c7;
+}
+
+body[data-theme="light"] .btn-sm-outline:hover {
+    background: rgba(2, 132, 199, 0.12);
+}
+
+body[data-theme="light"] .category-tab {
+    background: #e2e8f0;
+    border-color: #cbd5e1;
+    color: #1e293b;
+}
+
+body[data-theme="light"] .category-tab--active {
+    color: #ffffff;
+    background: linear-gradient(135deg, #00c6ff, #0072ff);
+    border-color: transparent;
 }
 
 body[data-theme="light"] .product-card,
@@ -1243,28 +1372,35 @@ body[data-theme="light"] .modal-input,
 body[data-theme="light"] .modal-total-summary,
 body[data-theme="light"] .cart-item-row,
 body[data-theme="light"] .cart-floating-btn,
-body[data-theme="light"] .payment-card {
-    background: #f8faff;
-    border-color: #edf1f8;
-    color: #13264d;
+body[data-theme="light"] .payment-card,
+body[data-theme="light"] .support-channel-card,
+body[data-theme="light"] .support-ticket-box {
+    background: #f8fafc;
+    border-color: #cbd5e1;
+    color: #0f172a;
+}
+
+body[data-theme="light"] .modal-input {
+    color: #0f172a;
+    background: #ffffff;
+}
+
+body[data-theme="light"] .modal-input::placeholder,
+body[data-theme="light"] .catalog-search-input::placeholder {
+    color: #64748b;
 }
 
 body[data-theme="light"] .payment-card__details {
-    background: #edf3fc;
-}
-
-body[data-theme="light"] .product-card__price,
-body[data-theme="light"] .payment-card__number {
-    color: #16376d;
+    background: #e2e8f0;
 }
 
 body[data-theme="light"] .dashboard-table th {
-    color: #5d6881;
-    border-bottom-color: #e8edf5;
+    color: #334155;
+    border-bottom-color: #cbd5e1;
 }
 
 body[data-theme="light"] .cart-drawer__footer {
-    background: #f4f7ff;
+    background: #f1f5f9;
 }
 
 /*=============================
@@ -1287,4 +1423,5 @@ body[data-theme="light"] .cart-drawer__footer {
     .dashboard__welcome-head { flex-direction: column; align-items: stretch; }
     .form-group-row { grid-template-columns: 1fr; }
     .cart-drawer { max-width: 100%; }
+    .support-channels-grid { grid-template-columns: 1fr; }
 }
