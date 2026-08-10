@@ -4,9 +4,6 @@
     activeUser: 'fwd-active-user',
     theme: 'fwd-theme',
     dragItems: 'fwd-drag-items',
-    clients: 'fwd-clients',
-    products: 'fwd-products',
-    suppliers: 'fwd-suppliers',
     settings: 'fwd-settings'
   };
 
@@ -500,7 +497,7 @@
       const tbody = document.querySelector('.clientes__tbody');
       if (!form || !tbody) return;
       const render = () => {
-        const clients = readStorage(STORAGE_KEYS.clients, []);
+        const clients = window.FWDData.getClientes();
         tbody.innerHTML = '';
         if (clients.length === 0) {
           tbody.innerHTML = '<tr><td colspan="10" style="text-align:center;">No hay clientes registrados.</td></tr>';
@@ -529,9 +526,7 @@
         event.preventDefault();
         const formData = new FormData(form);
         const client = Object.fromEntries(formData.entries());
-        const clients = readStorage(STORAGE_KEYS.clients, []);
-        clients.push(client);
-        writeStorage(STORAGE_KEYS.clients, clients);
+        window.FWDData.saveCliente(client);
         render();
         form.reset();
         Swal.fire({ title: 'Cliente registrado', text: 'El cliente se guardó correctamente.', icon: 'success' });
@@ -543,7 +538,7 @@
       const tbody = document.querySelector('.productos__tbody');
       if (!form || !tbody) return;
       const render = () => {
-        const products = readStorage(STORAGE_KEYS.products, []);
+        const products = window.FWDData.getProductos();
         tbody.innerHTML = '';
         if (products.length === 0) {
           tbody.innerHTML = '<tr><td colspan="10" style="text-align:center;">No hay productos registrados.</td></tr>';
@@ -572,9 +567,7 @@
         event.preventDefault();
         const formData = new FormData(form);
         const product = Object.fromEntries(formData.entries());
-        const products = readStorage(STORAGE_KEYS.products, []);
-        products.push(product);
-        writeStorage(STORAGE_KEYS.products, products);
+        window.FWDData.saveProducto(product);
         render();
         form.reset();
         Swal.fire({ title: 'Producto registrado', text: 'El producto se guardó correctamente.', icon: 'success' });
@@ -586,7 +579,7 @@
       const tbody = document.querySelector('.proveedores__tbody');
       if (!form || !tbody) return;
       const render = () => {
-        const suppliers = readStorage(STORAGE_KEYS.suppliers, []);
+        const suppliers = window.FWDData.getProveedores();
         tbody.innerHTML = '';
         if (suppliers.length === 0) {
           tbody.innerHTML = '<tr><td colspan="10" style="text-align:center;">No hay proveedores registrados.</td></tr>';
@@ -615,9 +608,7 @@
         event.preventDefault();
         const formData = new FormData(form);
         const supplier = Object.fromEntries(formData.entries());
-        const suppliers = readStorage(STORAGE_KEYS.suppliers, []);
-        suppliers.push(supplier);
-        writeStorage(STORAGE_KEYS.suppliers, suppliers);
+        window.FWDData.saveProveedor(supplier);
         render();
         form.reset();
         Swal.fire({ title: 'Proveedor registrado', text: 'El proveedor se guardó correctamente.', icon: 'success' });

@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Portal de Clientes de Stellarix Space Systems. Adquisición de componentes aeroespaciales y contratación de misiones.">
+  <meta name="description" content="Portal de Clientes de Stellarix Space Systems. Adquisición de componentes aeroespaciales y gestión de métodos de pago.">
   <title>Portal de Clientes · Stellarix Space Systems</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -27,11 +27,11 @@
       <br><br>
       <nav class="dashboard__nav" aria-label="Navegación principal de cliente">
         <p class="dashboard__nav-link dashboard__nav-link--active"><a href="#inicio">Inicio / Dashboard</a></p>
-        <p class="dashboard__nav-link"><a href="#catalogo">Catálogo Aeroespacial</a></p>
+        <p class="dashboard__nav-link"><a href="#catalogo">Catálogo Completo</a></p>
         <p class="dashboard__nav-link"><a href="#contratar-mision">Contratar Misión</a></p>
         <p class="dashboard__nav-link"><a href="#mis-pedidos">Mis Pedidos y Contratos</a></p>
         <p class="dashboard__nav-link"><a href="#telemetria">Telemetría y Servicios</a></p>
-        <p class="dashboard__nav-link"><a href="#facturacion">Facturación y Pagos</a></p>
+        <p class="dashboard__nav-link"><a href="#metodos-pago" id="nav-metodos-pago">Métodos de Pago</a></p>
         <p class="dashboard__nav-link"><a href="#soporte">Soporte Técnico</a></p>
         <p class="dashboard__nav-link"><a href="index.html">Cerrar sesión</a></p>
       </nav>
@@ -62,9 +62,16 @@
           <div class="dashboard__welcome-head">
             <div>
               <h1 class="dashboard__welcome-title" id="titulo-bienvenida">Bienvenido/a, Dr. Carlos Mendoza</h1>
-              <p class="dashboard__welcome-text">Gestione sus adquisiciones aeroespaciales, contratos de misiones orbitales y seguimiento en tiempo real.</p>
+              <p class="dashboard__welcome-text">Gestione sus adquisiciones aeroespaciales, contratos de misiones orbitales y métodos de pago corporativos.</p>
             </div>
-            <button class="btn-primary" id="open-purchase-modal" type="button">+ Nueva Compra / Contrato</button>
+            
+            <div class="header-actions">
+              <button class="cart-floating-btn" id="open-cart-btn" type="button" title="Ver Carrito de Compras">
+                🛒 <span class="cart-btn-text">Carrito</span>
+                <span class="cart-badge" id="cart-count">0</span>
+              </button>
+              <button class="btn-primary" id="open-purchase-modal" type="button">+ Orden Directa</button>
+            </div>
           </div>
         </section>
 
@@ -95,80 +102,210 @@
           </article>
         </section>
 
-        <!-- SECCIÓN 1: CATÁLOGO DE COMPRA DE COMPONENTES -->
+        <!-- SECCIÓN COMPLETA DE CATÁLOGO AEROESPACIAL -->
         <section class="dashboard__panel catalog-section" id="catalogo" aria-labelledby="titulo-catalogo">
           <div class="dashboard__panel-head">
             <div>
-              <h2 class="dashboard__panel-title" id="titulo-catalogo">Catálogo Aeroespacial (Adquisición Directa)</h2>
-              <p class="dashboard__panel-subtitle">Seleccione componentes homologados para sus satélites y naves orbitales.</p>
+              <h2 class="dashboard__panel-title" id="titulo-catalogo">Catálogo Aeroespacial & Componentes de Satélite</h2>
+              <p class="dashboard__panel-subtitle">Equipamiento homologado de grado espacial listo para integrarse a sus misiones.</p>
             </div>
-            <input class="catalog-search-input" id="catalog-filter" type="text" placeholder="Buscar componente o código...">
+            <div class="catalog-controls">
+              <input class="catalog-search-input" id="catalog-filter" type="text" placeholder="🔍 Buscar componente, código o marca...">
+            </div>
+          </div>
+
+          <!-- BOTONES DE CATEGORÍAS DE FILTRADO RÁPIDO -->
+          <div class="category-tabs" aria-label="Categorías de productos">
+            <button class="category-tab category-tab--active" data-category="all" type="button">Todos los Componentes</button>
+            <button class="category-tab" data-category="propulsion" type="button">🚀 Propulsión</button>
+            <button class="category-tab" data-category="energia" type="button">⚡ Energía & Potencia</button>
+            <button class="category-tab" data-category="navegacion" type="button">📡 Navegación & Control</button>
+            <button class="category-tab" data-category="comunicaciones" type="button">🛰️ Comunicaciones</button>
+            <button class="category-tab" data-category="estructura" type="button">🔬 Estructura & Cargas Útiles</button>
           </div>
 
           <div class="catalog-grid" id="catalog-container">
-            <!-- Tarjeta 1 -->
-            <div class="product-card" data-name="motor propulsor xr-90 propulsion">
+            
+            <!-- Producto 1 -->
+            <div class="product-card" data-category="propulsion" data-name="motor propulsor criogenico xr-90 propulsion">
               <div class="product-card__badge">En Stock</div>
-              <div class="product-card__icon">🚀</div>
+              <div class="product-card__image-shell">
+                <img class="product-card__img" src="images/motor_xr90.jpg" alt="Motor Propulsor Criogénico XR-90" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1517976487492-5750f3195933?w=600&q=80';">
+              </div>
               <h3 class="product-card__title">Motor Propulsor Criogénico XR-90</h3>
-              <p class="product-card__desc">Propulsor orbital de alto empuje con encendido criogénico de LOX/CH4.</p>
+              <p class="product-card__desc">Propulsor orbital de alto empuje con encendido criogénico LOX/CH4 reusable.</p>
               <div class="product-card__specs">
                 <span>Empuje: 90 kN</span>
                 <span>Isp: 380s</span>
               </div>
               <div class="product-card__footer">
                 <span class="product-card__price">$ 850.000 USD</span>
-                <button class="btn-sm-primary buy-btn" data-item="Motor Propulsor Criogénico XR-90" data-price="850000" type="button">Adquirir</button>
+                <button class="btn-sm-primary add-to-cart-btn" data-id="prd-xr90" data-item="Motor Propulsor Criogénico XR-90" data-price="850000" data-img="https://images.unsplash.com/photo-1517976487492-5750f3195933?w=600&q=80" type="button">🛒 Añadir al Carrito</button>
               </div>
             </div>
 
-            <!-- Tarjeta 2 -->
-            <div class="product-card" data-name="panel solar satelital ps-1200 energia">
+            <!-- Producto 2 -->
+            <div class="product-card" data-category="energia" data-name="panel solar satelital ps-1200 energia">
               <div class="product-card__badge">En Stock</div>
-              <div class="product-card__icon">🛰️</div>
+              <div class="product-card__image-shell">
+                <img class="product-card__img" src="images/panel_solar.jpg" alt="Panel Solar Satelital PS-1200" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1508614589041-895b88991e3e?w=600&q=80';">
+              </div>
               <h3 class="product-card__title">Panel Solar Satelital PS-1200</h3>
-              <p class="product-card__desc">Matriz solar desplegable de celda de GaAs triple junta de alta eficiencia.</p>
+              <p class="product-card__desc">Matriz solar desplegable con celdas de GaAs triple junta de alta eficiencia.</p>
               <div class="product-card__specs">
                 <span>Potencia: 1.2 kW</span>
                 <span>Masa: 4.2 kg</span>
               </div>
               <div class="product-card__footer">
                 <span class="product-card__price">$ 320.000 USD</span>
-                <button class="btn-sm-primary buy-btn" data-item="Panel Solar Satelital PS-1200" data-price="320000" type="button">Adquirir</button>
+                <button class="btn-sm-primary add-to-cart-btn" data-id="prd-ps1200" data-item="Panel Solar Satelital PS-1200" data-price="320000" data-img="https://images.unsplash.com/photo-1508614589041-895b88991e3e?w=600&q=80" type="button">🛒 Añadir al Carrito</button>
               </div>
             </div>
 
-            <!-- Tarjeta 3 -->
-            <div class="product-card" data-name="sensor navegacion gnss-5 sistemas">
+            <!-- Producto 3 -->
+            <div class="product-card" data-category="navegacion" data-name="sensor navegacion gnss-5 navegacion">
               <div class="product-card__badge product-card__badge--warning">Bajo Pedido</div>
-              <div class="product-card__icon">📡</div>
+              <div class="product-card__image-shell">
+                <img class="product-card__img" src="images/sensor_gnss.jpg" alt="Sensor de Navegación GNSS-5" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=600&q=80';">
+              </div>
               <h3 class="product-card__title">Sensor de Navegación GNSS-5</h3>
-              <p class="product-card__desc">Receptor de determinación de actitud y posición en órbita LEO/GEO.</p>
+              <p class="product-card__desc">Receptor multi-constelación de determinación de actitud y posición en LEO.</p>
               <div class="product-card__specs">
                 <span>Precisión: < 0.1m</span>
                 <span>Frecuencia: L1/L2/L5</span>
               </div>
               <div class="product-card__footer">
                 <span class="product-card__price">$ 95.500 USD</span>
-                <button class="btn-sm-primary buy-btn" data-item="Sensor de Navegación GNSS-5" data-price="95500" type="button">Adquirir</button>
+                <button class="btn-sm-primary add-to-cart-btn" data-id="prd-gnss5" data-item="Sensor de Navegación GNSS-5" data-price="95500" data-img="https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=600&q=80" type="button">🛒 Añadir al Carrito</button>
               </div>
             </div>
 
-            <!-- Tarjeta 4 -->
-            <div class="product-card" data-name="modulo comunicacion uhf-x comms">
+            <!-- Producto 4 -->
+            <div class="product-card" data-category="comunicaciones" data-name="modulo comunicacion uhf-x comunicaciones">
               <div class="product-card__badge">En Stock</div>
-              <div class="product-card__icon">🛰️</div>
+              <div class="product-card__image-shell">
+                <img class="product-card__img" src="images/comms_uhf.jpg" alt="Módulo de Comunicación UHF-X" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=600&q=80';">
+              </div>
               <h3 class="product-card__title">Módulo de Comunicación UHF-X</h3>
-              <p class="product-card__desc">Transceptor SDR tolerante a la radiación espacial para enlaces bajada de datos.</p>
+              <p class="product-card__desc">Transceptor SDR tolerante a radiación con banda alta para satélites LEO.</p>
               <div class="product-card__specs">
                 <span>Banda: UHF / Banda-X</span>
-                <span>Tx Power: 10W</span>
+                <span>Potencia Tx: 10W</span>
               </div>
               <div class="product-card__footer">
                 <span class="product-card__price">$ 410.000 USD</span>
-                <button class="btn-sm-primary buy-btn" data-item="Módulo de Comunicación UHF-X" data-price="410000" type="button">Adquirir</button>
+                <button class="btn-sm-primary add-to-cart-btn" data-id="prd-uhfx" data-item="Módulo de Comunicación UHF-X" data-price="410000" data-img="https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=600&q=80" type="button">🛒 Añadir al Carrito</button>
               </div>
             </div>
+
+            <!-- Producto 5 -->
+            <div class="product-card" data-category="navegacion" data-name="rueda reaccion actitud rwa-300 navegacion">
+              <div class="product-card__badge">En Stock</div>
+              <div class="product-card__image-shell">
+                <img class="product-card__img" src="images/reaction_wheel.jpg" alt="Rueda de Reacción de Actitud RWA-300" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1518770660439-4636190af475?w=600&q=80';">
+              </div>
+              <h3 class="product-card__title">Rueda de Reacción RWA-300</h3>
+              <p class="product-card__desc">Actuador inercial de apuntamiento ultra preciso con motores sin escobillas en vacío.</p>
+              <div class="product-card__specs">
+                <span>Momento: 3.2 Nms</span>
+                <span>Torque: 0.15 Nm</span>
+              </div>
+              <div class="product-card__footer">
+                <span class="product-card__price">$ 145.000 USD</span>
+                <button class="btn-sm-primary add-to-cart-btn" data-id="prd-rwa300" data-item="Rueda de Reacción RWA-300" data-price="145000" data-img="https://images.unsplash.com/photo-1518770660439-4636190af475?w=600&q=80" type="button">🛒 Añadir al Carrito</button>
+              </div>
+            </div>
+
+            <!-- Producto 6 -->
+            <div class="product-card" data-category="energia" data-name="bateria espacial litio bl-450 energia">
+              <div class="product-card__badge">En Stock</div>
+              <div class="product-card__image-shell">
+                <img class="product-card__img" src="images/battery_lithium.jpg" alt="Batería Espacial de Litio BL-450" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1619642751034-765dfdf7c58e?w=600&q=80';">
+              </div>
+              <h3 class="product-card__title">Batería Espacial de Litio BL-450</h3>
+              <p class="product-card__desc">Módulo de almacenamiento de energía tolerante a bajas temperaturas y eclipse en órbita.</p>
+              <div class="product-card__specs">
+                <span>Capacidad: 450 Wh</span>
+                <span>Voltaje: 28V DC</span>
+              </div>
+              <div class="product-card__footer">
+                <span class="product-card__price">$ 150.000 USD</span>
+                <button class="btn-sm-primary add-to-cart-btn" data-id="prd-bl450" data-item="Batería Espacial de Litio BL-450" data-price="150000" data-img="https://images.unsplash.com/photo-1619642751034-765dfdf7c58e?w=600&q=80" type="button">🛒 Añadir al Carrito</button>
+              </div>
+            </div>
+
+            <!-- Producto 7 -->
+            <div class="product-card" data-category="estructura" data-name="chasis cubesat 6u carbono estructura">
+              <div class="product-card__badge">En Stock</div>
+              <div class="product-card__image-shell">
+                <img class="product-card__img" src="images/cubesat_frame.jpg" alt="Chasis Estructural CubeSat 6U de Carbono" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1509228468518-180dd4864904?w=600&q=80';">
+              </div>
+              <h3 class="product-card__title">Chasis CubeSat 6U de Carbono</h3>
+              <p class="product-card__desc">Estructura ultra liviana de fibra de carbono anodizada con rieles P-POD integrados.</p>
+              <div class="product-card__specs">
+                <span>Formato: 6U estándar</span>
+                <span>Peso: 1.1 kg</span>
+              </div>
+              <div class="product-card__footer">
+                <span class="product-card__price">$ 78.000 USD</span>
+                <button class="btn-sm-primary add-to-cart-btn" data-id="prd-cs6u" data-item="Chasis CubeSat 6U de Carbono" data-price="78000" data-img="https://images.unsplash.com/photo-1509228468518-180dd4864904?w=600&q=80" type="button">🛒 Añadir al Carrito</button>
+              </div>
+            </div>
+
+            <!-- Producto 8 -->
+            <div class="product-card" data-category="estructura" data-name="telescopio optico eos-2 carga util estructura">
+              <div class="product-card__badge product-card__badge--warning">Bajo Pedido</div>
+              <div class="product-card__image-shell">
+                <img class="product-card__img" src="images/optical_camera.jpg" alt="Telescopio Óptico EOS-2" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=600&q=80';">
+              </div>
+              <h3 class="product-card__title">Telescopio Óptico EOS-2</h3>
+              <p class="product-card__desc">Carga útil óptica de alta resolución multiespectral para observación terrestre ambiental.</p>
+              <div class="product-card__specs">
+                <span>Resolución: 0.5m GSD</span>
+                <span>Bandas: RGB + NIR</span>
+              </div>
+              <div class="product-card__footer">
+                <span class="product-card__price">$ 1.850.000 USD</span>
+                <button class="btn-sm-primary add-to-cart-btn" data-id="prd-eos2" data-item="Telescopio Óptico EOS-2" data-price="1850000" data-img="https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=600&q=80" type="button">🛒 Añadir al Carrito</button>
+              </div>
+            </div>
+
+            <!-- Producto 9 -->
+            <div class="product-card" data-category="propulsion" data-name="propulsor electrico hall het-45 propulsion">
+              <div class="product-card__badge">En Stock</div>
+              <div class="product-card__image-shell">
+                <img class="product-card__img" src="images/hall_thruster.jpg" alt="Propulsor Eléctrico Hall HET-45" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1541185933-ef5d8ed016c2?w=600&q=80';">
+              </div>
+              <h3 class="product-card__title">Propulsor Eléctrico Hall HET-45</h3>
+              <p class="product-card__desc">Sistema de propulsión iónica de Xenón/Kriptón para elevación de órbita y desorbitado.</p>
+              <div class="product-card__specs">
+                <span>Empuje: 45 mN</span>
+                <span>Isp: 1600s</span>
+              </div>
+              <div class="product-card__footer">
+                <span class="product-card__price">$ 620.000 USD</span>
+                <button class="btn-sm-primary add-to-cart-btn" data-id="prd-het45" data-item="Propulsor Eléctrico Hall HET-45" data-price="620000" data-img="https://images.unsplash.com/photo-1541185933-ef5d8ed016c2?w=600&q=80" type="button">🛒 Añadir al Carrito</button>
+              </div>
+            </div>
+
+            <!-- Producto 10 -->
+            <div class="product-card" data-category="comunicaciones" data-name="transceptor laser ols-10g comunicaciones">
+              <div class="product-card__badge product-card__badge--warning">Novedad</div>
+              <div class="product-card__image-shell">
+                <img class="product-card__img" src="images/laser_comms.jpg" alt="Transceptor Óptico Láser OLS-10G" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1507499739999-097706ad8914?w=600&q=80';">
+              </div>
+              <h3 class="product-card__title">Transceptor Óptico Láser OLS-10G</h3>
+              <p class="product-card__desc">Enlace óptico inter-satelital por láser de ultra alta velocidad y resistencia a interferencias.</p>
+              <div class="product-card__specs">
+                <span>Velocidad: 10 Gbps</span>
+                <span>Alcance: 4.000 km</span>
+              </div>
+              <div class="product-card__footer">
+                <span class="product-card__price">$ 920.000 USD</span>
+                <button class="btn-sm-primary add-to-cart-btn" data-id="prd-ols10g" data-item="Transceptor Óptico Láser OLS-10G" data-price="920000" data-img="https://images.unsplash.com/photo-1507499739999-097706ad8914?w=600&q=80" type="button">🛒 Añadir al Carrito</button>
+              </div>
+            </div>
+
           </div>
         </section>
 
@@ -184,7 +321,7 @@
                   <h4>Lanzamiento Compartido (Rideshare LEO)</h4>
                   <p>Inclusión de CubeSats o Microsatélites en órbita baja terrestre.</p>
                 </div>
-                <button class="btn-sm-outline contract-btn" data-service="Lanzamiento Rideshare LEO" data-price="1200000" type="button">Solicitar Contrato ($1.2M USD)</button>
+                <button class="btn-sm-outline contract-btn" data-id="srv-rideshare" data-service="Lanzamiento Rideshare LEO" data-price="1200000" type="button">+ Añadir Misión ($1.2M USD)</button>
               </div>
 
               <div class="service-card">
@@ -192,12 +329,12 @@
                   <h4>Misión Dedicada Orbital (GEO / TLI)</h4>
                   <p>Lanzador exclusivo para satélites pesados en órbita geosíncrona o inyección lunar.</p>
                 </div>
-                <button class="btn-sm-outline contract-btn" data-service="Misión Dedicada GEO" data-price="6500000" type="button">Solicitar Contrato ($6.5M USD)</button>
+                <button class="btn-sm-outline contract-btn" data-id="srv-geo" data-service="Misión Dedicada GEO" data-price="6500000" type="button">+ Añadir Misión ($6.5M USD)</button>
               </div>
             </div>
           </div>
 
-          <div class="dashboard__panel">
+          <div class="dashboard__panel" id="telemetria">
             <h2 class="dashboard__panel-title">Servicio de Telemetría y Estación Terrena</h2>
             <p class="dashboard__panel-subtitle">Suscripción a red global de antenas terrestres para control de satélites en tiempo real.</p>
             
@@ -301,6 +438,211 @@
     </div>
   </div>
 
+  <!-- PANEL / MODAL DE SUPERPOSICIÓN: MÉTODOS DE PAGO CORPORATIVOS -->
+  <div class="modal-overlay" id="payment-methods-modal" hidden>
+    <div class="modal-card modal-card--large">
+      <div class="modal-header">
+        <div>
+          <h3 class="modal-title">💳 Métodos de Pago & Financiamiento Corporativo</h3>
+          <p class="dashboard__panel-subtitle" style="margin-bottom:0;">Administre sus instrumentos financieros homologados para la emisión de contratos aeroespaciales.</p>
+        </div>
+        <button class="modal-close" id="close-payment-methods-modal" type="button">&times;</button>
+      </div>
+
+      <div class="modal-body-scroll">
+        <div style="display: flex; justify-content: flex-end; margin-bottom: 16px;">
+          <button class="btn-primary" id="open-add-payment-modal" type="button">+ Añadir Método de Pago</button>
+        </div>
+
+        <!-- GRID DE MÉTODOS DE PAGO EN SUPERPOSICIÓN -->
+        <div class="payment-cards-grid" id="payment-methods-container">
+          
+          <!-- Método 1: Línea de Crédito Directa VIP -->
+          <div class="payment-card payment-card--default" data-id="pay-vip-credit">
+            <div class="payment-card__header">
+              <span class="payment-card__badge">Predeterminado</span>
+              <span class="payment-card__type">Línea de Crédito Directa</span>
+            </div>
+            <div class="payment-card__body">
+              <h3 class="payment-card__title">Stellarix Corporate VIP Credit Line</h3>
+              <p class="payment-card__number">Cuenta: SATTECH-VIP-9948</p>
+              <div class="payment-card__details">
+                <div>
+                  <span class="detail-label">Límite Aprobado:</span>
+                  <strong class="detail-val">$ 25.000.000 USD</strong>
+                </div>
+                <div>
+                  <span class="detail-label">Saldo Disponible:</span>
+                  <strong class="detail-val text-success">$ 12.550.000 USD</strong>
+                </div>
+              </div>
+            </div>
+            <div class="payment-card__footer">
+              <span class="payment-card__status">✓ Verificado y Activo</span>
+              <button class="btn-xs-action set-default-btn" data-id="pay-vip-credit" type="button" disabled>En Uso</button>
+            </div>
+          </div>
+
+          <!-- Método 2: Transferencia Bancaria SWIFT International -->
+          <div class="payment-card" data-id="pay-swift-chase">
+            <div class="payment-card__header">
+              <span class="payment-card__type">Transferencia SWIFT / Wire</span>
+            </div>
+            <div class="payment-card__body">
+              <h3 class="payment-card__title">JPMorgan Chase Bank, N.A. (EE.UU.)</h3>
+              <p class="payment-card__number">SWIFT: CHASUS33XXXX · IBAN: US98CHAS...4910</p>
+              <div class="payment-card__details">
+                <div>
+                  <span class="detail-label">Titular:</span>
+                  <strong class="detail-val">SatTech Corporation LLC</strong>
+                </div>
+                <div>
+                  <span class="detail-label">Moneda:</span>
+                  <strong class="detail-val">USD / EUR</strong>
+                </div>
+              </div>
+            </div>
+            <div class="payment-card__footer">
+              <span class="payment-card__status">✓ Banco Homologado</span>
+              <button class="btn-xs-action set-default-btn" data-id="pay-swift-chase" type="button">Hacer Predeterminado</button>
+            </div>
+          </div>
+
+          <!-- Método 3: Tarjeta Platinum Corporate Space -->
+          <div class="payment-card" data-id="pay-card-visa">
+            <div class="payment-card__header">
+              <span class="payment-card__type">Tarjeta Corporativa</span>
+            </div>
+            <div class="payment-card__body">
+              <h3 class="payment-card__title">Visa Commercial Space Platinum</h3>
+              <p class="payment-card__number">•••• •••• •••• 8842</p>
+              <div class="payment-card__details">
+                <div>
+                  <span class="detail-label">Expiración:</span>
+                  <strong class="detail-val">11/2028</strong>
+                </div>
+                <div>
+                  <span class="detail-label">Titular:</span>
+                  <strong class="detail-val">Dr. Carlos Mendoza</strong>
+                </div>
+              </div>
+            </div>
+            <div class="payment-card__footer">
+              <span class="payment-card__status">✓ Verificado</span>
+              <button class="btn-xs-action set-default-btn" data-id="pay-card-visa" type="button">Hacer Predeterminado</button>
+            </div>
+          </div>
+
+          <!-- Método 4: Billetera Cripto / SpaceCredits USDC -->
+          <div class="payment-card" data-id="pay-crypto-usdc">
+            <div class="payment-card__header">
+              <span class="payment-card__type">Activo Digital / USDC</span>
+            </div>
+            <div class="payment-card__body">
+              <h3 class="payment-card__title">Billetera Digital Multicadena (USDC / SOL)</h3>
+              <p class="payment-card__number">Wallet: 0x71F8...B90A</p>
+              <div class="payment-card__details">
+                <div>
+                  <span class="detail-label">Balance Asignado:</span>
+                  <strong class="detail-val">2.500.000 USDC</strong>
+                </div>
+                <div>
+                  <span class="detail-label">Red:</span>
+                  <strong class="detail-val">Ethereum / Solana</strong>
+                </div>
+              </div>
+            </div>
+            <div class="payment-card__footer">
+              <span class="payment-card__status">✓ Contrato Inteligente</span>
+              <button class="btn-xs-action set-default-btn" data-id="pay-crypto-usdc" type="button">Hacer Predeterminado</button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PANEL / DRAWER DESPLEGABLE DEL CARRITO DE COMPRAS -->
+  <div class="cart-drawer-overlay" id="cart-drawer-overlay" hidden>
+    <div class="cart-drawer">
+      <div class="cart-drawer__header">
+        <div class="cart-drawer__header-title">
+          <h3>🛒 Carrito Aeroespacial</h3>
+          <span class="cart-drawer__subtitle">Componentes y Servicios seleccionados</span>
+        </div>
+        <button class="cart-drawer__close" id="close-cart-btn" type="button">&times;</button>
+      </div>
+
+      <div class="cart-drawer__body" id="cart-items-container">
+        <!-- Renderizado dinámico de items en JS -->
+      </div>
+
+      <div class="cart-drawer__footer">
+        <div class="cart-summary-line">
+          <span>Subtotal de Artículos:</span>
+          <strong id="cart-subtotal">$ 0.00 USD</strong>
+        </div>
+        <div class="cart-summary-line">
+          <span>Impuestos & Tarifas de Órbita:</span>
+          <strong>$ 0.00 USD (Exento)</strong>
+        </div>
+        <div class="cart-summary-line cart-summary-line--total">
+          <span>Total Estimado:</span>
+          <strong id="cart-total">$ 0.00 USD</strong>
+        </div>
+
+        <div class="cart-footer-actions">
+          <button class="btn-primary btn-block" id="checkout-cart-btn" type="button">Proceder a la Emisión del Contrato</button>
+          <button class="btn-sm-outline btn-block" id="clear-cart-btn" type="button">Vaciar Carrito</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL DE NUEVO MÉTODO DE PAGO -->
+  <div class="modal-overlay" id="add-payment-modal" hidden>
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3 class="modal-title">Registrar Nuevo Método de Pago Corporativo</h3>
+        <button class="modal-close" id="close-payment-modal" type="button">&times;</button>
+      </div>
+
+      <form id="addPaymentForm" class="modal-form">
+        <div class="form-group-item">
+          <label for="payment-type">Tipo de Instrumento Financiero</label>
+          <select id="payment-type" class="modal-input">
+            <option value="Línea de Crédito Corporativa Directa">Línea de Crédito Corporativa Directa</option>
+            <option value="Transferencia SWIFT / Wire International">Transferencia SWIFT / Wire International</option>
+            <option value="Tarjeta Commercial Space Platinum (Visa/Mastercard)">Tarjeta Commercial Space Platinum (Visa/Mastercard)</option>
+            <option value="Billetera Criptoactivo / USDC SpaceToken">Billetera Criptoactivo / USDC SpaceToken</option>
+          </select>
+        </div>
+
+        <div class="form-group-item">
+          <label for="payment-name">Nombre / Titular o Institución Bancaria</label>
+          <input type="text" id="payment-name" class="modal-input" placeholder="Ej. JPMorgan Chase Bank / SatTech Corp" required>
+        </div>
+
+        <div class="form-group-row">
+          <div class="form-group-item">
+            <label for="payment-account">Número de Cuenta / Tarjeta / SWIFT</label>
+            <input type="text" id="payment-account" class="modal-input" placeholder="SWIFT / 16 Dígitos / Wallet" required>
+          </div>
+          <div class="form-group-item">
+            <label for="payment-limit">Monto o Línea Disponible ($ USD)</label>
+            <input type="number" id="payment-limit" class="modal-input" placeholder="5000000" required>
+          </div>
+        </div>
+
+        <div class="modal-actions">
+          <button type="button" class="btn-sm-outline" id="cancel-payment-btn">Cancelar</button>
+          <button type="submit" class="btn-primary">Homologar y Guardar Método</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
   <!-- MODAL DE NUEVA COMPRA / CONTRATACIÓN -->
   <div class="modal-overlay" id="purchase-modal" hidden>
     <div class="modal-card">
@@ -329,10 +671,16 @@
         <div class="form-group-item">
           <label for="modal-payment-method">Método de Pago / Financiamiento</label>
           <select id="modal-payment-method" class="modal-input">
-            <option value="Transferencia Bancaria Internacional (SWIFT)">Transferencia Bancaria Internacional (SWIFT)</option>
-            <option value="Línea de Crédito Corporativa VIP">Línea de Crédito Corporativa VIP</option>
-            <option value="Carta de Crédito Irrevocable (LC)">Carta de Crédito Irrevocable (LC)</option>
+            <option value="Línea de Crédito Directa Stellarix VIP (Predeterminado)">Línea de Crédito Directa Stellarix VIP (Predeterminado)</option>
+            <option value="Transferencia Bancaria Internacional (SWIFT JPMorgan)">Transferencia Bancaria Internacional (SWIFT JPMorgan)</option>
+            <option value="Visa Commercial Space Platinum (•••• 8842)">Visa Commercial Space Platinum (•••• 8842)</option>
+            <option value="Billetera Cripto / USDC SpaceToken">Billetera Cripto / USDC SpaceToken</option>
           </select>
+        </div>
+
+        <div class="form-group-item">
+          <label for="modal-image-url">Imagen o Render del Componente (URL / Adjunto opcional)</label>
+          <input type="url" id="modal-image-url" class="modal-input" placeholder="https://ejemplo.com/render_componente.png">
         </div>
 
         <div class="form-group-item">
