@@ -115,13 +115,12 @@
         if (matchedUser) {
           clearLoginError();
           saveActiveUser(matchedUser);
-          showToast('Bienvenido', 'success');
-          setTimeout(() => {
+          Swal.fire({ title: 'Acceso concedido', text: 'Bienvenido al panel.', icon: 'success' }).then(() => {
             window.location.href = 'Dashboard.html';
-          }, 1200);
+          });
         } else {
           setLoginError();
-          showToast('Error: Credenciales incorrectas', 'error');
+          Swal.fire({ title: 'Error', text: 'Credenciales incorrectas', icon: 'error' });
         }
       });
     }
@@ -197,7 +196,7 @@
     const fileInput = document.getElementById('avatar-file-input');
     const displayName = getDisplayName(activeUser);
 
-    if (welcomeTitle) welcomeTitle.textContent = `Bienvenido, ${activeUser.username || displayName}`;
+    if (welcomeTitle) welcomeTitle.textContent = `Bienvenido/a de nuevo, ${displayName}`;
     if (userNameElement) userNameElement.textContent = displayName;
     if (initialsElement) initialsElement.textContent = getInitials(displayName);
 
@@ -421,33 +420,21 @@
 
     const themeButton = document.createElement('button');
     themeButton.type = 'button';
+    themeButton.textContent = '🌙';
     themeButton.style.border = 'none';
     themeButton.style.borderRadius = '999px';
     themeButton.style.padding = '8px 10px';
     themeButton.style.cursor = 'pointer';
-
-    const naturalTheme = pageName === 'Dashboard.html' ? 'dark' : 'light';
-    const currentTheme = readStorage(STORAGE_KEYS.theme, naturalTheme) === 'dark' ? 'dark' : 'light';
-    document.body.dataset.theme = currentTheme;
-    themeButton.textContent = currentTheme === 'dark' ? '☀️' : '🌙';
-
-    const applyTheme = (next) => {
-      document.body.dataset.theme = next;
-      writeStorage(STORAGE_KEYS.theme, next);
-      themeButton.textContent = next === 'dark' ? '☀️' : '🌙';
-      showToast(next === 'dark' ? 'Modo oscuro activado' : 'Modo claro activado', 'info');
-    };
-
     themeButton.addEventListener('click', () => {
-      applyTheme(document.body.dataset.theme === 'dark' ? 'light' : 'dark');
+      const next = document.body.dataset.theme === 'dark' ? 'light' : 'dark';
+      document.body.dataset.theme = next;
+      document.body.style.background = next === 'dark' ? '#07111f' : '#f4f7ff';
+      document.body.style.color = next === 'dark' ? '#f3f6ff' : '#132035';
+      themeButton.textContent = next === 'dark' ? '☀️' : '🌙';
+      writeStorage(STORAGE_KEYS.theme, next);
+      (next === 'dark' ? 'Modo oscuro activado' : 'Modo claro activado', 'info');
     });
     toolbar.appendChild(themeButton);
-
-    document.querySelectorAll('.reportes__theme-toggle, .inventario__theme-toggle').forEach((toggle) => {
-      toggle.addEventListener('click', () => {
-        applyTheme(document.body.dataset.theme === 'dark' ? 'light' : 'dark');
-      });
-    });
 
     if (pageName === 'Dashboard.html') {
       const searchInput = document.createElement('input');
@@ -505,7 +492,7 @@
     const reset = () => {
       clearTimeout(timer);
       timer = setTimeout(() => {
-        showToast('¿Seguís ahí? Hay actividad reciente.', 'warning');
+        showToast('¿Seguís ahí? No se detecta actividad.', 'warning');
       }, 300000);
     };
     ['mousemove', 'keydown', 'click', 'touchstart'].forEach((eventName) => {
