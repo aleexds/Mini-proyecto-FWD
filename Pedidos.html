@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Módulo de administración de pedidos de Stellarix, empresa de tecnología e ingeniería aeroespacial.">
+  <title>Administración de Pedidos · Stellarix</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js@1.12.0/src/toastify.min.css">
+</head>
+<body>
+  <div class="pedidos">
+
+    <header class="pedidos__header" role="banner">
+      <div class="pedidos__brand">
+      <h1 class="pedidos__title">Administración de Pedidos</h1>
+      </div>
+
+      <nav class="pedidos__nav" aria-label="Navegación principal">
+        <ul class="pedidos__nav-list">
+          <li class="pedidos__nav-item"><a class="pedidos__nav-link" href="Dashboard.html">Dashboard</a></li>
+          <li class="pedidos__nav-item"><a class="pedidos__nav-link" href="Clientes.html">Clientes</a></li>
+          <li class="pedidos__nav-item"><a class="pedidos__nav-link" href="Productos.html">Productos</a></li>
+          <li class="pedidos__nav-item"><a class="pedidos__nav-link" href="Proveedores.html">Proveedores</a></li>
+          <li class="pedidos__nav-item"><a class="pedidos__nav-link pedidos__nav-link--active" href="Pedidos.html" aria-current="page">Pedidos</a></li>
+          <li class="pedidos__nav-item"><a class="pedidos__nav-link" href="Misiones.html">Misiones</a></li>
+          <li class="pedidos__nav-item"><a class="pedidos__nav-link" href="Empleados.html">Empleados</a></li>
+          <li class="pedidos__nav-item"><a class="pedidos__nav-link" href="Reportes.html">Reportes</a></li>
+          <li class="pedidos__nav-item"><a class="pedidos__nav-link" href="Configuracion.html">Configuración</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <main class="pedidos__main" id="contenido">
+
+      <section class="pedidos__registro" aria-labelledby="titulo-registro">
+        <h2 class="pedidos__section-title" id="titulo-registro">Registrar Pedido</h2>
+
+        <form class="pedidos__form" id="pedidoForm" novalidate>
+          <div class="pedidos__campo">
+            <label class="pedidos__label" for="clienteId">Cliente</label>
+            <select class="pedidos__input" id="clienteId" name="clienteId">
+              <option value="">Seleccioná un cliente</option>
+            </select>
+          </div>
+
+          <div class="pedidos__campo">
+            <label class="pedidos__label" for="fechaPedido">Fecha del Pedido</label>
+            <input class="pedidos__input" type="date" id="fechaPedido" name="fechaPedido">
+          </div>
+
+          <div class="pedidos__campo pedidos__campo--items">
+            <label class="pedidos__label" for="producto-select">Productos del Pedido</label>
+            <div class="pedidos__item-builder">
+              <select class="pedidos__input" id="producto-select">
+                <option value="">Seleccioná un producto</option>
+              </select>
+              <input class="pedidos__input" type="number" id="cantidad-input" name="cantidad" min="1" value="1">
+              <button class="pedidos__boton pedidos__boton--registrar" type="button" id="agregar-item">Agregar</button>
+            </div>
+            <div class="pedidos__items" id="pedido-items"></div>
+            <p class="campo-error" id="pedido-items-error" hidden>Agregá al menos un producto al pedido.</p>
+          </div>
+
+          <div class="pedidos__totales" aria-live="polite">
+            <p class="pedidos__total-fila">Artículos: <strong id="total-articulos">0</strong></p>
+            <p class="pedidos__total-fila">Subtotal: <strong id="total-subtotal">$ 0,00</strong></p>
+            <p class="pedidos__total-fila">IVA (13%): <strong id="total-iva">$ 0,00</strong></p>
+            <p class="pedidos__total-fila pedidos__total-final">Total General: <strong id="total-general">$ 0,00</strong></p>
+          </div>
+
+          <div class="pedidos__campo">
+            <label class="pedidos__label" for="observaciones">Observaciones</label>
+            <textarea class="pedidos__input" id="observaciones" name="observaciones" rows="3" placeholder="Observaciones del pedido"></textarea>
+          </div>
+
+          <div class="pedidos__acciones">
+            <button class="pedidos__boton pedidos__boton--registrar" type="submit">Registrar pedido</button>
+            <button class="pedidos__boton" type="button" data-cancelar-edicion hidden>Cancelar edición</button>
+            <button class="pedidos__boton" type="reset">Limpiar</button>
+          </div>
+        </form>
+      </section>
+
+      <section class="pedidos__lista" aria-labelledby="titulo-lista">
+        <h2 class="pedidos__section-title" id="titulo-lista">Pedidos Registrados</h2>
+
+        <div class="pedidos__tabla-wrap">
+          <table class="pedidos__tabla">
+            <thead class="pedidos__thead">
+              <tr class="pedidos__fila">
+                <th class="pedidos__encabezado" scope="col">ID</th>
+                <th class="pedidos__encabezado" scope="col">Cliente</th>
+                <th class="pedidos__encabezado" scope="col">Fecha</th>
+                <th class="pedidos__encabezado" scope="col">Artículos</th>
+                <th class="pedidos__encabezado" scope="col">Subtotal</th>
+                <th class="pedidos__encabezado" scope="col">Total</th>
+                <th class="pedidos__encabezado" scope="col">Estado</th>
+                <th class="pedidos__encabezado" scope="col">Acciones</th>
+              </tr>
+            </thead>
+            <tbody class="pedidos__tbody"></tbody>
+          </table>
+        </div>
+      </section>
+
+    </main>
+
+    <footer class="pedidos__footer" role="contentinfo">
+      <p class="pedidos__footer-text">Stellarix · Sistema de Gestión Aeroespacial © 2026</p>
+    </footer>
+
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="https://cdn.jsdelivr.net/npm/toastify-js@1.12.0/src/toastify.min.js"></script>
+  <script src="data.js"></script>
+  <script src="seed.js"></script>
+  <script src="logic.js"></script>
+  <script src="app.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>

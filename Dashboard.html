@@ -29,6 +29,7 @@
         <p class="dashboard__nav-link"><a href="Clientes.html">Clientes</a></p>
         <p class="dashboard__nav-link"><a href="Productos.html">Productos</a></p>
         <p class="dashboard__nav-link"><a href="Proveedores.html">Proveedores</a></p>
+        <p class="dashboard__nav-link"><a href="Pedidos.html">Pedidos</a></p>
         <p class="dashboard__nav-link"><a href="Misiones.html">Misiones</a></p>
         <p class="dashboard__nav-link"><a href="Empleados.html">Empleados</a></p>
         <p class="dashboard__nav-link"><a href="Reportes.html">Reportes</a></p>
@@ -60,32 +61,32 @@
 
         <section class="dashboard__welcome" aria-labelledby="titulo-bienvenida">
           <h1 class="dashboard__welcome-title" id="titulo-bienvenida">Bienvenida de nuevo, María</h1>
-          <p class="dashboard__welcome-text">Estos son los datos resumidos de tus operaciones.</p>
+          <p class="dashboard__welcome-text">Estos son los datos resumidos de tus operaciones. <span class="dashboard__rol-badge" id="rol-badge">Operador</span></p>
         </section>
 
         <section class="dashboard__cards" aria-label="Resumen de métricas">
           <article class="dashboard__card">
-            <h3 class="dashboard__card-title">Clientes activos</h3>
-            <p class="dashboard__card-value">248</p>
-            <p class="dashboard__card-change dashboard__card-change--up">+12 esta semana</p>
+            <h3 class="dashboard__card-title dashboard__metric-nombre">Total de clientes</h3>
+            <p class="dashboard__card-value" id="metric-clientes-valor">0</p>
+            <p class="dashboard__card-change dashboard__card-change--up">registrados en el sistema</p>
           </article>
 
           <article class="dashboard__card">
-            <h3 class="dashboard__card-title">Operaciones</h3>
-            <p class="dashboard__card-value">1.024</p>
-            <p class="dashboard__card-change dashboard__card-change--up">+8% vs mes pasado</p>
+            <h3 class="dashboard__card-title dashboard__metric-nombre">Productos con inventario bajo</h3>
+            <p class="dashboard__card-value" id="metric-inventario-valor">0</p>
+            <p class="dashboard__card-change dashboard__card-change--down">menos de 6 unidades</p>
           </article>
 
           <article class="dashboard__card">
-            <h3 class="dashboard__card-title">Ingresos</h3>
-            <p class="dashboard__card-value">$ 4.560.000</p>
-            <p class="dashboard__card-change dashboard__card-change--down">-3% vs mes pasado</p>
+            <h3 class="dashboard__card-title dashboard__metric-nombre">Proveedor con más productos</h3>
+            <p class="dashboard__card-value" id="metric-proveedor-valor" style="font-size:1.15rem;">—</p>
+            <p class="dashboard__card-change dashboard__card-change--up" id="metric-proveedor-sub">0 producto(s) asociado(s)</p>
           </article>
 
           <article class="dashboard__card">
-            <h3 class="dashboard__card-title">Tickets abiertos</h3>
-            <p class="dashboard__card-value">37</p>
-            <p class="dashboard__card-change dashboard__card-change--up">+5 nuevos</p>
+            <h3 class="dashboard__card-title dashboard__metric-nombre">Pedidos pendientes</h3>
+            <p class="dashboard__card-value" id="metric-pedidos-valor">0</p>
+            <p class="dashboard__card-change dashboard__card-change--up">en espera de procesar</p>
           </article>
         </section>
 
@@ -232,6 +233,30 @@
                 </tr>
               </tbody>
             </table>
+          </div>
+        </section>
+
+        <section class="dashboard__pedidos" aria-label="Pedidos recientes">
+          <div class="dashboard__panel">
+            <div class="dashboard__panel-head">
+              <h2 class="dashboard__panel-title">Pedidos recientes</h2>
+              <p class="dashboard__panel-action"><a href="Pedidos.html">+ Ver todos los pedidos</a></p>
+            </div>
+            <div class="dashboard__pedidos-wrap">
+              <table class="dashboard-table">
+                <thead>
+                  <tr>
+                    <th>Pedido</th>
+                    <th>Cliente</th>
+                    <th>Fecha</th>
+                    <th>Total</th>
+                    <th>Estado</th>
+                    <th>Cambiar estado</th>
+                  </tr>
+                </thead>
+                <tbody id="dashboard-pedidos-tbody"></tbody>
+              </table>
+            </div>
           </div>
         </section>
 

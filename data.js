@@ -182,6 +182,43 @@
     return getDb();
   };
 
+  const AUTH_KEYS = {
+    users: 'fwd-registered-users',
+    activeUser: 'fwd-active-user'
+  };
+
+  const DEFAULT_USER = {
+    username: 'FWD',
+    password: '1234',
+    nombre: 'FWD',
+    apellido: 'Admin',
+    rol: 'Administrador'
+  };
+
+  const getUsers = () => {
+    const users = readStorage(AUTH_KEYS.users, []);
+    if (!Array.isArray(users)) return [DEFAULT_USER];
+    if (!users.some((user) => user.username && user.username.toLowerCase() === DEFAULT_USER.username.toLowerCase())) {
+      users.unshift(DEFAULT_USER);
+      localStorage.setItem(AUTH_KEYS.users, JSON.stringify(users));
+    }
+    return users;
+  };
+
+  const saveUsers = (users) => {
+    localStorage.setItem(AUTH_KEYS.users, JSON.stringify(users));
+  };
+
+  const getActiveUser = () => readStorage(AUTH_KEYS.activeUser, null);
+
+  const saveActiveUser = (user) => {
+    localStorage.setItem(AUTH_KEYS.activeUser, JSON.stringify(user));
+  };
+
+  const clearActiveUser = () => {
+    localStorage.removeItem(AUTH_KEYS.activeUser);
+  };
+
   const exportData = () => {
     const payload = {
       app: 'Stellarix',
@@ -240,7 +277,12 @@
     reset,
     exportData,
     importData,
-    nextId
+    nextId,
+    getUsers,
+    saveUsers,
+    getActiveUser,
+    saveActiveUser,
+    clearActiveUser
   };
 
   Object.entries(API_NAMES).forEach(([entity, names]) => {

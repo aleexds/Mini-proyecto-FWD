@@ -1259,3 +1259,570 @@ body[data-theme="light"] .login-panel {
     padding: 20px;
   }
 }
+/* ---------- Componentes compartidos: búsqueda, paginación, ordenamiento ---------- */
+
+.clientes__toolbar,
+.productos__toolbar,
+.proveedores__toolbar,
+.pedidos__toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.clientes__busqueda,
+.productos__busqueda,
+.proveedores__busqueda,
+.pedidos__busqueda {
+  flex: 1;
+  min-width: 200px;
+  padding: 10px 14px;
+  border: 1px solid var(--border-light);
+  border-radius: 999px;
+  background: #fbfcff;
+  color: var(--text-dark);
+  font: inherit;
+}
+
+.clientes__busqueda:focus,
+.productos__busqueda:focus,
+.proveedores__busqueda:focus,
+.pedidos__busqueda:focus {
+  outline: none;
+  border-color: var(--navy-mid);
+  box-shadow: 0 0 0 3px rgba(22, 41, 74, 0.12);
+}
+
+.clientes__contador,
+.productos__contador,
+.proveedores__contador,
+.pedidos__contador {
+  font-size: 13px;
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+
+.clientes__paginacion,
+.productos__paginacion,
+.proveedores__paginacion,
+.pedidos__paginacion {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 14px;
+  flex-wrap: wrap;
+}
+
+.paginacion__boton {
+  padding: 7px 12px;
+  border: 1px solid var(--border-light);
+  border-radius: 10px;
+  background: #fff;
+  color: var(--navy-mid);
+  font-weight: 600;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.paginacion__boton--activo {
+  background: var(--navy-mid);
+  color: #fff;
+  border-color: var(--navy-mid);
+}
+
+.paginacion__boton:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.sortable {
+  cursor: pointer;
+  user-select: none;
+}
+
+.sortable::after {
+  content: " ⇅";
+  opacity: 0.35;
+  font-size: 11px;
+}
+
+.sortable[aria-sort="ascending"]::after {
+  content: " ▲";
+  opacity: 1;
+}
+
+.sortable[aria-sort="descending"]::after {
+  content: " ▼";
+  opacity: 1;
+}
+
+.clientes__accion,
+.productos__accion,
+.proveedores__accion,
+.pedidos__accion {
+  padding: 6px 12px;
+  border: 1px solid var(--border-light);
+  border-radius: 10px;
+  background: #fff;
+  color: var(--navy-mid);
+  font-weight: 600;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.clientes__accion--eliminar,
+.productos__accion--eliminar,
+.proveedores__accion--eliminar,
+.pedidos__accion--eliminar {
+  color: #d9463f;
+  border-color: #fecaca;
+  background: #fff5f5;
+}
+
+.campo-error {
+  color: #d9463f;
+  font-size: 12px;
+  margin: 4px 0 0;
+}
+
+.campo-invalido {
+  border-color: #ff5f7a !important;
+  box-shadow: 0 0 0 3px rgba(255, 95, 122, 0.12) !important;
+}
+
+/* ---------- Notificación con opción de deshacer ---------- */
+
+.fwd-toast-undo {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  max-width: 380px;
+  padding: 14px 18px;
+  border-radius: 14px;
+  background: rgba(7, 17, 31, 0.96);
+  border: 1px solid rgba(103, 217, 255, 0.3);
+  color: #f3f7ff;
+  font-size: 14px;
+  box-shadow: 0 20px 50px -20px rgba(0, 0, 0, 0.6);
+  animation: fwd-toast-in 0.25s ease;
+}
+
+.fwd-toast-undo__boton {
+  padding: 7px 14px;
+  border: none;
+  border-radius: 999px;
+  background: var(--accent-cyan);
+  color: #07111f;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+@keyframes fwd-toast-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* ---------- Insignias de estado ---------- */
+
+.estado-badge {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.estado-badge--Pendiente { background: #fff7e6; color: #b45309; border: 1px solid #fde68a; }
+.estado-badge--En-Proceso { background: #eff6ff; color: #1d4ed8; border: 1px solid #bfdbfe; }
+.estado-badge--Entregado { background: #ecfdf5; color: #047857; border: 1px solid #a7f3d0; }
+.estado-badge--Activo { background: #ecfdf5; color: #047857; border: 1px solid #a7f3d0; }
+.estado-badge--Inactivo { background: #f1f5f9; color: #475569; border: 1px solid #cbd5e1; }
+.estado-badge--Disponible { background: #ecfdf5; color: #047857; border: 1px solid #a7f3d0; }
+.estado-badge--Agotado { background: #fef2f2; color: #b91c1c; border: 1px solid #fecaca; }
+.estado-badge--Suspendido { background: #fef2f2; color: #b91c1c; border: 1px solid #fecaca; }
+.estado-badge--En-Produccion { background: #fff7e6; color: #b45309; border: 1px solid #fde68a; }
+.estado-badge--Descontinuado { background: #f1f5f9; color: #475569; border: 1px solid #cbd5e1; }
+.estado-badge--default { background: #eff6ff; color: #1d4ed8; border: 1px solid #bfdbfe; }
+
+/* ---------- Módulo de Pedidos ---------- */
+
+.pedidos {
+  min-height: 100vh;
+  padding: 28px;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.96) 0%, rgba(240, 245, 255, 0.95) 100%);
+  color: var(--text-dark);
+}
+
+.pedidos__header {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  padding: 24px 28px;
+  border-radius: 24px;
+  background: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 15px 40px -24px rgba(15, 27, 48, 0.3);
+  margin-bottom: 24px;
+}
+
+.pedidos__brand {
+  margin: 0;
+  font-size: 28px;
+  color: var(--navy-dark);
+}
+
+.pedidos__title {
+  margin: 4px 0 0;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text-muted);
+}
+
+.pedidos__nav-list {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding: 0;
+  margin: 0;
+}
+
+.pedidos__nav-link {
+  display: inline-block;
+  padding: 10px 14px;
+  border-radius: 999px;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+.pedidos__nav-link:hover,
+.pedidos__nav-link--active {
+  background: #eef4ff;
+  color: var(--navy-dark);
+}
+
+.pedidos__main {
+  display: grid;
+  gap: 24px;
+}
+
+.pedidos__registro,
+.pedidos__lista {
+  background: rgba(255, 255, 255, 0.95);
+  padding: 24px;
+  border-radius: 24px;
+  box-shadow: 0 20px 45px -28px rgba(15, 27, 48, 0.35);
+}
+
+.pedidos__section-title {
+  margin-top: 0;
+  margin-bottom: 18px;
+  font-size: 22px;
+  color: var(--navy-dark);
+}
+
+.pedidos__form {
+  display: grid;
+  gap: 16px;
+}
+
+.pedidos__campo {
+  display: grid;
+  gap: 8px;
+}
+
+.pedidos__label {
+  font-weight: 600;
+  color: var(--navy-mid);
+}
+
+.pedidos__input {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1px solid var(--border-light);
+  border-radius: 14px;
+  background: #fbfcff;
+  color: var(--text-dark);
+  font: inherit;
+}
+
+.pedidos__input:focus {
+  outline: none;
+  border-color: var(--navy-mid);
+  box-shadow: 0 0 0 3px rgba(22, 41, 74, 0.12);
+}
+
+.pedidos__item-builder {
+  display: grid;
+  grid-template-columns: 1fr 140px auto;
+  gap: 10px;
+}
+
+.pedidos__items {
+  display: grid;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.pedidos__items-vacio {
+  margin: 0;
+  padding: 14px;
+  border: 1px dashed var(--border-light);
+  border-radius: 12px;
+  color: var(--text-muted);
+  font-size: 13px;
+  text-align: center;
+}
+
+.pedidos__item-fila {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 10px 12px;
+  border: 1px solid var(--border-light);
+  border-radius: 12px;
+  background: #f8faff;
+  font-size: 14px;
+}
+
+.pedidos__item-nombre small {
+  display: block;
+  color: var(--text-muted);
+  font-size: 11px;
+}
+
+.pedidos__totales {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 26px;
+  padding: 14px 16px;
+  border-radius: 14px;
+  background: #f0f5ff;
+  border: 1px solid var(--border-light);
+}
+
+.pedidos__total-fila {
+  margin: 0;
+  font-size: 14px;
+  color: var(--navy-mid);
+}
+
+.pedidos__total-final {
+  margin-left: auto;
+  font-size: 16px;
+}
+
+.pedidos__total-final strong {
+  color: #0b7a4b;
+  font-size: 18px;
+}
+
+.pedidos__acciones {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+.pedidos__boton {
+  padding: 11px 14px;
+  border: none;
+  border-radius: 999px;
+  background: var(--navy-mid);
+  color: #fff;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.pedidos__boton--registrar {
+  background: linear-gradient(135deg, var(--navy-dark), var(--navy-mid));
+}
+
+.pedidos__tabla-wrap {
+  overflow-x: auto;
+}
+
+.pedidos__tabla {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 760px;
+}
+
+.pedidos__thead {
+  background: #f5f8ff;
+}
+
+.pedidos__encabezado,
+.pedidos__celda {
+  padding: 12px 10px;
+  border-bottom: 1px solid var(--border-light);
+  text-align: left;
+}
+
+.pedidos__fila:hover {
+  background: #f9fbff;
+}
+
+.pedidos__footer {
+  margin-top: 24px;
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 13px;
+}
+
+/* ---------- Pedidos y componentes compartidos en modo oscuro ---------- */
+
+body[data-theme="dark"] .pedidos {
+  background: linear-gradient(135deg, #040816 0%, #07111f 45%, #0d1830 100%);
+  color: #f3f7ff;
+}
+
+body[data-theme="dark"] .pedidos__header,
+body[data-theme="dark"] .pedidos__registro,
+body[data-theme="dark"] .pedidos__lista {
+  background: rgba(13, 24, 48, 0.95);
+  border: 1px solid rgba(103, 217, 255, 0.22);
+  color: #f3f7ff;
+}
+
+body[data-theme="dark"] .pedidos__brand,
+body[data-theme="dark"] .pedidos__section-title,
+body[data-theme="dark"] .pedidos__label,
+body[data-theme="dark"] .pedidos__total-fila {
+  color: #f3f7ff;
+}
+
+body[data-theme="dark"] .pedidos__title,
+body[data-theme="dark"] .pedidos__nav-link,
+body[data-theme="dark"] .pedidos__footer {
+  color: #9db0d4;
+}
+
+body[data-theme="dark"] .pedidos__nav-link:hover,
+body[data-theme="dark"] .pedidos__nav-link--active {
+  background: rgba(19, 43, 74, 0.6);
+  color: #f3f7ff;
+}
+
+body[data-theme="dark"] .pedidos__input {
+  background: #0d1830;
+  border-color: rgba(103, 217, 255, 0.22);
+  color: #f3f7ff;
+}
+
+body[data-theme="dark"] .pedidos__input:focus {
+  background: #0d1830;
+  border-color: #67d9ff;
+}
+
+body[data-theme="dark"] .pedidos__thead {
+  background: rgba(19, 43, 74, 0.6);
+}
+
+body[data-theme="dark"] .pedidos__encabezado {
+  color: #9db0d4;
+  border-bottom-color: rgba(103, 217, 255, 0.22);
+}
+
+body[data-theme="dark"] .pedidos__celda {
+  color: #f3f7ff;
+  border-bottom-color: rgba(103, 217, 255, 0.22);
+}
+
+body[data-theme="dark"] .pedidos__fila:hover {
+  background: rgba(19, 43, 74, 0.4);
+}
+
+body[data-theme="dark"] .pedidos__item-fila {
+  background: #0d1830;
+  border-color: rgba(103, 217, 255, 0.22);
+}
+
+body[data-theme="dark"] .pedidos__totales {
+  background: rgba(19, 43, 74, 0.5);
+  border-color: rgba(103, 217, 255, 0.22);
+}
+
+body[data-theme="dark"] .pedidos__items-vacio {
+  color: #9db0d4;
+}
+
+body[data-theme="dark"] .pedidos__total-final strong {
+  color: #4ade80;
+}
+
+body[data-theme="dark"] .clientes__busqueda,
+body[data-theme="dark"] .productos__busqueda,
+body[data-theme="dark"] .proveedores__busqueda,
+body[data-theme="dark"] .pedidos__busqueda {
+  background: #0d1830;
+  border-color: rgba(103, 217, 255, 0.22);
+  color: #f3f7ff;
+}
+
+body[data-theme="dark"] .clientes__busqueda:focus,
+body[data-theme="dark"] .productos__busqueda:focus,
+body[data-theme="dark"] .proveedores__busqueda:focus,
+body[data-theme="dark"] .pedidos__busqueda:focus {
+  border-color: #67d9ff;
+}
+
+body[data-theme="dark"] .clientes__accion,
+body[data-theme="dark"] .productos__accion,
+body[data-theme="dark"] .proveedores__accion,
+body[data-theme="dark"] .pedidos__accion {
+  background: #0d1830;
+  border-color: rgba(103, 217, 255, 0.22);
+  color: #67d9ff;
+}
+
+body[data-theme="dark"] .clientes__accion--eliminar,
+body[data-theme="dark"] .productos__accion--eliminar,
+body[data-theme="dark"] .proveedores__accion--eliminar,
+body[data-theme="dark"] .pedidos__accion--eliminar {
+  color: #ff7b90;
+  border-color: rgba(255, 95, 122, 0.35);
+  background: rgba(255, 95, 122, 0.08);
+}
+
+body[data-theme="dark"] .paginacion__boton {
+  background: #0d1830;
+  border-color: rgba(103, 217, 255, 0.22);
+  color: #67d9ff;
+}
+
+body[data-theme="dark"] .paginacion__boton--activo {
+  background: #67d9ff;
+  color: #07111f;
+  border-color: #67d9ff;
+}
+
+body[data-theme="dark"] .estado-badge--Pendiente { background: rgba(251, 191, 36, 0.15); color: #fbbf24; border-color: rgba(251, 191, 36, 0.4); }
+body[data-theme="dark"] .estado-badge--En-Proceso { background: rgba(59, 130, 246, 0.15); color: #60a5fa; border-color: rgba(59, 130, 246, 0.4); }
+body[data-theme="dark"] .estado-badge--Entregado { background: rgba(34, 197, 94, 0.15); color: #4ade80; border-color: rgba(34, 197, 94, 0.4); }
+body[data-theme="dark"] .estado-badge--Activo { background: rgba(34, 197, 94, 0.15); color: #4ade80; border-color: rgba(34, 197, 94, 0.4); }
+body[data-theme="dark"] .estado-badge--Inactivo { background: rgba(148, 163, 184, 0.15); color: #94a3b8; border-color: rgba(148, 163, 184, 0.4); }
+body[data-theme="dark"] .estado-badge--Disponible { background: rgba(34, 197, 94, 0.15); color: #4ade80; border-color: rgba(34, 197, 94, 0.4); }
+body[data-theme="dark"] .estado-badge--Agotado { background: rgba(239, 68, 68, 0.15); color: #f87171; border-color: rgba(239, 68, 68, 0.4); }
+body[data-theme="dark"] .estado-badge--Suspendido { background: rgba(239, 68, 68, 0.15); color: #f87171; border-color: rgba(239, 68, 68, 0.4); }
+body[data-theme="dark"] .estado-badge--En-Produccion { background: rgba(251, 191, 36, 0.15); color: #fbbf24; border-color: rgba(251, 191, 36, 0.4); }
+body[data-theme="dark"] .estado-badge--Descontinuado { background: rgba(148, 163, 184, 0.15); color: #94a3b8; border-color: rgba(148, 163, 184, 0.4); }
+body[data-theme="dark"] .estado-badge--default { background: rgba(59, 130, 246, 0.15); color: #60a5fa; border-color: rgba(59, 130, 246, 0.4); }

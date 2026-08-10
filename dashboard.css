@@ -1037,3 +1037,77 @@ body[data-theme="light"] .dashboard__footer-text{
         padding:20px;
     }
 }
+
+/*=============================
+      ROL EN ENCABEZADO
+=============================*/
+
+.dashboard__rol-badge{
+    display:inline-block;
+    padding:5px 14px;
+    border-radius:999px;
+    font-size:12px;
+    font-weight:700;
+    letter-spacing:.4px;
+    text-transform:uppercase;
+    vertical-align:middle;
+}
+
+.rol-badge--admin{
+    background:rgba(103,217,255,.15);
+    color:#67d9ff;
+    border:1px solid rgba(103,217,255,.4);
+}
+
+.rol-badge--operador{
+    background:rgba(246,200,95,.12);
+    color:#f6c85f;
+    border:1px solid rgba(246,200,95,.4);
+}
+
+/*=============================
+      PEDIDOS EN DASHBOARD
+=============================*/
+
+.dashboard__estado-select{
+    padding:6px 10px;
+    border-radius:10px;
+    border:1px solid var(--border);
+    background:var(--card);
+    color:var(--text);
+    font:inherit;
+    font-size:13px;
+    cursor:pointer;
+}
+
+body[data-theme="light"] .dashboard__estado-select{
+    background:#fff;
+    color:#13264d;
+    border-color:#d6ddea;
+}
+
+.dashboard__metric-nombre{
+    font-size:14px;
+    line-height:1.25;
+    margin-bottom:12px;
+}
+
+.dashboard__pedidos-wrap{
+    overflow-x:auto;
+}
+
+/*=============================
+      MODO CLARO ROL
+=============================*/
+
+body[data-theme="light"] .rol-badge--admin{
+    background:rgba(16,37,70,.08);
+    color:#102546;
+    border:1px solid rgba(16,37,70,.25);
+}
+
+body[data-theme="light"] .rol-badge--operador{
+    background:rgba(217,119,6,.1);
+    color:#b45309;
+    border:1px solid rgba(217,119,6,.3);
+}
