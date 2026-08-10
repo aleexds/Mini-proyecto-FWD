@@ -369,6 +369,11 @@ body {
     background: rgba(103, 217, 255, 0.25);
 }
 
+.btn-xs-action:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
 /*======================================
             TARJETAS DE MÉTRICAS
 ======================================*/
@@ -630,6 +635,113 @@ body {
     font-size: 15px;
     font-weight: 700;
     color: #ffffff;
+}
+
+/*======================================
+    SECCIÓN DE MÉTODOS DE PAGO
+======================================*/
+.payment-cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 18px;
+}
+
+.payment-card {
+    background: rgba(19, 43, 74, 0.55);
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    transition: .25s;
+}
+
+.payment-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--accent);
+}
+
+.payment-card--default {
+    background: linear-gradient(135deg, rgba(16, 37, 70, 0.8), rgba(29, 59, 109, 0.8));
+    border-color: var(--accent);
+    box-shadow: 0 10px 25px rgba(0, 198, 255, 0.15);
+}
+
+.payment-card__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 14px;
+}
+
+.payment-card__badge {
+    background: linear-gradient(135deg, #00c6ff, #0072ff);
+    color: #ffffff;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 4px 10px;
+    border-radius: 999px;
+}
+
+.payment-card__type {
+    font-size: 12px;
+    color: var(--text-light);
+    font-weight: 600;
+}
+
+.payment-card__title {
+    font-size: 16px;
+    color: var(--text);
+    font-weight: 700;
+    margin-bottom: 6px;
+}
+
+.payment-card__number {
+    font-size: 13px;
+    color: var(--accent);
+    font-family: monospace;
+    margin-bottom: 14px;
+}
+
+.payment-card__details {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    font-size: 13px;
+    margin-bottom: 16px;
+    padding: 10px 12px;
+    background: rgba(8, 16, 33, 0.4);
+    border-radius: 10px;
+}
+
+.detail-label {
+    color: var(--text-light);
+    margin-right: 6px;
+}
+
+.detail-val {
+    color: var(--text);
+    font-weight: 600;
+}
+
+.text-success {
+    color: #22c55e !important;
+}
+
+.payment-card__footer {
+    margin-top: auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 12px;
+    border-top: 1px solid var(--border);
+}
+
+.payment-card__status {
+    font-size: 12px;
+    color: #22c55e;
+    font-weight: 600;
 }
 
 /*======================================
@@ -942,7 +1054,7 @@ body {
 }
 
 /*======================================
-            MODAL DE COMPRA
+            MODALES & OVERLAYS
 ======================================*/
 .modal-overlay {
     position: fixed;
@@ -970,10 +1082,23 @@ body {
     box-shadow: 0 25px 60px rgba(0, 0, 0, 0.6);
 }
 
+.modal-card--large {
+    max-width: 920px;
+    max-height: 85vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.modal-body-scroll {
+    overflow-y: auto;
+    padding-right: 6px;
+    margin-top: 10px;
+}
+
 .modal-header {
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    align-items: flex-start;
     margin-bottom: 20px;
 }
 
@@ -1080,7 +1205,9 @@ body[data-theme="light"] .modal-title,
 body[data-theme="light"] .form-group-item label,
 body[data-theme="light"] .category-tab,
 body[data-theme="light"] .cart-drawer__subtitle,
-body[data-theme="light"] .cart-summary-line {
+body[data-theme="light"] .cart-summary-line,
+body[data-theme="light"] .detail-label,
+body[data-theme="light"] .payment-card__type {
     color: #8692aa;
 }
 
@@ -1102,7 +1229,9 @@ body[data-theme="light"] .supply-item span,
 body[data-theme="light"] .dashboard-table td,
 body[data-theme="light"] .cart-drawer__header-title h3,
 body[data-theme="light"] .cart-item-title,
-body[data-theme="light"] .cart-summary-line--total {
+body[data-theme="light"] .cart-summary-line--total,
+body[data-theme="light"] .payment-card__title,
+body[data-theme="light"] .detail-val {
     color: #13264d;
 }
 
@@ -1113,13 +1242,19 @@ body[data-theme="light"] .catalog-search-input,
 body[data-theme="light"] .modal-input,
 body[data-theme="light"] .modal-total-summary,
 body[data-theme="light"] .cart-item-row,
-body[data-theme="light"] .cart-floating-btn {
+body[data-theme="light"] .cart-floating-btn,
+body[data-theme="light"] .payment-card {
     background: #f8faff;
     border-color: #edf1f8;
     color: #13264d;
 }
 
-body[data-theme="light"] .product-card__price {
+body[data-theme="light"] .payment-card__details {
+    background: #edf3fc;
+}
+
+body[data-theme="light"] .product-card__price,
+body[data-theme="light"] .payment-card__number {
     color: #16376d;
 }
 

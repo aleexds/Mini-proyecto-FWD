@@ -4,7 +4,8 @@
     activeUser: 'fwd-active-user',
     theme: 'fwd-user-theme',
     orders: 'fwd-user-orders',
-    cart: 'fwd-user-cart'
+    cart: 'fwd-user-cart',
+    payments: 'fwd-user-payments'
   };
 
   const defaultUser = {
@@ -319,6 +320,143 @@
     });
   }
 
+  function setupPaymentMethods() {
+    const mainModal = document.getElementById('payment-methods-modal');
+    const closeMainModalBtn = document.getElementById('close-payment-methods-modal');
+    const navLink = document.getElementById('nav-metodos-pago');
+
+    const addModal = document.getElementById('add-payment-modal');
+    const openAddBtn = document.getElementById('open-add-payment-modal');
+    const closeAddBtn = document.getElementById('close-payment-modal');
+    const cancelAddBtn = document.getElementById('cancel-payment-btn');
+    const paymentForm = document.getElementById('addPaymentForm');
+    const container = document.getElementById('payment-methods-container');
+
+    function openMainModal(e) {
+      if (e) e.preventDefault();
+      if (mainModal) mainModal.hidden = false;
+    }
+
+    function closeMainModal() {
+      if (mainModal) mainModal.hidden = true;
+    }
+
+    if (navLink) navLink.addEventListener('click', openMainModal);
+    if (closeMainModalBtn) closeMainModalBtn.addEventListener('click', closeMainModal);
+
+    function openAddModal() {
+      if (addModal) addModal.hidden = false;
+    }
+
+    function closeAddModal() {
+      if (addModal) {
+        addModal.hidden = true;
+        paymentForm?.reset();
+      }
+    }
+
+    if (openAddBtn) openAddBtn.addEventListener('click', openAddModal);
+    if (closeAddBtn) closeAddBtn.addEventListener('click', closeAddModal);
+    if (cancelAddBtn) cancelAddBtn.addEventListener('click', closeAddModal);
+
+    // Event delegation para "Hacer Predeterminado"
+    container?.addEventListener('click', (e) => {
+      const defaultBtn = e.target.closest('.set-default-btn');
+      if (!defaultBtn) return;
+
+      const targetCard = defaultBtn.closest('.payment-card');
+      if (!targetCard) return;
+
+      // Quitar predeterminado de todas las tarjetas
+      container.querySelectorAll('.payment-card').forEach((card) => {
+        card.classList.remove('payment-card--default');
+        const badge = card.querySelector('.payment-card__badge');
+        if (badge) badge.remove();
+
+        const btn = card.querySelector('.set-default-btn');
+        if (btn) {
+          btn.disabled = false;
+          btn.textContent = 'Hacer Predeterminado';
+        }
+      });
+
+      // Establecer como predeterminado la tarjeta seleccionada
+      targetCard.classList.add('payment-card--default');
+      const header = targetCard.querySelector('.payment-card__header');
+      if (header && !header.querySelector('.payment-card__badge')) {
+        const badge = document.createElement('span');
+        badge.className = 'payment-card__badge';
+        badge.textContent = 'Predeterminado';
+        header.insertBefore(badge, header.firstChild);
+      }
+
+      defaultBtn.disabled = true;
+      defaultBtn.textContent = 'En Uso';
+
+      showToast('Método de pago establecido como predeterminado', 'success');
+    });
+
+    if (paymentForm) {
+      paymentForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const type = document.getElementById('payment-type').value;
+        const name = document.getElementById('payment-name').value.trim();
+        const account = document.getElementById('payment-account').value.trim();
+        const limit = parseFloat(document.getElementById('payment-limit').value) || 0;
+
+        if (!name || !account) {
+          Swal.fire({ title: 'Datos Incompletos', text: 'Completá todos los campos requeridos.', icon: 'warning' });
+          return;
+        }
+
+        const newId = `pay-custom-${Date.now()}`;
+        const newCard = document.createElement('div');
+        newCard.className = 'payment-card';
+        newCard.dataset.id = newId;
+        newCard.innerHTML = `
+          <div class="payment-card__header">
+            <span class="payment-card__type">${type}</span>
+          </div>
+          <div class="payment-card__body">
+            <h3 class="payment-card__title">${name}</h3>
+            <p class="payment-card__number">${account}</p>
+            <div class="payment-card__details">
+              <div>
+                <span class="detail-label">Límite / Balance:</span>
+                <strong class="detail-val text-success">$ ${limit.toLocaleString('es-AR')} USD</strong>
+              </div>
+            </div>
+          </div>
+          <div class="payment-card__footer">
+            <span class="payment-card__status">✓ Verificado</span>
+            <button class="btn-xs-action set-default-btn" data-id="${newId}" type="button">Hacer Predeterminado</button>
+          </div>
+        `;
+
+        container.appendChild(newCard);
+
+        // Añadir opción al selector del modal de compras
+        const purchasePaymentSelect = document.getElementById('modal-payment-method');
+        if (purchasePaymentSelect) {
+          const opt = document.createElement('option');
+          opt.value = `${name} (${account})`;
+          opt.textContent = `${name} (${account})`;
+          purchasePaymentSelect.appendChild(opt);
+        }
+
+        closeAddModal();
+
+        Swal.fire({
+          title: '¡Método de Pago Homologado!',
+          text: `Se ha registrado exitosamente "${name}" como instrumento de pago de su cuenta corporativa.`,
+          icon: 'success'
+        });
+
+        showToast('Nuevo método de pago agregado', 'success');
+      });
+    }
+  }
+
   function setupPurchaseModal() {
     const modal = document.getElementById('purchase-modal');
     const openBtn = document.getElementById('open-purchase-modal');
@@ -498,7 +636,7 @@
     document.body.appendChild(canvas);
 
     const ctx = canvas.getContext('2d');
-    const stars = Array.from({ length: 90 }, () => ({ x: Math.random() * window.innerWidth, y: Math.random() * window.innerHeight, radius: Math.random() * 1.4 + 0.4, speed: Math.random() * 0.3 + 0.1 }));
+    const stars = Array.from({ length: 90 }, () => ({ x: Math.random() * window.innerWidth, y: Math.random() * window.innerHeight, radius: Math.radius || Math.random() * 1.4 + 0.4, speed: Math.random() * 0.3 + 0.1 }));
     const resize = () => {
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
@@ -527,6 +665,7 @@
     setupUserProfile();
     setupCatalogFiltering();
     setupCartDrawer();
+    setupPaymentMethods();
     setupPurchaseModal();
     setupOrderActions();
     setupThemeAndCanvas();

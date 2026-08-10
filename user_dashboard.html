@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Portal de Clientes de Stellarix Space Systems. Adquisición de componentes aeroespaciales y contratación de misiones.">
+  <meta name="description" content="Portal de Clientes de Stellarix Space Systems. Adquisición de componentes aeroespaciales y gestión de métodos de pago.">
   <title>Portal de Clientes · Stellarix Space Systems</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -31,7 +31,7 @@
         <p class="dashboard__nav-link"><a href="#contratar-mision">Contratar Misión</a></p>
         <p class="dashboard__nav-link"><a href="#mis-pedidos">Mis Pedidos y Contratos</a></p>
         <p class="dashboard__nav-link"><a href="#telemetria">Telemetría y Servicios</a></p>
-        <p class="dashboard__nav-link"><a href="#facturacion">Facturación y Pagos</a></p>
+        <p class="dashboard__nav-link"><a href="#metodos-pago" id="nav-metodos-pago">Métodos de Pago</a></p>
         <p class="dashboard__nav-link"><a href="#soporte">Soporte Técnico</a></p>
         <p class="dashboard__nav-link"><a href="index.html">Cerrar sesión</a></p>
       </nav>
@@ -62,7 +62,7 @@
           <div class="dashboard__welcome-head">
             <div>
               <h1 class="dashboard__welcome-title" id="titulo-bienvenida">Bienvenido/a, Dr. Carlos Mendoza</h1>
-              <p class="dashboard__welcome-text">Gestione sus adquisiciones aeroespaciales, contratos de misiones orbitales y seguimiento en tiempo real.</p>
+              <p class="dashboard__welcome-text">Gestione sus adquisiciones aeroespaciales, contratos de misiones orbitales y métodos de pago corporativos.</p>
             </div>
             
             <div class="header-actions">
@@ -438,6 +438,131 @@
     </div>
   </div>
 
+  <!-- PANEL / MODAL DE SUPERPOSICIÓN: MÉTODOS DE PAGO CORPORATIVOS -->
+  <div class="modal-overlay" id="payment-methods-modal" hidden>
+    <div class="modal-card modal-card--large">
+      <div class="modal-header">
+        <div>
+          <h3 class="modal-title">💳 Métodos de Pago & Financiamiento Corporativo</h3>
+          <p class="dashboard__panel-subtitle" style="margin-bottom:0;">Administre sus instrumentos financieros homologados para la emisión de contratos aeroespaciales.</p>
+        </div>
+        <button class="modal-close" id="close-payment-methods-modal" type="button">&times;</button>
+      </div>
+
+      <div class="modal-body-scroll">
+        <div style="display: flex; justify-content: flex-end; margin-bottom: 16px;">
+          <button class="btn-primary" id="open-add-payment-modal" type="button">+ Añadir Método de Pago</button>
+        </div>
+
+        <!-- GRID DE MÉTODOS DE PAGO EN SUPERPOSICIÓN -->
+        <div class="payment-cards-grid" id="payment-methods-container">
+          
+          <!-- Método 1: Línea de Crédito Directa VIP -->
+          <div class="payment-card payment-card--default" data-id="pay-vip-credit">
+            <div class="payment-card__header">
+              <span class="payment-card__badge">Predeterminado</span>
+              <span class="payment-card__type">Línea de Crédito Directa</span>
+            </div>
+            <div class="payment-card__body">
+              <h3 class="payment-card__title">Stellarix Corporate VIP Credit Line</h3>
+              <p class="payment-card__number">Cuenta: SATTECH-VIP-9948</p>
+              <div class="payment-card__details">
+                <div>
+                  <span class="detail-label">Límite Aprobado:</span>
+                  <strong class="detail-val">$ 25.000.000 USD</strong>
+                </div>
+                <div>
+                  <span class="detail-label">Saldo Disponible:</span>
+                  <strong class="detail-val text-success">$ 12.550.000 USD</strong>
+                </div>
+              </div>
+            </div>
+            <div class="payment-card__footer">
+              <span class="payment-card__status">✓ Verificado y Activo</span>
+              <button class="btn-xs-action set-default-btn" data-id="pay-vip-credit" type="button" disabled>En Uso</button>
+            </div>
+          </div>
+
+          <!-- Método 2: Transferencia Bancaria SWIFT International -->
+          <div class="payment-card" data-id="pay-swift-chase">
+            <div class="payment-card__header">
+              <span class="payment-card__type">Transferencia SWIFT / Wire</span>
+            </div>
+            <div class="payment-card__body">
+              <h3 class="payment-card__title">JPMorgan Chase Bank, N.A. (EE.UU.)</h3>
+              <p class="payment-card__number">SWIFT: CHASUS33XXXX · IBAN: US98CHAS...4910</p>
+              <div class="payment-card__details">
+                <div>
+                  <span class="detail-label">Titular:</span>
+                  <strong class="detail-val">SatTech Corporation LLC</strong>
+                </div>
+                <div>
+                  <span class="detail-label">Moneda:</span>
+                  <strong class="detail-val">USD / EUR</strong>
+                </div>
+              </div>
+            </div>
+            <div class="payment-card__footer">
+              <span class="payment-card__status">✓ Banco Homologado</span>
+              <button class="btn-xs-action set-default-btn" data-id="pay-swift-chase" type="button">Hacer Predeterminado</button>
+            </div>
+          </div>
+
+          <!-- Método 3: Tarjeta Platinum Corporate Space -->
+          <div class="payment-card" data-id="pay-card-visa">
+            <div class="payment-card__header">
+              <span class="payment-card__type">Tarjeta Corporativa</span>
+            </div>
+            <div class="payment-card__body">
+              <h3 class="payment-card__title">Visa Commercial Space Platinum</h3>
+              <p class="payment-card__number">•••• •••• •••• 8842</p>
+              <div class="payment-card__details">
+                <div>
+                  <span class="detail-label">Expiración:</span>
+                  <strong class="detail-val">11/2028</strong>
+                </div>
+                <div>
+                  <span class="detail-label">Titular:</span>
+                  <strong class="detail-val">Dr. Carlos Mendoza</strong>
+                </div>
+              </div>
+            </div>
+            <div class="payment-card__footer">
+              <span class="payment-card__status">✓ Verificado</span>
+              <button class="btn-xs-action set-default-btn" data-id="pay-card-visa" type="button">Hacer Predeterminado</button>
+            </div>
+          </div>
+
+          <!-- Método 4: Billetera Cripto / SpaceCredits USDC -->
+          <div class="payment-card" data-id="pay-crypto-usdc">
+            <div class="payment-card__header">
+              <span class="payment-card__type">Activo Digital / USDC</span>
+            </div>
+            <div class="payment-card__body">
+              <h3 class="payment-card__title">Billetera Digital Multicadena (USDC / SOL)</h3>
+              <p class="payment-card__number">Wallet: 0x71F8...B90A</p>
+              <div class="payment-card__details">
+                <div>
+                  <span class="detail-label">Balance Asignado:</span>
+                  <strong class="detail-val">2.500.000 USDC</strong>
+                </div>
+                <div>
+                  <span class="detail-label">Red:</span>
+                  <strong class="detail-val">Ethereum / Solana</strong>
+                </div>
+              </div>
+            </div>
+            <div class="payment-card__footer">
+              <span class="payment-card__status">✓ Contrato Inteligente</span>
+              <button class="btn-xs-action set-default-btn" data-id="pay-crypto-usdc" type="button">Hacer Predeterminado</button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- PANEL / DRAWER DESPLEGABLE DEL CARRITO DE COMPRAS -->
   <div class="cart-drawer-overlay" id="cart-drawer-overlay" hidden>
     <div class="cart-drawer">
@@ -475,6 +600,49 @@
     </div>
   </div>
 
+  <!-- MODAL DE NUEVO MÉTODO DE PAGO -->
+  <div class="modal-overlay" id="add-payment-modal" hidden>
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3 class="modal-title">Registrar Nuevo Método de Pago Corporativo</h3>
+        <button class="modal-close" id="close-payment-modal" type="button">&times;</button>
+      </div>
+
+      <form id="addPaymentForm" class="modal-form">
+        <div class="form-group-item">
+          <label for="payment-type">Tipo de Instrumento Financiero</label>
+          <select id="payment-type" class="modal-input">
+            <option value="Línea de Crédito Corporativa Directa">Línea de Crédito Corporativa Directa</option>
+            <option value="Transferencia SWIFT / Wire International">Transferencia SWIFT / Wire International</option>
+            <option value="Tarjeta Commercial Space Platinum (Visa/Mastercard)">Tarjeta Commercial Space Platinum (Visa/Mastercard)</option>
+            <option value="Billetera Criptoactivo / USDC SpaceToken">Billetera Criptoactivo / USDC SpaceToken</option>
+          </select>
+        </div>
+
+        <div class="form-group-item">
+          <label for="payment-name">Nombre / Titular o Institución Bancaria</label>
+          <input type="text" id="payment-name" class="modal-input" placeholder="Ej. JPMorgan Chase Bank / SatTech Corp" required>
+        </div>
+
+        <div class="form-group-row">
+          <div class="form-group-item">
+            <label for="payment-account">Número de Cuenta / Tarjeta / SWIFT</label>
+            <input type="text" id="payment-account" class="modal-input" placeholder="SWIFT / 16 Dígitos / Wallet" required>
+          </div>
+          <div class="form-group-item">
+            <label for="payment-limit">Monto o Línea Disponible ($ USD)</label>
+            <input type="number" id="payment-limit" class="modal-input" placeholder="5000000" required>
+          </div>
+        </div>
+
+        <div class="modal-actions">
+          <button type="button" class="btn-sm-outline" id="cancel-payment-btn">Cancelar</button>
+          <button type="submit" class="btn-primary">Homologar y Guardar Método</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
   <!-- MODAL DE NUEVA COMPRA / CONTRATACIÓN -->
   <div class="modal-overlay" id="purchase-modal" hidden>
     <div class="modal-card">
@@ -503,9 +671,10 @@
         <div class="form-group-item">
           <label for="modal-payment-method">Método de Pago / Financiamiento</label>
           <select id="modal-payment-method" class="modal-input">
-            <option value="Transferencia Bancaria Internacional (SWIFT)">Transferencia Bancaria Internacional (SWIFT)</option>
-            <option value="Línea de Crédito Corporativa VIP">Línea de Crédito Corporativa VIP</option>
-            <option value="Carta de Crédito Irrevocable (LC)">Carta de Crédito Irrevocable (LC)</option>
+            <option value="Línea de Crédito Directa Stellarix VIP (Predeterminado)">Línea de Crédito Directa Stellarix VIP (Predeterminado)</option>
+            <option value="Transferencia Bancaria Internacional (SWIFT JPMorgan)">Transferencia Bancaria Internacional (SWIFT JPMorgan)</option>
+            <option value="Visa Commercial Space Platinum (•••• 8842)">Visa Commercial Space Platinum (•••• 8842)</option>
+            <option value="Billetera Cripto / USDC SpaceToken">Billetera Cripto / USDC SpaceToken</option>
           </select>
         </div>
 
