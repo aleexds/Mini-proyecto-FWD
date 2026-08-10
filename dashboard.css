@@ -968,6 +968,143 @@ body{
 }
 
 /*=============================
+        GESTIÓN DE USUARIOS
+=============================*/
+
+.dashboard__users{
+    display:grid;
+    grid-template-columns:1fr 1.2fr;
+    gap:18px;
+    margin-bottom:20px;
+}
+
+.dashboard__users[hidden]{
+    display:none;
+}
+
+.dashboard__form{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:16px;
+}
+
+.dashboard__campo{
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+}
+
+.dashboard__label{
+    font-size:13px;
+    font-weight:600;
+    color:var(--text-light);
+}
+
+.dashboard__input{
+    width:100%;
+    padding:12px 14px;
+    border-radius:14px;
+    border:1px solid var(--border);
+    background:rgba(13,24,48,0.9);
+    color:var(--text);
+    font-family:'Inter',sans-serif;
+    font-size:14px;
+    outline:none;
+    transition:border-color .25s ease, box-shadow .25s ease;
+}
+
+.dashboard__input::placeholder{
+    color:#5b6782;
+}
+
+.dashboard__input:focus{
+    border-color:#67d9ff;
+    box-shadow:0 0 0 4px rgba(103,217,255,.15);
+}
+
+.dashboard__btn{
+    align-self:end;
+    padding:12px 22px;
+    border:none;
+    border-radius:14px;
+    background:var(--primary);
+    color:#fff;
+    font-family:'Inter',sans-serif;
+    font-size:14px;
+    font-weight:600;
+    cursor:pointer;
+    transition:background .25s ease, transform .15s ease, box-shadow .25s ease;
+}
+
+.dashboard__btn:hover{
+    background:var(--primary-hover);
+    transform:translateY(-2px);
+    box-shadow:0 10px 20px rgba(22,55,109,.18);
+}
+
+.dashboard__btn--primary{
+    background:var(--primary);
+}
+
+.dashboard__table-wrap{
+    width:100%;
+    overflow-x:auto;
+    border-radius:14px;
+    border:1px solid #eef2f8;
+}
+
+.dashboard__rol{
+    display:inline-block;
+    padding:4px 12px;
+    border-radius:30px;
+    font-size:12px;
+    font-weight:600;
+    background:rgba(103,217,255,.18);
+    color:#0e7ba8;
+}
+
+.dashboard__rol--admin{
+    background:rgba(246,200,95,.18);
+    color:#a16207;
+}
+
+.dashboard__accion{
+    padding:6px 12px;
+    margin-right:6px;
+    border:1px solid var(--border);
+    border-radius:10px;
+    background:rgba(19,43,74,.55);
+    color:#67d9ff;
+    font-family:'Inter',sans-serif;
+    font-size:12px;
+    font-weight:600;
+    cursor:pointer;
+    transition:background .2s ease, color .2s ease;
+}
+
+.dashboard__accion:hover{
+    background:#67d9ff;
+    color:#07111f;
+}
+
+.dashboard__accion--danger{
+    color:#ef4444;
+    border-color:rgba(239,68,68,.4);
+}
+
+.dashboard__accion--danger:hover{
+    background:#ef4444;
+    color:#fff;
+}
+
+.dashboard__vacio{
+    text-align:center;
+    color:var(--text-light);
+    font-size:14px;
+    padding:18px;
+}
+
+/*=============================
         MODO OSCURO
 =============================*/
 
@@ -1055,6 +1192,29 @@ body[data-theme="light"] .dashboard__card-value{
 
 body[data-theme="light"] .dashboard__welcome-title{
     color:#13264d;
+}
+
+body[data-theme="light"] .dashboard__input{
+    background:#ffffff;
+    border-color:#e4e8f1;
+    color:#13264d;
+}
+
+body[data-theme="light"] .dashboard__input::placeholder{
+    color:#9aa4b8;
+}
+
+body[data-theme="light"] .dashboard__input:focus{
+    border-color:#16376d;
+    box-shadow:0 0 0 4px rgba(22,55,109,.08);
+}
+
+body[data-theme="light"] .dashboard__label{
+    color:#5b6782;
+}
+
+body[data-theme="light"] .dashboard__table-wrap{
+    border-color:#e4e8f1;
 }
 
 body[data-theme="light"] .dashboard__welcome-text,
