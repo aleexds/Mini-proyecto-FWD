@@ -190,6 +190,10 @@ body{
     box-shadow:0 10px 25px rgba(22,55,109,.25);
 }
 
+.dashboard__user-avatar[hidden]{
+    display:none !important;
+}
+
 .dashboard__avatar-button{
     position:absolute;
     right:-4px;
