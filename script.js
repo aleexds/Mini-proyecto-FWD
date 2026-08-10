@@ -6,7 +6,14 @@
     dragItems: 'fwd-drag-items',
     clients: 'fwd-clients',
     products: 'fwd-products',
-    suppliers: 'fwd-suppliers'
+    suppliers: 'fwd-suppliers',
+    settings: 'fwd-settings'
+  };
+
+  const defaultSettings = {
+    brandName: 'Stellarix',
+    brandTagline: 'Innovando el futuro de la tecnología aeroespacial',
+    welcomeText: 'Estos son los datos resumidos de tus operaciones.'
   };
 
   const defaultUser = {
@@ -70,6 +77,28 @@
     return name.split(' ').filter(Boolean).slice(0, 2).map((part) => part[0].toUpperCase()).join('') || 'U';
   }
 
+  function getSettings() {
+    const settings = readStorage(STORAGE_KEYS.settings, null);
+    return { ...defaultSettings, ...(settings || {}) };
+  }
+
+  function saveSettings(settings) {
+    writeStorage(STORAGE_KEYS.settings, settings);
+  }
+
+  function applySettings() {
+    const settings = getSettings();
+    const brandName = settings.brandName || defaultSettings.brandName;
+    const tagline = settings.brandTagline || defaultSettings.brandTagline;
+    document.querySelectorAll('.login-brand-name').forEach((el) => { el.textContent = brandName; });
+    document.querySelectorAll('.login-brand-tagline').forEach((el) => { el.textContent = tagline; });
+    const dashboardBrand = document.querySelector('.dashboard__logo h2');
+    if (dashboardBrand) dashboardBrand.textContent = brandName;
+    const adminBrand = document.getElementById('admin-brand');
+    if (adminBrand) adminBrand.textContent = brandName;
+    document.title = document.title.replace(/Stellarix/g, brandName);
+  }
+
   function showToast(message, type = 'info') {
     if (typeof Toastify === 'undefined') return;
     const palette = { success: '#24b47e', error: '#e5484d', info: '#3b82f6', warning: '#f59e0b' };
@@ -115,13 +144,59 @@
         if (matchedUser) {
           clearLoginError();
           saveActiveUser(matchedUser);
-          showToast('Bienvenido', 'success');
+          showToast('¡Ingreso exitoso! Has entrado a la página de inicio.', 'success');
           setTimeout(() => {
             window.location.href = 'Dashboard.html';
-          }, 1200);
+          }, 3500);
         } else {
           setLoginError();
-          showToast('Error: Credenciales incorrectas', 'error');
+          showToast('No pudiste ingresar. Usuario o contraseña incorrectos.', 'error');
+        }
+      });
+    }
+
+    const adminLoginBtn = document.getElementById('adminLoginBtn');
+    const adminModal = document.getElementById('adminModal');
+    const adminForm = document.getElementById('adminForm');
+
+    const openAdminModal = () => {
+      if (adminModal) adminModal.hidden = false;
+    };
+
+    const closeAdminModal = () => {
+      if (adminModal) adminModal.hidden = true;
+    };
+
+    if (adminLoginBtn) {
+      adminLoginBtn.addEventListener('click', openAdminModal);
+    }
+
+    if (adminModal) {
+      adminModal.querySelectorAll('[data-admin-close]').forEach((el) => {
+        el.addEventListener('click', closeAdminModal);
+      });
+      document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape' && !adminModal.hidden) closeAdminModal();
+      });
+    }
+
+    if (adminForm) {
+      adminForm.addEventListener('submit', (event) => {
+        event.preventDefault();
+        const adminUser = document.getElementById('adminUser')?.value.trim() || '';
+        const adminPass = document.getElementById('adminPass')?.value.trim() || '';
+
+        if (adminUser === 'UsuarioAdmin' && adminPass === 'Admin') {
+          closeAdminModal();
+          const admin = getUsers().find((user) => user.username.toLowerCase() === defaultUser.username.toLowerCase()) || defaultUser;
+          clearLoginError();
+          saveActiveUser(admin);
+          showToast('Ingresaste como administrador. Bienvenido al panel.', 'success');
+          setTimeout(() => {
+            window.location.href = 'Dashboard.html';
+          }, 3500);
+        } else {
+          showToast('No pudiste ingresar como administrador. Credenciales incorrectas.', 'error');
         }
       });
     }
@@ -129,10 +204,10 @@
     if (registrationForm) {
       registrationForm.addEventListener('submit', (event) => {
         event.preventDefault();
-        const nombre = document.getElementById('nombre')?.value.trim() || '';
-        const apellido = document.getElementById('apellido')?.value.trim() || '';
-        const usuario = document.getElementById('usuario')?.value.trim() || '';
-        const password = document.getElementById('password')?.value.trim() || '';
+        const nombre = document.getElementById('regNombre')?.value.trim() || '';
+        const apellido = document.getElementById('regApellido')?.value.trim() || '';
+        const usuario = document.getElementById('regUsuario')?.value.trim() || '';
+        const password = document.getElementById('regPassword')?.value.trim() || '';
 
         if (!nombre || !apellido || !usuario || !password) {
           Swal.fire({ title: 'Datos incompletos', text: 'Completá todos los campos.', icon: 'warning' });
@@ -150,10 +225,24 @@
         users.push(newUser);
         saveUsers(users);
         saveActiveUser(newUser);
-        Swal.fire({ title: 'Registro exitoso', text: 'Tu cuenta quedó creada.', icon: 'success' }).then(() => {
-          window.location.href = 'index.html';
+        Swal.fire({ title: 'Registro exitoso', text: 'Tu cuenta quedó creada. Bienvenido/a.', icon: 'success' }).then(() => {
+          window.location.href = 'Dashboard.html';
         });
       });
+    }
+
+    if (pageName === 'Usuarios.html') {
+      const tabs = document.querySelectorAll('.usuarios-tab[data-tab]');
+      const panels = document.querySelectorAll('.usuarios-panel[data-panel]');
+
+      const showPanel = (name) => {
+        tabs.forEach((tab) => tab.classList.toggle('usuarios-tab--active', tab.dataset.tab === name));
+        panels.forEach((panel) => {
+          panel.hidden = panel.dataset.panel !== name;
+        });
+      };
+
+      tabs.forEach((tab) => tab.addEventListener('click', () => showPanel(tab.dataset.tab)));
     }
   }
 
@@ -180,7 +269,7 @@
   }
 
   function setupDashboard() {
-    if (pageName !== 'Dashboard.html') return;
+    if (pageName.toLowerCase() !== 'dashboard.html') return;
     const activeUser = getActiveUser();
     if (!activeUser) {
       Swal.fire({ title: 'Sesión requerida', text: 'Debes iniciar sesión primero.', icon: 'warning' }).then(() => {
@@ -197,9 +286,15 @@
     const fileInput = document.getElementById('avatar-file-input');
     const displayName = getDisplayName(activeUser);
 
-    if (welcomeTitle) welcomeTitle.textContent = `Bienvenido, ${activeUser.username || displayName}`;
+    if (welcomeTitle) welcomeTitle.textContent = `Bienvenido/a de nuevo, ${displayName}`;
     if (userNameElement) userNameElement.textContent = displayName;
     if (initialsElement) initialsElement.textContent = getInitials(displayName);
+
+    const settings = getSettings();
+    if (settings.welcomeText) {
+      const welcomeTextElement = document.querySelector('.dashboard__welcome-text');
+      if (welcomeTextElement) welcomeTextElement.textContent = settings.welcomeText;
+    }
 
     if (avatarElement) {
       const avatarValue = activeUser.avatar || '';
@@ -273,8 +368,134 @@
     }
   }
 
+  function setupDashboardUsers() {
+    if (pageName !== 'Dashboard.html') return;
+    const activeUser = getActiveUser();
+    if (!activeUser) return;
+
+    const isAdminUser = activeUser.username && activeUser.username.toLowerCase() === defaultUser.username.toLowerCase();
+
+    const navUsers = document.getElementById('nav-usuarios');
+    const usersSection = document.getElementById('usuarios');
+    if (!navUsers || !usersSection) return;
+
+    if (!isAdminUser) {
+      navUsers.hidden = true;
+      usersSection.hidden = true;
+      return;
+    }
+    navUsers.hidden = false;
+    usersSection.hidden = false;
+
+    const tbody = document.getElementById('dashboard-users-tbody');
+    const form = document.getElementById('dashboardUserForm');
+    if (!tbody) return;
+
+    const renderUsers = () => {
+      const users = getUsers();
+      tbody.innerHTML = '';
+      if (users.length === 0) {
+        tbody.innerHTML = '<tr><td class="dashboard__vacio" colspan="5">No hay usuarios registrados.</td></tr>';
+        return;
+      }
+      users.forEach((user) => {
+        const admin = user.username && user.username.toLowerCase() === defaultUser.username.toLowerCase();
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td>${user.username || ''}</td>
+          <td>${user.nombre || ''}</td>
+          <td>${user.apellido || ''}</td>
+          <td><span class="dashboard__rol ${admin ? 'dashboard__rol--admin' : ''}">${admin ? 'Administrador' : 'Usuario'}</span></td>
+          <td>
+            <button class="dashboard__accion" data-edit-user="${user.username}" type="button">Editar</button>
+            ${admin ? '' : `<button class="dashboard__accion dashboard__accion--danger" data-delete-user="${user.username}" type="button">Eliminar</button>`}
+          </td>
+        `;
+        tbody.appendChild(row);
+      });
+    };
+
+    renderUsers();
+
+    if (form) {
+      form.addEventListener('submit', (event) => {
+        event.preventDefault();
+        const nombre = document.getElementById('dashUserNombre')?.value.trim() || '';
+        const apellido = document.getElementById('dashUserApellido')?.value.trim() || '';
+        const usuario = document.getElementById('dashUserUsuario')?.value.trim() || '';
+        const password = document.getElementById('dashUserPassword')?.value.trim() || '';
+
+        if (!nombre || !usuario || !password) {
+          showToast('Completá nombre, usuario y contraseña.', 'warning');
+          return;
+        }
+
+        const users = getUsers();
+        if (users.some((u) => u.username && u.username.toLowerCase() === usuario.toLowerCase())) {
+          showToast('Ese usuario ya existe.', 'warning');
+          return;
+        }
+
+        users.push({ username: usuario, nombre, apellido, password });
+        saveUsers(users);
+        form.reset();
+        renderUsers();
+        showToast('Usuario creado correctamente.', 'success');
+      });
+    }
+
+    tbody.addEventListener('click', async (event) => {
+      const editBtn = event.target.closest('[data-edit-user]');
+      const deleteBtn = event.target.closest('[data-delete-user]');
+
+      if (editBtn) {
+        const username = editBtn.getAttribute('data-edit-user');
+        const users = getUsers();
+        const user = users.find((u) => u.username === username);
+        if (!user) return;
+        const result = await Swal.fire({
+          title: `Editar usuario: ${username}`,
+          html: `
+            <label>Nombre</label>
+            <input id="dash-e-nombre" class="swal2-input" value="${user.nombre || ''}">
+            <label>Apellido</label>
+            <input id="dash-e-apellido" class="swal2-input" value="${user.apellido || ''}">
+            <label>Contraseña</label>
+            <input id="dash-e-password" type="password" class="swal2-input" value="${user.password || ''}">
+          `,
+          showCancelButton: true,
+          confirmButtonText: 'Guardar'
+        });
+        if (!result.isConfirmed) return;
+        user.nombre = document.getElementById('dash-e-nombre')?.value.trim() || user.nombre || '';
+        user.apellido = document.getElementById('dash-e-apellido')?.value.trim() || user.apellido || '';
+        user.password = document.getElementById('dash-e-password')?.value.trim() || user.password || '';
+        saveUsers(users);
+        renderUsers();
+        showToast('Usuario actualizado.', 'success');
+        return;
+      }
+
+      if (deleteBtn) {
+        const username = deleteBtn.getAttribute('data-delete-user');
+        const result = await Swal.fire({
+          title: '¿Eliminar usuario?',
+          text: `Se eliminará la cuenta "${username}".`,
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonText: 'Eliminar',
+          cancelButtonText: 'Cancelar'
+        });
+        if (!result.isConfirmed) return;
+        saveUsers(getUsers().filter((u) => u.username !== username));
+        renderUsers();
+        showToast('Usuario eliminado.', 'success');
+      }
+    });
+  }
+
   function setupModuleForms() {
-    if (pageName === 'Clientes.html') {
+    if (pageName.toLowerCase() === 'clientes.html') {
       const form = document.getElementById('clienteForm');
       const tbody = document.querySelector('.clientes__tbody');
       if (!form || !tbody) return;
@@ -317,7 +538,7 @@
       });
     }
 
-    if (pageName === 'Productos.html') {
+    if (pageName.toLowerCase() === 'productos.html') {
       const form = document.getElementById('productoForm');
       const tbody = document.querySelector('.productos__tbody');
       if (!form || !tbody) return;
@@ -360,7 +581,7 @@
       });
     }
 
-    if (pageName === 'Proveedores.html') {
+    if (pageName.toLowerCase() === 'proveedores.html') {
       const form = document.getElementById('proveedorForm');
       const tbody = document.querySelector('.proveedores__tbody');
       if (!form || !tbody) return;
@@ -419,37 +640,27 @@
     toolbar.style.backdropFilter = 'blur(8px)';
     document.body.appendChild(toolbar);
 
+    const savedTheme = readStorage(STORAGE_KEYS.theme, null);
+    const initialTheme = savedTheme === 'light' ? 'light' : 'dark';
+    document.body.dataset.theme = initialTheme;
+
     const themeButton = document.createElement('button');
     themeButton.type = 'button';
+    themeButton.textContent = initialTheme === 'dark' ? '☀️' : '🌙';
     themeButton.style.border = 'none';
     themeButton.style.borderRadius = '999px';
     themeButton.style.padding = '8px 10px';
     themeButton.style.cursor = 'pointer';
-
-    const naturalTheme = pageName === 'Dashboard.html' ? 'dark' : 'light';
-    const currentTheme = readStorage(STORAGE_KEYS.theme, naturalTheme) === 'dark' ? 'dark' : 'light';
-    document.body.dataset.theme = currentTheme;
-    themeButton.textContent = currentTheme === 'dark' ? '☀️' : '🌙';
-
-    const applyTheme = (next) => {
-      document.body.dataset.theme = next;
-      writeStorage(STORAGE_KEYS.theme, next);
-      themeButton.textContent = next === 'dark' ? '☀️' : '🌙';
-      showToast(next === 'dark' ? 'Modo oscuro activado' : 'Modo claro activado', 'info');
-    };
-
     themeButton.addEventListener('click', () => {
-      applyTheme(document.body.dataset.theme === 'dark' ? 'light' : 'dark');
+      const next = document.body.dataset.theme === 'dark' ? 'light' : 'dark';
+      document.body.dataset.theme = next;
+      themeButton.textContent = next === 'dark' ? '☀️' : '🌙';
+      writeStorage(STORAGE_KEYS.theme, next);
+      showToast(next === 'dark' ? 'Modo oscuro activado' : 'Modo claro activado', 'info');
     });
     toolbar.appendChild(themeButton);
 
-    document.querySelectorAll('.reportes__theme-toggle, .inventario__theme-toggle').forEach((toggle) => {
-      toggle.addEventListener('click', () => {
-        applyTheme(document.body.dataset.theme === 'dark' ? 'light' : 'dark');
-      });
-    });
-
-    if (pageName === 'Dashboard.html') {
+    if (pageName.toLowerCase() === 'dashboard.html') {
       const searchInput = document.createElement('input');
       searchInput.placeholder = 'Buscar...';
       searchInput.style.border = 'none';
@@ -505,7 +716,7 @@
     const reset = () => {
       clearTimeout(timer);
       timer = setTimeout(() => {
-        showToast('¿Seguís ahí? Hay actividad reciente.', 'warning');
+        showToast('¿Seguís ahí? No se detecta actividad.', 'warning');
       }, 300000);
     };
     ['mousemove', 'keydown', 'click', 'touchstart'].forEach((eventName) => {
@@ -524,10 +735,10 @@
   }
 
   function ensureAuthForProtectedPages() {
-    const protectedPages = ['Dashboard.html', 'Clientes.html', 'Productos.html', 'Proveedores.html'];
+    const protectedPages = ['Dashboard.html', 'Clientes.html', 'Productos.html', 'Proveedores.html', 'Misiones.html', 'Empleados.html', 'Reportes.html', 'Configuracion.html'];
     if (protectedPages.includes(pageName) && !getActiveUser()) {
       Swal.fire({ title: 'Sesión requerida', text: 'Debes iniciar sesión antes de entrar.', icon: 'warning' }).then(() => {
-        window.location.href = 'index.html';
+        window.location.href = 'Usuarios.html';
       });
       return false;
     }
@@ -536,6 +747,7 @@
 
   function init() {
     getUsers();
+    applySettings();
     setupAuth();
     setupNavigation();
     setupThemeAndEffects();
@@ -543,6 +755,7 @@
     setupKeyboardShortcuts();
     if (ensureAuthForProtectedPages()) {
       setupDashboard();
+      setupDashboardUsers();
       setupModuleForms();
     }
   }
