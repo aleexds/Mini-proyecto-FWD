@@ -115,12 +115,13 @@
         if (matchedUser) {
           clearLoginError();
           saveActiveUser(matchedUser);
-          Swal.fire({ title: 'Acceso concedido', text: 'Bienvenido al panel.', icon: 'success' }).then(() => {
+          showToast('¡Ingreso exitoso! Has entrado a la página de inicio.', 'success');
+          setTimeout(() => {
             window.location.href = 'Dashboard.html';
-          });
+          }, 3500);
         } else {
           setLoginError();
-          Swal.fire({ title: 'Error', text: 'Credenciales incorrectas', icon: 'error' });
+          showToast('No pudiste ingresar. Usuario o contraseña incorrectos.', 'error');
         }
       });
     }
@@ -418,9 +419,15 @@
     toolbar.style.backdropFilter = 'blur(8px)';
     document.body.appendChild(toolbar);
 
+    const savedTheme = readStorage(STORAGE_KEYS.theme, null);
+    const initialTheme = savedTheme === 'light' ? 'light' : 'dark';
+    document.body.dataset.theme = initialTheme;
+    document.body.style.background = initialTheme === 'dark' ? '#07111f' : '#f4f7ff';
+    document.body.style.color = initialTheme === 'dark' ? '#f3f6ff' : '#132035';
+
     const themeButton = document.createElement('button');
     themeButton.type = 'button';
-    themeButton.textContent = '🌙';
+    themeButton.textContent = initialTheme === 'dark' ? '☀️' : '🌙';
     themeButton.style.border = 'none';
     themeButton.style.borderRadius = '999px';
     themeButton.style.padding = '8px 10px';

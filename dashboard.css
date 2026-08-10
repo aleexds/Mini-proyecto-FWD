@@ -99,7 +99,7 @@ body{
 
     padding:12px 16px;
 
-    color:#5b6782;
+    color:#ffffff;
 
     font-weight:500;
 
@@ -107,7 +107,9 @@ body{
 
 .dashboard__nav-link:hover{
 
-    background:white;
+    background:var(--primary);
+
+    color:white;
 
     box-shadow:var(--shadow);
 
