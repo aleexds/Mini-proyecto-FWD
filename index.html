@@ -72,7 +72,18 @@
 
   </div>
 
-        <form id="loginForm">
+  <!-- MODAL DE ACCESO ADMINISTRADOR -->
+  <div class="admin-modal" id="adminModal" hidden>
+    <div class="admin-modal__backdrop" data-admin-close></div>
+    <div class="admin-tablet">
+      <span class="admin-tablet__camera"></span>
+      <div class="admin-tablet__visual">
+        <span class="admin-tablet__badge">SECURE ADMIN ACCESS</span>
+      </div>
+      <div class="admin-tablet__body">
+        <h2 class="admin-tablet__title">Acceso Administrador</h2>
+        <p class="admin-tablet__text">Ingresá tus credenciales de administrador para entrar al panel de control.</p>
+        <form id="adminForm">
           <div class="form-group">
             <label for="adminUser">Usuario</label>
             <div class="input-wrapper">
@@ -80,7 +91,7 @@
                 <path d="M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8Z" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
                 <path d="M4 20c1.5-3.5 4.7-5.5 8-5.5s6.5 2 8 5.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
               </svg>
-              <input type="text" id="adminUser" name="adminUser" placeholder="UsuarioAdmin" autocomplete="username">
+              <input type="text" id="adminUser" name="adminUser" placeholder="FWD" autocomplete="username" required>
             </div>
           </div>
 
@@ -91,7 +102,7 @@
                 <rect x="5" y="10.5" width="14" height="9.5" rx="2" stroke="currentColor" stroke-width="1.6"/>
                 <path d="M8 10.5V7.5a4 4 0 0 1 8 0v3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
               </svg>
-              <input type="password" id="adminPass" name="adminPass" placeholder="Ingresá la contraseña" autocomplete="current-password">
+              <input type="password" id="adminPass" name="adminPass" placeholder="Ingresá la contraseña" autocomplete="current-password" required>
             </div>
           </div>
 
