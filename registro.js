@@ -60,7 +60,7 @@ if (registroForm) {
 
     Swal.fire({
       title: 'Registro exitoso',
-      text: `Tu cuenta fue creada. Iniciá sesión con el usuario "${usuario}" y tu contraseña.`,
+      text: `Tu cuenta fue creada con éxito.`,
       icon: 'success'
     }).then(() => {
       window.location.href = 'index.html';
