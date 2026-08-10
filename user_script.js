@@ -5,7 +5,8 @@
     theme: 'fwd-user-theme',
     orders: 'fwd-user-orders',
     cart: 'fwd-user-cart',
-    payments: 'fwd-user-payments'
+    payments: 'fwd-user-payments',
+    tickets: 'fwd-user-tickets'
   };
 
   const defaultUser = {
@@ -457,6 +458,69 @@
     }
   }
 
+  function setupSupportModal() {
+    const modal = document.getElementById('support-modal');
+    const closeBtn = document.getElementById('close-support-modal');
+    const navLink = document.getElementById('nav-soporte');
+    const ticketForm = document.getElementById('supportTicketForm');
+    const ticketsTbody = document.getElementById('support-tickets-tbody');
+
+    function openSupportModal(e) {
+      if (e) e.preventDefault();
+      if (modal) modal.hidden = false;
+    }
+
+    function closeSupportModal() {
+      if (modal) modal.hidden = true;
+    }
+
+    if (navLink) navLink.addEventListener('click', openSupportModal);
+    if (closeBtn) closeBtn.addEventListener('click', closeSupportModal);
+
+    if (ticketForm) {
+      ticketForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const category = document.getElementById('ticket-category').value;
+        const priority = document.getElementById('ticket-priority').value;
+        const subject = document.getElementById('ticket-subject').value.trim();
+        const description = document.getElementById('ticket-description').value.trim();
+
+        if (!subject || !description) {
+          Swal.fire({ title: 'Formulario Incompleto', text: 'Por favor ingrese el asunto y la descripción de su consulta.', icon: 'warning' });
+          return;
+        }
+
+        const ticketId = `TCK-${Math.floor(1000 + Math.random() * 9000)}`;
+        const dateStr = new Date().toISOString().split('T')[0];
+        const priorityClass = priority === 'Critica' || priority === 'Alta' ? 'warning' : 'success';
+
+        if (ticketsTbody) {
+          const row = document.createElement('tr');
+          row.innerHTML = `
+            <td>${ticketId}</td>
+            <td>${subject}</td>
+            <td>${category}</td>
+            <td><span class="status ${priorityClass}">${priority}</span></td>
+            <td><span class="status success">Abierto / Asignado a Ingeniería</span></td>
+            <td>${dateStr}</td>
+          `;
+          ticketsTbody.insertBefore(row, ticketsTbody.firstChild);
+        }
+
+        ticketForm.reset();
+
+        Swal.fire({
+          title: '¡Ticket Enviado a Control de Misión!',
+          text: `Su solicitud (${ticketId}) ha sido asignada a nuestro equipo de ingenieros aeroespaciales. Nos comunicaremos a la brevedad.`,
+          icon: 'success',
+          confirmButtonText: 'Entendido'
+        });
+
+        showToast(`Ticket de Soporte ${ticketId} registrado con éxito`, 'success');
+      });
+    }
+  }
+
   function setupPurchaseModal() {
     const modal = document.getElementById('purchase-modal');
     const openBtn = document.getElementById('open-purchase-modal');
@@ -592,16 +656,6 @@
     });
   }
 
-  function setupLogout() {
-    document.querySelectorAll('a[href="index.html"]').forEach((link) => {
-      link.addEventListener('click', (event) => {
-        event.preventDefault();
-        localStorage.removeItem(STORAGE_KEYS.activeUser);
-        window.location.href = 'index.html';
-      });
-    });
-  }
-
   function setupThemeAndCanvas() {
     const toolbar = document.createElement('div');
     toolbar.id = 'global-toolbar';
@@ -646,7 +700,7 @@
     document.body.appendChild(canvas);
 
     const ctx = canvas.getContext('2d');
-    const stars = Array.from({ length: 90 }, () => ({ x: Math.random() * window.innerWidth, y: Math.random() * window.innerHeight, radius: Math.radius || Math.random() * 1.4 + 0.4, speed: Math.random() * 0.3 + 0.1 }));
+    const stars = Array.from({ length: 90 }, () => ({ x: Math.random() * window.innerWidth, y: Math.random() * window.innerHeight, radius: Math.random() * 1.4 + 0.4, speed: Math.random() * 0.3 + 0.1 }));
     const resize = () => {
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
@@ -676,10 +730,11 @@
     setupCatalogFiltering();
     setupCartDrawer();
     setupPaymentMethods();
+    setupSupportModal();
     setupPurchaseModal();
     setupOrderActions();
     setupThemeAndCanvas();
-    setupLogout();
+    updateCartUI();
   }
 
   if (document.readyState === 'loading') {
