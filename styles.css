@@ -35,6 +35,132 @@ body {
   color: var(--text-dark);
 }
 
+/*==============================================
+      ANIMACIÓN DE ENTRADA (INTRO OVERLAY)
+==============================================*/
+.intro-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: radial-gradient(circle at center, rgba(13, 24, 48, 0.98) 0%, rgba(3, 7, 18, 0.99) 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(12px);
+  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.8s ease;
+}
+
+.intro-overlay.intro-fade-out {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.intro-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 20px;
+  animation: introPulse 2s ease-in-out infinite alternate;
+}
+
+.intro-logo-shell {
+  position: relative;
+  width: 84px;
+  height: 84px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.intro-orbit-ring {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 2px dashed rgba(103, 217, 255, 0.4);
+  border-top-color: var(--accent-cyan);
+  animation: spinOrbit 2.5s linear infinite;
+  box-shadow: 0 0 20px rgba(103, 217, 255, 0.2);
+}
+
+.intro-rocket-icon {
+  width: 50px;
+  height: 50px;
+  color: var(--accent-cyan);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  filter: drop-shadow(0 0 10px rgba(103, 217, 255, 0.6));
+}
+
+.intro-rocket-icon svg {
+  width: 38px;
+  height: 38px;
+}
+
+.intro-title {
+  margin: 0;
+  font-size: 26px;
+  font-weight: 800;
+  letter-spacing: 6px;
+  color: #ffffff;
+  text-shadow: 0 0 15px rgba(103, 217, 255, 0.5);
+}
+
+.intro-subtitle {
+  margin: 4px 0 24px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 4px;
+  color: var(--accent-cyan);
+  opacity: 0.9;
+}
+
+.intro-loader {
+  width: 200px;
+  height: 4px;
+  background: rgba(103, 217, 255, 0.15);
+  border-radius: 999px;
+  overflow: hidden;
+  margin-bottom: 14px;
+  box-shadow: 0 0 10px rgba(103, 217, 255, 0.2);
+}
+
+.intro-loader-bar {
+  width: 0%;
+  height: 100%;
+  background: linear-gradient(90deg, #00c6ff, #0072ff);
+  border-radius: 999px;
+  animation: loadProgress 1.6s ease-in-out forwards;
+}
+
+.intro-status {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+}
+
+@keyframes spinOrbit {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes loadProgress {
+  0% { width: 0%; }
+  50% { width: 65%; }
+  100% { width: 100%; }
+}
+
+@keyframes introPulse {
+  0% { transform: scale(0.98); }
+  100% { transform: scale(1.02); }
+}
+
+/* ENTRADA ANIMADA DEL CONTENEDOR DE LOGIN */
 .login-container {
   display: flex;
   width: 100%;
@@ -45,6 +171,16 @@ body {
   overflow: hidden;
   box-shadow: 0 35px 80px -20px rgba(0, 0, 0, 0.45);
   border: 1px solid rgba(103,217,255,0.25);
+  opacity: 0;
+  transform: translateY(35px) scale(0.96);
+  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1), filter 0.8s ease;
+  filter: blur(8px);
+}
+
+.login-container.login-container--visible {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  filter: blur(0);
 }
 
 /* ---------- Panel izquierdo: imagen del satélite ---------- */
@@ -57,17 +193,11 @@ body {
   justify-content: flex-end;
   padding: 40px;
   color: #ffffff;
-
-  /* Espacio reservado para tu imagen del satélite.
-     Reemplazá el gradiente de abajo por tu propia imagen, por ejemplo:
-     background-image: linear-gradient(180deg, rgba(14,27,48,.35), rgba(10,18,33,.85)), url('tu-imagen.jpg'); */
   background-image: linear-gradient(180deg, rgba(14, 27, 48, 0.35) 0%, rgba(10, 18, 33, 0.9) 100%);
   background-size: cover;
   background-position: center;
 }
 
-/* Mismo panel visual, usado en registro.html con una imagen de fondo propia
-   (definida inline con style="background-image:url('descarga.jpg')") */
 .regis-visual {
   position: relative;
   flex: 1 1 50%;

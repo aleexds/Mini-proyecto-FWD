@@ -83,6 +83,27 @@
     }).showToast();
   }
 
+  function setupIntroAnimation() {
+    const introOverlay = document.getElementById('introOverlay');
+    const loginContainer = document.getElementById('loginContainer');
+
+    if (!introOverlay) {
+      if (loginContainer) loginContainer.classList.add('login-container--visible');
+      return;
+    }
+
+    setTimeout(() => {
+      introOverlay.classList.add('intro-fade-out');
+      if (loginContainer) {
+        loginContainer.classList.add('login-container--visible');
+      }
+
+      setTimeout(() => {
+        introOverlay.style.display = 'none';
+      }, 800);
+    }, 1600);
+  }
+
   function setupAuth() {
     const loginForm = document.getElementById('loginForm');
     const registrationForm = document.getElementById('registroForm');
@@ -525,6 +546,7 @@
   }
 
   function init() {
+    setupIntroAnimation();
     getUsers();
     setupAuth();
     setupNavigation();
