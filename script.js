@@ -1,4 +1,4 @@
-﻿(() => {
+(() => {
   const STORAGE_KEYS = {
     users: 'fwd-registered-users',
     activeUser: 'fwd-active-user',
@@ -17,7 +17,8 @@
     username: 'FWD',
     password: '1234',
     nombre: 'FWD',
-    apellido: 'Admin'
+    apellido: 'Admin',
+    rol: 'Administrador'
   };
 
   const pageName = window.location.pathname.split('/').pop() || 'index.html';
@@ -39,29 +40,23 @@
   }
 
   function getUsers() {
-    const users = readStorage(STORAGE_KEYS.users, []);
-    if (!Array.isArray(users)) return [defaultUser];
-    if (!users.some((user) => user.username && user.username.toLowerCase() === defaultUser.username.toLowerCase())) {
-      users.unshift(defaultUser);
-      writeStorage(STORAGE_KEYS.users, users);
-    }
-    return users;
+    return window.FWDData.getUsers();
   }
 
   function saveUsers(users) {
-    writeStorage(STORAGE_KEYS.users, users);
+    window.FWDData.saveUsers(users);
   }
 
   function getActiveUser() {
-    return readStorage(STORAGE_KEYS.activeUser, null);
+    return window.FWDData.getActiveUser();
   }
 
   function saveActiveUser(user) {
-    writeStorage(STORAGE_KEYS.activeUser, user);
+    window.FWDData.saveActiveUser(user);
   }
 
   function clearActiveUser() {
-    localStorage.removeItem(STORAGE_KEYS.activeUser);
+    window.FWDData.clearActiveUser();
   }
 
   function getDisplayName(user) {
@@ -239,7 +234,7 @@
           return;
         }
 
-        const newUser = { username: usuario, nombre, apellido, password };
+        const newUser = { username: usuario, nombre, apellido, password, rol: 'Operador' };
         users.push(newUser);
         saveUsers(users);
         saveActiveUser(newUser);
@@ -423,7 +418,7 @@
           <td>${user.username || ''}</td>
           <td>${user.nombre || ''}</td>
           <td>${user.apellido || ''}</td>
-          <td><span class="dashboard__rol ${admin ? 'dashboard__rol--admin' : ''}">${admin ? 'Administrador' : 'Usuario'}</span></td>
+          <td><span class="dashboard__rol ${admin ? 'dashboard__rol--admin' : ''}">${admin ? 'Administrador' : 'Operador'}</span></td>
           <td>
             <button class="dashboard__accion" data-edit-user="${user.username}" type="button">Editar</button>
             ${admin ? '' : `<button class="dashboard__accion dashboard__accion--danger" data-delete-user="${user.username}" type="button">Eliminar</button>`}
@@ -512,130 +507,6 @@
     });
   }
 
-  function setupModuleForms() {
-    if (pageName.toLowerCase() === 'clientes.html') {
-      const form = document.getElementById('clienteForm');
-      const tbody = document.querySelector('.clientes__tbody');
-      if (!form || !tbody) return;
-      const render = () => {
-        const clients = window.FWDData.getClientes();
-        tbody.innerHTML = '';
-        if (clients.length === 0) {
-          tbody.innerHTML = '<tr><td colspan="10" style="text-align:center;">No hay clientes registrados.</td></tr>';
-          return;
-        }
-        clients.forEach((client) => {
-          const row = document.createElement('tr');
-          row.className = 'clientes__fila';
-          row.innerHTML = `
-            <td class="clientes__celda">${client.clienteId || ''}</td>
-            <td class="clientes__celda">${client.nombre || ''}</td>
-            <td class="clientes__celda">${client.empresa || ''}</td>
-            <td class="clientes__celda">${client.correo || ''}</td>
-            <td class="clientes__celda">${client.telefono || ''}</td>
-            <td class="clientes__celda">${client.pais || ''}</td>
-            <td class="clientes__celda">${client.tipoCliente || ''}</td>
-            <td class="clientes__celda">${client.estado || ''}</td>
-            <td class="clientes__celda">${client.fechaRegistro || ''}</td>
-            <td class="clientes__celda">Editar / Eliminar</td>
-          `;
-          tbody.appendChild(row);
-        });
-      };
-      render();
-      form.addEventListener('submit', (event) => {
-        event.preventDefault();
-        const formData = new FormData(form);
-        const client = Object.fromEntries(formData.entries());
-        window.FWDData.saveCliente(client);
-        render();
-        form.reset();
-        Swal.fire({ title: 'Cliente registrado', text: 'El cliente se guardó correctamente.', icon: 'success' });
-      });
-    }
-
-    if (pageName.toLowerCase() === 'productos.html') {
-      const form = document.getElementById('productoForm');
-      const tbody = document.querySelector('.productos__tbody');
-      if (!form || !tbody) return;
-      const render = () => {
-        const products = window.FWDData.getProductos();
-        tbody.innerHTML = '';
-        if (products.length === 0) {
-          tbody.innerHTML = '<tr><td colspan="10" style="text-align:center;">No hay productos registrados.</td></tr>';
-          return;
-        }
-        products.forEach((product) => {
-          const row = document.createElement('tr');
-          row.className = 'productos__fila';
-          row.innerHTML = `
-            <td class="productos__celda">${product.productoId || ''}</td>
-            <td class="productos__celda">${product.nombre || ''}</td>
-            <td class="productos__celda">${product.categoria || ''}</td>
-            <td class="productos__celda">${product.codigo || ''}</td>
-            <td class="productos__celda">${product.fabricante || ''}</td>
-            <td class="productos__celda">${product.cantidad || ''}</td>
-            <td class="productos__celda">$ ${Number(product.precio || 0).toLocaleString('es-AR')}</td>
-            <td class="productos__celda">${product.estado || ''}</td>
-            <td class="productos__celda">${product.fechaIngreso || ''}</td>
-            <td class="productos__celda">Registrar / Editar</td>
-          `;
-          tbody.appendChild(row);
-        });
-      };
-      render();
-      form.addEventListener('submit', (event) => {
-        event.preventDefault();
-        const formData = new FormData(form);
-        const product = Object.fromEntries(formData.entries());
-        window.FWDData.saveProducto(product);
-        render();
-        form.reset();
-        Swal.fire({ title: 'Producto registrado', text: 'El producto se guardó correctamente.', icon: 'success' });
-      });
-    }
-
-    if (pageName.toLowerCase() === 'proveedores.html') {
-      const form = document.getElementById('proveedorForm');
-      const tbody = document.querySelector('.proveedores__tbody');
-      if (!form || !tbody) return;
-      const render = () => {
-        const suppliers = window.FWDData.getProveedores();
-        tbody.innerHTML = '';
-        if (suppliers.length === 0) {
-          tbody.innerHTML = '<tr><td colspan="10" style="text-align:center;">No hay proveedores registrados.</td></tr>';
-          return;
-        }
-        suppliers.forEach((supplier) => {
-          const row = document.createElement('tr');
-          row.className = 'proveedores__fila';
-          row.innerHTML = `
-            <td class="proveedores__celda">${supplier.proveedorId || ''}</td>
-            <td class="proveedores__celda">${supplier.empresa || ''}</td>
-            <td class="proveedores__celda">${supplier.contacto || ''}</td>
-            <td class="proveedores__celda">${supplier.correo || ''}</td>
-            <td class="proveedores__celda">${supplier.telefono || ''}</td>
-            <td class="proveedores__celda">${supplier.pais || ''}</td>
-            <td class="proveedores__celda">${supplier.tipoSuministro || ''}</td>
-            <td class="proveedores__celda">${supplier.estado || ''}</td>
-            <td class="proveedores__celda">${supplier.fechaRegistro || ''}</td>
-            <td class="proveedores__celda">Registrar / Editar</td>
-          `;
-          tbody.appendChild(row);
-        });
-      };
-      render();
-      form.addEventListener('submit', (event) => {
-        event.preventDefault();
-        const formData = new FormData(form);
-        const supplier = Object.fromEntries(formData.entries());
-        window.FWDData.saveProveedor(supplier);
-        render();
-        form.reset();
-        Swal.fire({ title: 'Proveedor registrado', text: 'El proveedor se guardó correctamente.', icon: 'success' });
-      });
-    }
-  }
 
   function setupThemeAndEffects() {
     const toolbar = document.createElement('div');
@@ -747,7 +618,7 @@
   }
 
   function ensureAuthForProtectedPages() {
-    const protectedPages = ['Dashboard.html', 'Clientes.html', 'Productos.html', 'Proveedores.html', 'Misiones.html', 'Empleados.html', 'Reportes.html', 'Configuracion.html'];
+    const protectedPages = ['Dashboard.html', 'Clientes.html', 'Productos.html', 'Proveedores.html', 'Pedidos.html', 'Misiones.html', 'Empleados.html', 'Reportes.html', 'Configuracion.html'];
     if (protectedPages.includes(pageName) && !getActiveUser()) {
       Swal.fire({ title: 'Sesión requerida', text: 'Debes iniciar sesión antes de entrar.', icon: 'warning' }).then(() => {
         window.location.href = 'Usuarios.html';
@@ -769,7 +640,6 @@
     if (ensureAuthForProtectedPages()) {
       setupDashboard();
       setupDashboardUsers();
-      setupModuleForms();
     }
   }
 
