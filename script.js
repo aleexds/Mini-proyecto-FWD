@@ -144,9 +144,9 @@
         if (matchedUser) {
           clearLoginError();
           saveActiveUser(matchedUser);
-          showToast('¡Ingreso exitoso! Has entrado a la página de inicio.', 'success');
+          showToast('¡Ingreso exitoso! Bienvenido/a al portal de clientes.', 'success');
           setTimeout(() => {
-            window.location.href = 'Dashboard.html';
+            window.location.href = 'user_dashboard.html';
           }, 3500);
         } else {
           setLoginError();
@@ -226,7 +226,7 @@
         saveUsers(users);
         saveActiveUser(newUser);
         Swal.fire({ title: 'Registro exitoso', text: 'Tu cuenta quedó creada. Bienvenido/a.', icon: 'success' }).then(() => {
-          window.location.href = 'Dashboard.html';
+          window.location.href = 'user_dashboard.html';
         });
       });
     }
