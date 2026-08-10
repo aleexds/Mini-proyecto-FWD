@@ -38,13 +38,13 @@
     <!-- Panel visual izquierdo: espacio para la imagen del satélite. -->
     <div class="login-visual" style="background-image:url('Space.jpg')">
       <div class="login-visual-content">
-        <h2 class="login-visual-title">Ascend to<br>New Heights</h2>
-        <p class="login-visual-text">Accedé al panel de control y gestioná tus operaciones con total claridad.</p>
+        <h2 class="login-visual-title">Secure<br>Command Center</h2>
+        <p class="login-visual-text">Acceso exclusivo para administradores del sistema Stellarix.</p>
       </div>
       <span class="login-visual-badge">SYSTEM ONLINE</span>
     </div>
 
-    <!-- Panel derecho: el formulario original, con el mismo id/nombres -->
+    <!-- Panel derecho: acceso administrador -->
     <div class="login-panel">
       <div class="login-panel-inner">
         <div class="login-brand">
@@ -61,44 +61,53 @@
           <p class="login-brand-tagline">Innovando el futuro de la tecnología aeroespacial</p>
         </div>
 
-        <h1>Iniciar Sesión</h1>
+        <h1>Acceso Administrador</h1>
+        <p class="admin-login-desc">Ingresá con tus credenciales de administrador para entrar al panel de control.</p>
 
-        <form id="loginForm">
-          <div class="form-group">
-            <label for="username">Usuario</label>
-            <div class="input-wrapper">
-              <svg class="input-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8Z" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
-                <path d="M4 20c1.5-3.5 4.7-5.5 8-5.5s6.5 2 8 5.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
-              <input type="text" id="username" name="username" placeholder="Ingresá tu usuario" autocomplete="username" required>
-            </div>
-          </div>
+        <button type="button" id="adminLoginBtn">Iniciar como Administrador</button>
 
-          <div class="form-group">
-            <label for="password">Contraseña</label>
-            <div class="input-wrapper">
-              <svg class="input-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <rect x="5" y="10.5" width="14" height="9.5" rx="2" stroke="currentColor" stroke-width="1.6"/>
-                <path d="M8 10.5V7.5a4 4 0 0 1 8 0v3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
-              </svg>
-              <input type="password" id="password" name="password" placeholder="Ingresá tu contraseña" autocomplete="current-password" required>
-            </div>
-          </div>
-
-          <p id="errorMsg" class="error-message hidden">Usuario o contraseña incorrectos</p>
-
-          <button type="submit" id="loginBtn">Ingresar</button>
-        </form>
-
-        <p class="login-footer"><a href="registro.html">¿No tenés una cuenta? Registrate</a></p>
+        <p class="login-footer"><a href="Usuarios.html">¿Usuario normal? Entrá desde acá</a></p>
       </div>
     </div>
 
   </div>
 
+        <form id="loginForm">
+          <div class="form-group">
+            <label for="adminUser">Usuario</label>
+            <div class="input-wrapper">
+              <svg class="input-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8Z" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M4 20c1.5-3.5 4.7-5.5 8-5.5s6.5 2 8 5.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              <input type="text" id="adminUser" name="adminUser" placeholder="UsuarioAdmin" autocomplete="username">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="adminPass">Contraseña</label>
+            <div class="input-wrapper">
+              <svg class="input-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect x="5" y="10.5" width="14" height="9.5" rx="2" stroke="currentColor" stroke-width="1.6"/>
+                <path d="M8 10.5V7.5a4 4 0 0 1 8 0v3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+              </svg>
+              <input type="password" id="adminPass" name="adminPass" placeholder="Ingresá la contraseña" autocomplete="current-password">
+            </div>
+          </div>
+
+          <div class="admin-tablet__acciones">
+            <button type="submit" id="adminSubmit">Ingresar</button>
+            <button type="button" class="admin-tablet__cancel" data-admin-close>Cancelar</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <script src="https://cdn.jsdelivr.net/npm/toastify-js@1.12.0/src/toastify.min.js"></script>
+  <script src="data.js"></script>
+  <script src="seed.js"></script>
   <script src="script.js"></script>
 </body>
 </html>

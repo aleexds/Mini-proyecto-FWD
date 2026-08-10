@@ -592,6 +592,16 @@
     });
   }
 
+  function setupLogout() {
+    document.querySelectorAll('a[href="index.html"]').forEach((link) => {
+      link.addEventListener('click', (event) => {
+        event.preventDefault();
+        localStorage.removeItem(STORAGE_KEYS.activeUser);
+        window.location.href = 'index.html';
+      });
+    });
+  }
+
   function setupThemeAndCanvas() {
     const toolbar = document.createElement('div');
     toolbar.id = 'global-toolbar';
@@ -669,7 +679,7 @@
     setupPurchaseModal();
     setupOrderActions();
     setupThemeAndCanvas();
-    updateCartUI();
+    setupLogout();
   }
 
   if (document.readyState === 'loading') {

@@ -33,6 +33,7 @@
         <p class="dashboard__nav-link"><a href="Empleados.html">Empleados</a></p>
         <p class="dashboard__nav-link"><a href="Reportes.html">Reportes</a></p>
         <p class="dashboard__nav-link"><a href="Configuracion.html">Configuración</a></p>
+        <p class="dashboard__nav-link" id="nav-usuarios" hidden><a href="#usuarios">Usuarios</a></p>
         <p class="dashboard__nav-link"><a href="index.html">Cerrar sesión</a></p>
       </nav>
 
@@ -193,7 +194,7 @@
           <div class="dashboard__panel">
             <div class="dashboard__panel-head">
               <h2 class="dashboard__panel-title">Tabla de clientes</h2>
-              <p class="dashboard__panel-action"><a href="registro.html">+ Nuevo cliente</a></p>
+              <p class="dashboard__panel-action"><a href="Usuarios.html">+ Nuevo usuario</a></p>
             </div>
             <table class="dashboard-table">
               <thead>
@@ -234,6 +235,51 @@
           </div>
         </section>
 
+        <section class="dashboard__users" id="usuarios" aria-label="Gestión de usuarios" hidden>
+          <div class="dashboard__panel">
+            <h2 class="dashboard__panel-title">Crear usuario</h2>
+            <form class="dashboard__form" id="dashboardUserForm" novalidate>
+              <div class="dashboard__campo">
+                <label class="dashboard__label" for="dashUserNombre">Nombre</label>
+                <input class="dashboard__input" type="text" id="dashUserNombre" placeholder="Nombre">
+              </div>
+              <div class="dashboard__campo">
+                <label class="dashboard__label" for="dashUserApellido">Apellido</label>
+                <input class="dashboard__input" type="text" id="dashUserApellido" placeholder="Apellido">
+              </div>
+              <div class="dashboard__campo">
+                <label class="dashboard__label" for="dashUserUsuario">Usuario</label>
+                <input class="dashboard__input" type="text" id="dashUserUsuario" placeholder="Nombre de usuario">
+              </div>
+              <div class="dashboard__campo">
+                <label class="dashboard__label" for="dashUserPassword">Contraseña</label>
+                <input class="dashboard__input" type="password" id="dashUserPassword" placeholder="Contraseña">
+              </div>
+              <button class="dashboard__btn dashboard__btn--primary" type="submit">Crear usuario</button>
+            </form>
+          </div>
+
+          <div class="dashboard__panel">
+            <div class="dashboard__panel-head">
+              <h2 class="dashboard__panel-title">Usuarios registrados</h2>
+            </div>
+            <div class="dashboard__table-wrap">
+              <table class="dashboard-table">
+                <thead>
+                  <tr>
+                    <th>Usuario</th>
+                    <th>Nombre</th>
+                    <th>Apellido</th>
+                    <th>Rol</th>
+                    <th>Acciones</th>
+                  </tr>
+                </thead>
+                <tbody id="dashboard-users-tbody"></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
       </main>
 
       <footer class="dashboard__footer" role="contentinfo">
@@ -246,6 +292,8 @@
 
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <script src="https://cdn.jsdelivr.net/npm/toastify-js@1.12.0/src/toastify.min.js"></script>
+  <script src="data.js"></script>
+  <script src="seed.js"></script>
   <script src="script.js"></script>
 </body>
 </html>
